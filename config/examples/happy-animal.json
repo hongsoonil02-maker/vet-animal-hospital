@@ -1,0 +1,16 @@
+{
+  "hospitalId": "happy-animal",
+  "name": "행복한 동물병원",
+  "city": "서울 강남구 역삼동",
+  "address": "서울 강남구 테헤란로 123",
+  "phone": "02-1234-5678",
+  "theme": "teal",
+  "specialty": "외과 수술 & 소화기 정밀 내과",
+  "businessHours": "평일 09:30 ~ 18:30 / 토 09:30 ~ 15:00 / 일·공휴일 휴진",
+  "kakaoChannelUrl": "https://pf.kakao.com/_happy",
+  "naverPlaceUrl": "https://naver.me/happy-animal",
+  "emrType": "none",
+  "monsmectaPartner": false,
+  "features": { "triage": true, "summaryPdf": true, "counterPoster": true, "qrPortal": true },
+  "seo": { "titleSuffix": "24시 AI 사전 트리아지 공식 운영처", "description": "행복한 동물병원 - 외과 수술 & 소화기 정밀 내과, 24시 AI 사전 문진 제공" }
+}

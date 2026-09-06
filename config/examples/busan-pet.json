@@ -1,0 +1,13 @@
+{
+  "hospitalId": "busan-pet",
+  "name": "부산펫메디컬센터",
+  "city": "부산 해운대구 우동",
+  "address": "부산 해운대구 해운대로 200",
+  "phone": "051-123-4567",
+  "theme": "emerald",
+  "specialty": "내과·건강검진·노령견 케어",
+  "businessHours": "연중무휴 09:00 ~ 21:00 (야간 응급 별도)",
+  "monsmectaPartner": true,
+  "features": { "triage": true, "summaryPdf": true, "counterPoster": true, "qrPortal": true },
+  "seo": { "titleSuffix": "부산 해운대 24시 스마트 케어", "description": "부산펫메디컬센터 - 내과 건강검진, 24시 AI 트리아지" }
+}

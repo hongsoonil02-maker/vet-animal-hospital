@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vet-animal-hospital",
+  "type": "pages",
+  "compatibility_date": "2024-12-01",
+  // Cloudflare Pages - 정적 호스팅
+  // 배포: npx wrangler pages deploy dist --project-name=vet-animal-hospital
+  // 또는 Workers Sites로 전환 시 아래 assets 바인딩 활성화
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

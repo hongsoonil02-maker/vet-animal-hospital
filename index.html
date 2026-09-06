@@ -5,55 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VetLink AI | 대한민국 5,000개 동물병원 전용 차세대 스마트 포털 솔루션</title>
   <meta name="description" content="전국 동물병원 원장님을 위한 1등 스마트 DX 솔루션. 24시간 AI 사전 트리아지 문진, A4 진료실 요약서, 원내 카운터 알림판 & QR 생성기까지 풀세팅." />
+  <link rel="canonical" href="https://vet-animal-hospital.net/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:title" content="VetLink AI | 전국 동물병원 전용 AI 스마트 포털" />
+  <meta property="og:description" content="진료 대기 시간을 절반으로 줄이는 24시 AI 트리아지, 진료실 1장 요약서, 카운터 A4 알림판 & QR까지 원클릭 도입." />
+  <meta property="og:url" content="https://vet-animal-hospital.net/" />
+  <meta property="og:image" content="https://vet-animal-hospital.net/assets/img/og-vetlink.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VetLink AI | 전국 동물병원 전용 AI 스마트 포털" />
+  <meta name="twitter:description" content="24시 AI 트리아지부터 A4 요약서까지. 동물병원 DX 표준." />
+  <meta name="twitter:image" content="https://vet-animal-hospital.net/assets/img/og-vetlink.png" />
+  <link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "VetLink AI",
+    "url": "https://vet-animal-hospital.net",
+    "logo": "https://vet-animal-hospital.net/assets/img/og-vetlink.png",
+    "description": "대한민국 5,000개 동물병원 전용 스마트 포털 솔루션",
+    "contactPoint": { "@type": "ContactPoint", "telephone": "+82-10-5407-5708", "contactType": "customer service", "areaServed": "KR", "availableLanguage": "ko" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VeterinaryCare",
+    "name": "VetLink AI 파트너 동물병원 네트워크",
+    "url": "https://vet-animal-hospital.net",
+    "address": { "@type": "PostalAddress", "addressCountry": "KR" }
+  }
+  </script>
   <link rel="stylesheet" href="./assets/css/style.css" />
   <style>
-    /* Section specific micro-styles */
-    .bento-icon {
-      font-size: 28px;
-      margin-bottom: 16px;
-      display: inline-block;
-    }
-    .check-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 24px 0;
-    }
-    .check-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.95rem;
-      color: #cbd5e1;
-    }
-    .check-list li span.bullet {
-      color: var(--brand-teal);
-      font-weight: 900;
-    }
-    .price-number {
-      font-size: 2.8rem;
-      font-weight: 900;
-      color: #ffffff;
-      line-height: 1;
-      margin: 16px 0 6px;
-    }
-    .price-period {
-      font-size: 0.9rem;
-      color: var(--text-subtle);
-    }
+    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#fff;color:#070d18;padding:8px 12px;border-radius:6px;font-weight:800;z-index:3000}
+    .skip-link:focus{left:12px;top:12px;width:auto;height:auto}
+    .disclaimer-bar{position:sticky;top:0;z-index:999;background:#7c3a09;color:#fffbeb;border-bottom:1px solid #92400e;padding:8px 16px;text-align:center;font-size:12.5px;font-weight:700;line-height:1.5}
+    .disclaimer-bar a{color:#fde68a;text-decoration:underline;text-underline-offset:3px}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px}
+    .modal-overlay.open{display:flex}
+    .modal-card{background:#0e1726;border:1px solid var(--border-subtle);border-radius:16px;max-width:560px;width:100%;padding:28px;box-shadow:var(--shadow-ambient)}
+    .modal-card h3{font-size:18px;margin-bottom:10px}
+    .modal-card p{font-size:13.5px;line-height:1.7}
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
+  <!-- 0. Medical Disclaimer Bar (법적 고지) -->
+  <div class="disclaimer-bar" role="alert">
+    <span aria-hidden="true">⚠️</span> 본 AI 트리아지는 수의사 진단을 대체하지 않습니다. 호흡곤란·경련·혈변 등 응급 시 즉시 내원하세요. <a href="./terms.html">면책고지 전문 보기</a> · <a href="#" id="openDisclaimer">자세히</a>
+  </div>
 
   <!-- 1. Floating Glass Navigation -->
   <header class="nav-header">
-    <nav class="nav-pill">
+    <nav class="nav-pill" role="navigation" aria-label="주요 메뉴">
       <div class="nav-brand">
-        <span>🐾 VetLink AI</span>
+        <span aria-hidden="true">🐾</span> VetLink AI
         <span class="nav-brand-badge">SaaS DX</span>
       </div>
-      <ul class="nav-links">
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="메뉴 열기">
+        <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+      </button>
+      <ul class="nav-links" id="primary-nav">
         <li><a href="#features">핵심 기능</a></li>
         <li><a href="#studio">실시간 체험 스튜디오</a></li>
         <li><a href="#simulator">AI 트리아지 시뮬레이터</a></li>
@@ -63,11 +77,12 @@
     </nav>
   </header>
 
+  <main id="main-content">
   <!-- 2. Hero Section (2-Line Iron Rule Compliant) -->
   <section class="hero-section">
     <div class="hero-container">
       <div class="hero-pill-tag">
-        <span>⚡</span> 대한민국 동물병원 디지털 전환(DX) No.1 표준 솔루션
+        <span aria-hidden="true">⚡</span> 대한민국 동물병원 디지털 전환(DX) No.1 표준 솔루션
       </div>
       
       <h1 class="hero-h1">
@@ -82,10 +97,10 @@
 
       <div class="hero-cta-group">
         <a href="#studio" class="btn-hero-primary">
-          <span>✨</span> 우리 병원 맞춤형 포털 30초 체험하기
+          <span aria-hidden="true">✨</span> 우리 병원 맞춤형 포털 30초 체험하기
         </a>
         <a href="#pricing" class="btn-hero-secondary">
-          <span>📋</span> 제휴 프로모션(50% 지원) 확인
+          <span aria-hidden="true">📋</span> 제휴 프로모션(50% 지원) 확인
         </a>
       </div>
 
@@ -102,19 +117,19 @@
             <div style="font-size: 11px; color: var(--brand-teal); font-weight: 800;">LIVE ENGINE v2.4</div>
           </div>
           
-          <div style="padding: 32px; background: #0b1329; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left;">
+          <div class="hero-mockup-grid" style="padding: 32px; background: #0b1329; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left;">
             <div style="background:#131f37; padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
-              <span style="font-size:24px;">🤖</span>
+              <span aria-hidden="true" style="font-size:24px;">🤖</span>
               <h4 style="font-size:16px; margin:10px 0 6px;">24시 AI 스마트 문진</h4>
               <p style="font-size:13px; color:#94a3b8;">증상 입력 즉시 RED/ORANGE/GREEN 4단계 응급도 분류 및 보호자 대처 가이드 제공</p>
             </div>
             <div style="background:#131f37; padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
-              <span style="font-size:24px;">📄</span>
+              <span aria-hidden="true" style="font-size:24px;">📄</span>
               <h4 style="font-size:16px; margin:10px 0 6px;">진료실 1장 요약서</h4>
               <p style="font-size:13px; color:#94a3b8;">보호자가 작성한 문진 데이터를 A4 규격 또는 모바일 차트 형태로 1초 만에 자동 출력</p>
             </div>
             <div style="background:#131f37; padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
-              <span style="font-size:24px;">🖨️</span>
+              <span aria-hidden="true" style="font-size:24px;">🖨️</span>
               <h4 style="font-size:16px; margin:10px 0 6px;">카운터 A4 알림판 & QR</h4>
               <p style="font-size:13px; color:#94a3b8;">원내 데스크 비치용 A4 포스터와 병원 전용 브랜디드 QR코드가 시스템에서 자동 생성</p>
             </div>
@@ -192,31 +207,36 @@
           <h4 style="font-size: 18px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px;">⚙️ 병원 마스터 파라미터</h4>
           
           <div class="control-group">
-            <label class="control-label">동물병원 상호명</label>
-            <input type="text" id="inputHospitalName" class="studio-input" value="행복한 동물병원" placeholder="예: 서울센트럴동물병원" />
+            <label class="control-label" for="inputHospitalName">동물병원 상호명</label>
+            <input type="text" id="inputHospitalName" class="studio-input" value="행복한 동물병원" placeholder="예: 서울센트럴동물병원" autocomplete="organization" maxlength="40" aria-describedby="help-hospital-name" />
+            <span id="help-hospital-name" class="sr-only">상호명은 미리보기와 병원 전용 페이지에 반영됩니다</span>
           </div>
 
           <div class="control-group">
-            <label class="control-label">소재지 (지역)</label>
-            <input type="text" id="inputCity" class="studio-input" value="서울 강남구 역삼동" placeholder="예: 경기도 성남시 분당구" />
+            <label class="control-label" for="inputCity">소재지 (지역)</label>
+            <input type="text" id="inputCity" class="studio-input" value="서울 강남구 역삼동" placeholder="예: 경기도 성남시 분당구" autocomplete="address-level2" maxlength="40" />
           </div>
 
           <div class="control-group">
-            <label class="control-label">특화 진료과목</label>
-            <input type="text" id="inputSpecialty" class="studio-input" value="외과 수술 &amp; 소화기 정밀 내과" placeholder="예: 정형외과 / 고양이 특화" />
+            <label class="control-label" for="inputSpecialty">특화 진료과목</label>
+            <input type="text" id="inputSpecialty" class="studio-input" value="외과 수술 &amp; 소화기 정밀 내과" placeholder="예: 정형외과 / 고양이 특화" maxlength="60" />
           </div>
 
           <div class="control-group">
-            <label class="control-label">브랜드 메인 테마</label>
-            <div class="theme-pill-selector">
-              <button class="theme-pill-btn active" data-theme="teal">메디컬 틸</button>
-              <button class="theme-pill-btn" data-theme="navy">로열 네이비</button>
-              <button class="theme-pill-btn" data-theme="emerald">내추럴 그린</button>
+            <label class="control-label" id="theme-label">브랜드 메인 테마</label>
+            <div class="theme-pill-selector" role="group" aria-labelledby="theme-label">
+              <button type="button" class="theme-pill-btn active" data-theme="teal" aria-pressed="true">메디컬 틸</button>
+              <button type="button" class="theme-pill-btn" data-theme="navy" aria-pressed="false">로열 네이비</button>
+              <button type="button" class="theme-pill-btn" data-theme="emerald" aria-pressed="false">내추럴 그린</button>
             </div>
           </div>
 
           <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; font-size: 12px; color: #94a3b8; line-height: 1.5;">
             💡 이 모든 설정은 단 1개의 자바스크립트 마스터 파일(<code style="color:var(--brand-teal);">hospital-config.js</code>)로 완벽히 제어됩니다.
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a id="btnOpenTenant" href="./hospital.html?hospital=happy-animal" target="_blank" class="btn-hero-secondary" style="flex:1;justify-content:center;padding:10px 12px;font-size:13px;">🏥 병원 전용 페이지 새창으로 보기</a>
+            <button id="btnStudioPoster" type="button" class="btn-hero-primary" style="flex:1;justify-content:center;padding:10px 12px;font-size:13px;">🖨️ A4 알림판 인쇄</button>
           </div>
         </div>
 
@@ -272,23 +292,24 @@
 
     <div style="max-width: 800px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 36px;">
       <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; font-weight: 700; color: #cbd5e1; display:block; margin-bottom: 8px;">반려동물 증상 입력 시뮬레이션</label>
-        <textarea id="simSymptomInput" style="width:100%; height:90px; background:#141f33; border:1px solid var(--border-subtle); border-radius:8px; padding:12px; color:#ffffff; font-family:inherit; font-size:14px;" placeholder="예: 오늘 새벽부터 노란 거품토를 3번 하고 설사를 심하게 해요."></textarea>
+        <label for="simSymptomInput" style="font-size: 13px; font-weight: 700; color: #cbd5e1; display:block; margin-bottom: 8px;">반려동물 증상 입력 시뮬레이션</label>
+        <textarea id="simSymptomInput" class="sim-textarea" maxlength="500" aria-label="반려동물 증상 입력" placeholder="예: 오늘 새벽부터 노란 거품토를 3번 하고 설사를 심하게 해요."></textarea>
+        <div style="font-size:11.5px;color:#64748b;margin-top:6px;">최대 500자 · 입력 내용은 서버에 저장되지 않습니다 · Ctrl+Enter로 판독</div>
       </div>
 
       <!-- Quick Test Chips -->
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
-        <button onclick="setSimChip('새벽부터 피가 섞인 혈변을 보고 호흡이 매우 가빠요')" style="background:#331b22; color:#fca5a5; border:1px solid #7f1d1d; border-radius:6px; font-size:12px; padding:5px 10px; cursor:pointer;">[응급] 혈변 및 호흡곤란</button>
-        <button onclick="setSimChip('어제 저녁부터 밥을 안 먹고 묽은 변을 2번 봤어요')" style="background:#332918; color:#fde047; border:1px solid #854d0e; border-radius:6px; font-size:12px; padding:5px 10px; cursor:pointer;">[주의] 구토 및 소화기 증상</button>
-        <button onclick="setSimChip('평소보다 사료를 조금 남겼는데 잘 놀아요')" style="background:#132d25; color:#6ee7b7; border:1px solid #065f46; border-radius:6px; font-size:12px; padding:5px 10px; cursor:pointer;">[안정] 경미한 식욕부진</button>
+        <button type="button" data-chip="새벽부터 피가 섞인 혈변을 보고 호흡이 매우 가빠요" class="chip-btn" style="background:#331b22; color:#fca5a5; border:1px solid #7f1d1d;">[응급] 혈변 및 호흡곤란</button>
+        <button type="button" data-chip="어제 저녁부터 밥을 안 먹고 묽은 변을 2번 봤어요" class="chip-btn" style="background:#332918; color:#fde047; border:1px solid #854d0e;">[주의] 구토 및 소화기 증상</button>
+        <button type="button" data-chip="평소보다 사료를 조금 남겼는데 잘 놀아요" class="chip-btn" style="background:#132d25; color:#6ee7b7; border:1px solid #065f46;">[안정] 경미한 식욕부진</button>
       </div>
 
-      <button id="simAnalyzeBtn" class="btn-hero-primary" style="width:100%; justify-content:center;">
+      <button id="simAnalyzeBtn" type="button" class="btn-hero-primary" style="width:100%; justify-content:center;" aria-label="AI 트리아지 판독 실행">
         ⚡ AI 트리아지 판독 실행하기
       </button>
 
       <!-- Simulated Output Result -->
-      <div id="simOutputCard" style="display:none; margin-top:24px; background:#0b1329; border:1.5px solid var(--brand-teal); border-radius:12px; padding:20px;">
+      <div id="simOutputCard" role="status" aria-live="polite" style="display:none; margin-top:24px; background:#0b1329; border:1.5px solid var(--brand-teal); border-radius:12px; padding:20px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <span id="simBadge" style="font-size:12px; font-weight:800; padding:4px 10px; border-radius:6px;">-</span>
           <span style="font-size:11px; color:#64748b; font-family:var(--font-mono);">DIAGNOSTIC TRIAGE RESULT</span>
@@ -299,6 +320,7 @@
     </div>
   </section>
 
+  </main>
   <!-- 6. Pricing Section (50% Partnership Discount Strategy) -->
   <section id="pricing" class="pricing-section">
     <div class="section-head">
@@ -370,6 +392,11 @@
           대한민국 5,000개 동물병원의 진료 환경을 혁신하는 차세대 스마트 디지털 헬스케어 플랫폼입니다. 
           더 많은 생명을 신속하고 정확하게 치료할 수 있도록 돕습니다.
         </p>
+        <p style="font-size:12px;color:#94a3b8;margin-top:12px;line-height:1.6;">
+          <a href="./privacy.html" style="color:#5eead4;text-decoration:underline;">개인정보처리방침</a> · 
+          <a href="./terms.html" style="color:#5eead4;text-decoration:underline;">이용약관 및 의료 면책고지</a> · 
+          <a href="./sitemap.xml" style="color:#64748b;">sitemap</a>
+        </p>
       </div>
 
       <div>
@@ -402,11 +429,29 @@
       </div>
     </div>
 
-    <div style="max-width:1200px; margin:24px auto 0; font-size:12px; color:#64748b; text-align:center;">
-      &copy; 2026 VetLink AI (vet-animal-hospital.net). All Rights Reserved. 본 솔루션의 소프트웨어 저작권 및 상표권은 보호받습니다.
+    <div style="max-width:1200px; margin:24px auto 0; font-size:12px; color:#64748b; text-align:center; line-height:1.7;">
+      &copy; 2026 VetLink AI (vet-animal-hospital.net). All Rights Reserved. 본 솔루션의 소프트웨어 저작권 및 상표권은 보호받습니다.<br/>
+      <span style="font-size:11.5px;">본 사이트의 AI 트리아지 결과는 참고용 정보이며 수의사 대면 진료를 대체하지 않습니다. 응급 상황에서는 즉시 가까운 동물병원 응급실로 내원하십시오. 특정 의약품(몬스멕타 등) 언급은 처방 권유가 아닌 정보 제공 목적입니다.</span>
     </div>
   </footer>
 
+  <!-- Medical Disclaimer Modal -->
+  <div id="disclaimerModal" class="modal-overlay" aria-hidden="true" inert>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="disclaimerTitle">
+      <h3 id="disclaimerTitle">⚠️ 의료 면책 고지</h3>
+      <p style="color:#cbd5e1;">
+        VetLink AI의 24시 AI 트리아지, 요약서, 알림판은 보호자 안내용 참고 정보입니다.<br/>
+        호흡곤란 · 경련 · 혈변 · 허탈 · 복부팽만 등 응급 신호가 보이면 <strong style="color:#fff;">지체 없이 동물병원에 내원</strong>하세요.<br/>
+        본 서비스는 수의사법을 준수하며, 진단·처방은 반드시 대면 진료한 수의사가 결정합니다.
+      </p>
+      <p style="margin-top:12px;font-size:12.5px;color:#94a3b8;">자세한 내용은 <a href="./terms.html" style="color:var(--brand-teal);text-decoration:underline;">이용약관 및 의료 면책고지</a>를 확인하세요.</p>
+      <div style="margin-top:18px;display:flex;justify-content:flex-end;">
+        <button id="closeDisclaimer" class="btn-hero-primary" style="padding:10px 18px;font-size:14px;">확인했습니다</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./assets/js/hospital-config.js"></script>
   <script src="./assets/js/app.js"></script>
 </body>
 </html>

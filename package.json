@@ -1,0 +1,21 @@
+{
+  "name": "vet-animal-hospital",
+  "version": "2.4.0",
+  "private": true,
+  "description": "VetLink AI - 전국 5,000개 동물병원 전용 SaaS 포털 스캐폴드",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --port 5173",
+    "build": "vite build && node ./scripts/copy-static.mjs",
+    "preview": "vite preview --port 4173",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write .",
+    "deploy": "wrangler deploy",
+    "cf:dev": "wrangler dev --port 8787"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "wrangler": "^3.80.0"
+  },
+  "dependencies": {}
+}

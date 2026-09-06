@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vet-animal-hospital.net/schemas/hospital.schema.json",
+  "title": "VetLink Hospital Config",
+  "description": "단 1개 파일로 병원 포털 전체를 제어하는 마스터 컨피그. 5,000개 테넌트 공통 스키마.",
+  "type": "object",
+  "required": ["hospitalId", "name", "city", "phone", "theme"],
+  "properties": {
+    "hospitalId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]{3,32}$",
+      "description": "서브도메인/폴더 ID. 예: happy-animal, seoul-central"
+    },
+    "name": { "type": "string", "minLength": 2, "maxLength": 40 },
+    "city": { "type": "string", "minLength": 2, "maxLength": 40 },
+    "address": { "type": "string", "maxLength": 100 },
+    "phone": {
+      "type": "string",
+      "pattern": "^0[0-9]{1,2}-[0-9]{3,4}-[0-9]{4}$",
+      "description": "010-1234-5678 형식"
+    },
+    "theme": { "type": "string", "enum": ["teal", "navy", "emerald"] },
+    "specialty": { "type": "string", "maxLength": 60 },
+    "businessHours": { "type": "string", "maxLength": 80 },
+    "kakaoChannelUrl": { "type": "string", "format": "uri" },
+    "naverPlaceUrl": { "type": "string", "format": "uri" },
+    "emrType": { "type": "string", "enum": ["none", "eVet", "vetter", "other"], "default": "none" },
+    "monsmectaPartner": { "type": "boolean", "default": false },
+    "features": {
+      "type": "object",
+      "properties": {
+        "triage": { "type": "boolean", "default": true },
+        "summaryPdf": { "type": "boolean", "default": true },
+        "counterPoster": { "type": "boolean", "default": true },
+        "qrPortal": { "type": "boolean", "default": true }
+      }
+    },
+    "seo": {
+      "type": "object",
+      "properties": {
+        "titleSuffix": { "type": "string" },
+        "description": { "type": "string", "maxLength": 160 },
+        "ogImage": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": false
+}
