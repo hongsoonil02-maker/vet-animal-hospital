@@ -13,7 +13,7 @@ function copy(src, dest) {
   console.log(`copied ${src} -> ${dest || src}`);
 }
 
-copy("assets", "assets");
+copy("assets/img", "assets/img");
 copy("config", "config");
 copy("sitemap.xml");
 copy("robots.txt");

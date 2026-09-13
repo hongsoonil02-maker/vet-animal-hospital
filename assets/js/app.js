@@ -4,6 +4,7 @@
  * - AI Triage Simulator (정규화 + 동의어 + XSS 방지)
  * - Disclaimer Modal (a11y)
  */
+import QRCode from "qrcode";
 document.addEventListener('DOMContentLoaded', () => {
   initHospitalConfigBridge();
   initCustomizer();
@@ -12,29 +13,32 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
 });
 
-// 0. hospital-config → UI 브리지 (P0-1)
+// 0. hospital-config → UI 브리지 (P0-1) + 비동기 fetch 대응
 function initHospitalConfigBridge() {
   var cfg = window.__VETLINK_CONFIG__;
   if (!cfg) return;
-  var nameInput = document.getElementById('inputHospitalName');
-  var cityInput = document.getElementById('inputCity');
-  var specialtyInput = document.getElementById('inputSpecialty');
-  if (nameInput && cfg.name) nameInput.value = cfg.name;
-  if (cityInput && cfg.city) cityInput.value = cfg.city;
-  if (specialtyInput && cfg.specialty) specialtyInput.value = cfg.specialty;
-  // 초기 프리뷰 반영
-  setTimeout(function () {
+  function apply(cfgData) {
+    var nameInput = document.getElementById('inputHospitalName');
+    var cityInput = document.getElementById('inputCity');
+    var specialtyInput = document.getElementById('inputSpecialty');
+    if (nameInput && cfgData.name) nameInput.value = cfgData.name;
+    if (cityInput && cfgData.city) cityInput.value = cfgData.city;
+    if (specialtyInput && cfgData.specialty) specialtyInput.value = cfgData.specialty;
     if (nameInput) nameInput.dispatchEvent(new Event('input'));
     if (cityInput) cityInput.dispatchEvent(new Event('input'));
     if (specialtyInput) specialtyInput.dispatchEvent(new Event('input'));
-    // theme
-    var btn = document.querySelector('.theme-pill-btn[data-theme="' + cfg.theme + '"]');
+    var btn = document.querySelector('.theme-pill-btn[data-theme="' + cfgData.theme + '"]');
     if (btn) btn.click();
-    // 전화번호 치환 (footer/CTA)
     document.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
-      if (cfg.phone) a.href = 'tel:' + cfg.phone.replace(/[^0-9]/g, '');
+      if (cfgData.phone) a.href = 'tel:' + cfgData.phone.replace(/[^0-9]/g, '');
     });
-  }, 0);
+  }
+  // 초기 동기 적용
+  setTimeout(function () { apply(cfg); }, 0);
+  // 비동기 fetch 후 갱신 대응
+  window.addEventListener('vetlink:config-ready', function (e) {
+    apply(e.detail || window.__VETLINK_CONFIG__);
+  });
 }
 
 // 1. Live Template Customizer Engine
@@ -100,15 +104,20 @@ function applyThemeToPreview(theme, nav, badge) {
   nav.style.borderBottomColor = c.border;
 }
 
-// 2. Triage - 정규화 & 동의어
-var TRIAGE_RED = ['혈변','피똥','피 섞인','혈뇨','호흡곤란','숨가쁨','가쁜숨','호흡 곤란','경련','발작','떨림','허탈','의식저하','복부팽만','토혈','개구호흡'];
-var TRIAGE_ORANGE = ['구토','토함','거품토','설사','묽은변','무른변','설사','식욕부진','밥 안 먹','안 먹','기력저하','침흘림','기침','콧물','혈액','점액변'];
+// 2. Triage - 정규화 & 동의어 (중복 제거, 공백 유지 매칭)
+var TRIAGE_RED = ['혈변','피똥','피 섞인','혈뇨','호흡곤란','숨가쁨','가쁜숨','호흡 곤란','경련','발작','전신 떨림','허탈','의식저하','복부팽만','토혈','개구호흡'];
+var TRIAGE_ORANGE = ['구토','토함','거품토','설사','묽은변','무른변','식욕부진','밥 안 먹','기력저하','침흘림','기침','콧물','혈액','점액변'];
 
 function normalizeInput(text) {
-  return (text || '').toLowerCase().replace(/\s+/g,'').slice(0, 500);
+  // 공백 유지하되 다중 공백 → 단일 공백, 구두점 정리, 소문자화
+  return (text || '').toLowerCase().replace(/[.,!?;:'"()\[\]{}]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 500);
 }
 function containsAny(normalized, keywords) {
-  return keywords.some(function (kw) { return normalized.includes(kw.replace(/\s+/g,'').toLowerCase()); });
+  return keywords.some(function (kw) {
+    var k = kw.toLowerCase().trim();
+    // 공백 포함 키워드는 정규식에 가깝게: 원문에서 부분 일치
+    return normalized.includes(k) || normalized.replace(/\s+/g, '').includes(k.replace(/\s+/g, ''));
+  });
 }
 
 function initTriageSimulator() {
@@ -123,10 +132,20 @@ function initTriageSimulator() {
 
   function analyze() {
     var raw = simInput.value.trim();
+    var errorEl = document.getElementById('simError');
     if (!raw) {
-      alert('증상을 입력하거나 아래 예시 칩을 눌러보세요.');
+      if (errorEl) {
+        errorEl.textContent = '증상을 입력하거나 아래 예시 칩을 눌러보세요.';
+        errorEl.style.display = 'block';
+        simInput.focus();
+      } else {
+        simInput.setAttribute('aria-invalid', 'true');
+        simInput.placeholder = '증상을 입력해 주세요 (예: 묽은 변 2회, 식욕 저하)';
+      }
       return;
     }
+    if (errorEl) errorEl.style.display = 'none';
+    simInput.removeAttribute('aria-invalid');
     if (raw.length > 500) raw = raw.slice(0,500);
     var text = normalizeInput(raw);
     simOutput.style.display = 'block';
@@ -212,11 +231,16 @@ window.setSimChip = setSimChip;
       var city = (cityEl && cityEl.value.trim()) || cfg.city || '';
       var phone = cfg.phone || '02-1234-5678';
       var portalUrl = 'https://vet-animal-hospital.net/hospital.html?hospital=' + encodeURIComponent(cfg.hospitalId || 'happy-animal');
-      var qr = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent(portalUrl);
-      var w = window.open('', '_blank');
-      if (!w) return;
-      w.document.write('<!doctype html><html lang=ko><head><meta charset=utf-8><title>A4 알림판 - ' + name + '</title><style>@page{size:A4;margin:18mm}body{font-family:sans-serif;padding:24px;color:#0f172a}h1{font-size:28px;margin:0}.badge{display:inline-block;background:#14b8a6;color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;margin:12px 0}.qr{width:180px;height:180px;margin:18px auto;border:1px solid #e2e8f0;padding:8px;border-radius:12px}.qr img{width:100%;height:100%}.foot{margin-top:20px;font-size:11px;color:#64748b;text-align:center;border-top:1px solid #e2e8f0;padding-top:12px}</style></head><body><div style=text-align:center><h1>' + name + '</h1><div style=color:#475569>' + city + ' · ' + phone + '</div><div class=badge>24시 AI 사전 트리아지 공식 운영처</div><div class=qr><img src=\"' + qr + '\" alt=\"QR\"/></div><p style=font-size:14px;color:#334155>스마트폰 카메라로 QR을 스캔하면<br/><strong>병원 전용 스마트 포털</strong>로 바로 연결됩니다.</p><div class=foot>본 알림판은 정보 제공용이며, 호흡곤란·경련·혈변 등 응급 시 즉시 내원하세요. · vet-animal-hospital.net</div></div><script>window.print()<\/script></body></html>');
-      w.document.close();
+      QRCode.toDataURL(portalUrl, { width: 240, margin: 1, color: { dark: '#0f172a', light: '#ffffff' } }).then(function (qrDataUrl) {
+        var w = window.open('', '_blank');
+        if (!w) return;
+        w.document.write('<!doctype html><html lang=ko><head><meta charset=utf-8><title>A4 알림판 - ' + name + '</title><style>@page{size:A4;margin:18mm}body{font-family:sans-serif;padding:24px;color:#0f172a}h1{font-size:28px;margin:0}.badge{display:inline-block;background:#14b8a6;color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;margin:12px 0}.qr{width:180px;height:180px;margin:18px auto;border:1px solid #e2e8f0;padding:8px;border-radius:12px}.qr img{width:100%;height:100%}.foot{margin-top:20px;font-size:11px;color:#64748b;text-align:center;border-top:1px solid #e2e8f0;padding-top:12px}</style></head><body><div style=text-align:center><h1>' + name + '</h1><div style=color:#475569>' + city + ' · ' + phone + '</div><div class=badge>24시 AI 사전 트리아지 공식 운영처</div><div class=qr><img src=\"' + qrDataUrl + '\" alt=\"QR\"/></div><p style=font-size:14px;color:#334155>스마트폰 카메라로 QR을 스캔하면<br/><strong>병원 전용 스마트 포털</strong>로 바로 연결됩니다.</p><p style=font-size:11px;color:#94a3b8;margin-top:8px;word-break:break-all>' + portalUrl + '</p><div class=foot>본 알림판은 정보 제공용이며, 호흡곤란·경련·혈변 등 응급 시 즉시 내원하세요. · vet-animal-hospital.net</div></div><script>window.print()<\/script></body></html>');
+        w.document.close();
+      }).catch(function (err) {
+        console.error('QR 생성 실패', err);
+        var toast = document.getElementById('simError');
+        if (toast) { toast.textContent = 'QR 생성에 실패했습니다. 팝업 차단을 확인해 주세요.'; toast.style.display = 'block'; }
+      });
     });
   }
 })();

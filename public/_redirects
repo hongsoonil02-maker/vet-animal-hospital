@@ -1,0 +1,4 @@
+# VetLink pretty URL -> tenant renderer (Cloudflare Pages _redirects)
+# /h/happy-animal => /hospital.html?hospital=happy-animal
+/h/*  /hospital.html?hospital=:splat  200
+# SPA fallback not needed - keep explicit
