@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="tenantTitle">동물병원 스마트 포털 | 24시 AI 트리아지 공식 운영처</title>
-  <meta name="description" id="tenantDesc" content="24시 AI 사전 트리아지 공식 운영 병원" />
+  <title id="tenantTitle">동물병원 스마트 포털 | 24시 AI 사전 문진 및 안심 케어</title>
+  <meta name="description" id="tenantDesc" content="동물병원 24시 AI 사전 문진 및 스마트 케어 접수 포털" />
   <link rel="canonical" id="tenantCanonical" href="https://vet-animal-hospital.net/hospital.html" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
   <meta property="og:title" id="tenantOgTitle" content="동물병원 스마트 포털 | VetLink AI" />
-  <meta property="og:description" id="tenantOgDesc" content="24시 AI 사전 트리아지 공식 운영 병원" />
+  <meta property="og:description" id="tenantOgDesc" content="24시 AI 사전 문진 공식 운영 병원" />
   <meta property="og:url" id="tenantOgUrl" content="https://vet-animal-hospital.net/hospital.html" />
   <meta property="og:image" content="https://vet-animal-hospital.net/assets/img/og-vetlink.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" id="tenantTwTitle" content="동물병원 스마트 포털 | VetLink AI" />
-  <meta name="twitter:description" id="tenantTwDesc" content="24시 AI 사전 트리아지 공식 운영 병원" />
+  <meta name="twitter:description" id="tenantTwDesc" content="24시 AI 사전 문진 및 처방 케어 포털" />
   <meta name="twitter:image" content="https://vet-animal-hospital.net/assets/img/og-vetlink.png" />
   <script type="application/ld+json" id="tenantJsonLd">
   {
@@ -32,56 +32,350 @@
   <link rel="apple-touch-icon" href="./assets/img/favicon-512.png" />
   <link rel="stylesheet" href="./assets/css/style.css" />
   <style>
-    .tenant-hero{padding:140px 24px 60px;max-width:1000px;margin:0 auto;text-align:center}
-    .tenant-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:16px;padding:28px;max-width:720px;margin:24px auto}
-    .qr-box{width:160px;height:160px;background:#fff;border-radius:12px;padding:8px;margin:16px auto;display:flex;align-items:center;justify-content:center}
-    .qr-box img{width:100%;height:100%;object-fit:contain}
-    @media print{ .no-print{display:none} .tenant-card{border:1px solid #000;color:#000;background:#fff} }
+    :root {
+      --portal-primary: #14b8a6;
+      --portal-dark: #0f172a;
+    }
+    body {
+      background: #090e17;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
+    }
+    .tenant-hero {
+      padding: 110px 20px 30px;
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .partner-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(20, 184, 166, 0.15);
+      border: 1px solid rgba(20, 184, 166, 0.4);
+      color: #2dd4bf;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .portal-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 680px;
+      margin: 16px auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+    .form-control, .form-select {
+      width: 100%;
+      background: #090e17;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--portal-primary);
+    }
+    .chip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+    .chip-btn {
+      background: #090e17;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .chip-btn.active {
+      background: rgba(20, 184, 166, 0.2);
+      border-color: #14b8a6;
+      color: #2dd4bf;
+      font-weight: 800;
+    }
+    .btn-submit-triage {
+      width: 100%;
+      background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 16px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.4);
+      transition: transform 0.15s, opacity 0.2s;
+    }
+    .btn-submit-triage:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+    .triage-result-box {
+      display: none;
+      background: #070d18;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .badge-triage {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .qr-box {
+      width: 160px;
+      height: 160px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 8px;
+      margin: 16px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    /* 인쇄 전용 스타일 (A4 1장 최적화) */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .no-print, header, footer, .tenant-hero, .btn-submit-triage {
+        display: none !important;
+      }
+      .portal-card {
+        background: #fff !important;
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        color: #000 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 10px !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+    }
+    .print-only {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#fff;color:#070d18;padding:8px 12px;border-radius:6px;font-weight:800">본문 바로가기</a>
   <header class="nav-header">
     <nav class="nav-pill" role="navigation" aria-label="병원 메뉴">
-      <div class="nav-brand"><span aria-hidden="true">🏥</span><strong id="tenantNavName">병원명</strong><span class="nav-brand-badge" id="tenantBadge">Smart Portal</span></div>
+      <div class="nav-brand">
+        <span aria-hidden="true">🏥</span>
+        <strong id="tenantNavName">병원명</strong>
+        <span class="nav-brand-badge" id="tenantBadge">Smart Portal</span>
+      </div>
       <a href="./index.html" class="nav-cta">VetLink 메인</a>
     </nav>
   </header>
 
   <main id="main-content">
-  <section class="tenant-hero">
-    <span id="tenantThemeBadge" style="background:#14b8a6;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;">24시 스마트 트리아지 공식 운영처</span>
-    <h1 id="tenantH1" style="margin:16px 0 12px;font-size:clamp(28px,4vw,40px);">병원명 스마트 케어</h1>
-    <p id="tenantSpecialty" style="color:#94a3b8;">특화 진료과목</p>
-    <p id="tenantCity" style="color:#64748b;font-size:14px;margin-top:8px;">소재지</p>
-    <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap" class="no-print">
-      <button id="btnPosterPrint" class="btn-hero-primary" style="padding:12px 20px;font-size:14px;">🖨️ 카운터 A4 알림판 인쇄</button>
-      <button id="btnSummaryPrint" class="btn-hero-secondary" style="padding:12px 20px;font-size:14px;">📄 진료실 요약서 샘플 인쇄</button>
-    </div>
-  </section>
+    <!-- 상단 병원 프로필 -->
+    <section class="tenant-hero">
+      <div class="partner-pill" id="partnerBadge">
+        <span>💊</span> <span>몬스멕타 공식 처방 파트너 동물병원</span>
+      </div>
+      <h1 id="tenantH1" style="margin:10px 0 8px;font-size:clamp(26px,4vw,36px);font-weight:900;">병원명 스마트 케어</h1>
+      <p id="tenantSpecialty" style="color:#94a3b8;font-size:15px;margin-bottom:6px;">특화 진료과목</p>
+      <p id="tenantAddressShort" style="color:#64748b;font-size:13px;">소재지 · 전화번호</p>
 
-  <section class="tenant-card" id="posterCard">
-    <h3 style="font-size:18px;margin-bottom:8px;">원내 카운터 A4 알림판 미리보기</h3>
-    <p style="font-size:13px;color:#94a3b8;">아래 QR을 카운터에 비치하세요. 보호자가 카메라로 스캔하면 병원 전용 포털로 연결됩니다.</p>
-    <div class="qr-box"><img id="qrImg" alt="QR 코드" src="" /></div>
-    <p style="text-align:center;font-size:13px;color:#cbd5e1;"><strong id="posterName">병원명</strong><br/><span id="posterCity">소재지</span> · <a id="posterPhone" href="tel:">전화</a></p>
-    <p style="font-size:11px;color:#64748b;text-align:center;margin-top:8px;">본 QR은 정보 제공용이며 응급 시 즉시 내원하세요. · vet-animal-hospital.net</p>
-  </section>
+      <div class="no-print" style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button id="btnPosterPrint" class="btn-hero-secondary" style="padding:8px 16px;font-size:13px;">🖨️ 카운터 A4 알림판 인쇄</button>
+        <a id="btnCallHospital" href="tel:" class="btn-hero-primary" style="padding:8px 16px;font-size:13px;">📞 병원 직통 전화</a>
+      </div>
+    </section>
 
-  <section class="tenant-card">
-    <h3 style="font-size:18px;margin-bottom:8px;">오시는 길 & 진료시간</h3>
-    <p id="tenantAddress" style="font-size:14px;color:#cbd5e1;">주소</p>
-    <p id="tenantHours" style="font-size:14px;color:#94a3b8;margin-top:6px;">진료시간</p>
-    <div class="no-print" style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-      <a id="tenantTelLink" href="tel:" class="btn-hero-primary" style="padding:10px 18px;font-size:14px;">📞 전화하기</a>
-      <a id="tenantNaverLink" href="#" target="_blank" rel="noopener" class="btn-hero-secondary" style="padding:10px 18px;font-size:14px;">네이버 지도</a>
-    </div>
-  </section>
+    <!-- [1] 보호자용: 모바일 1분 사전 문진표 (핵심 진료 연계) -->
+    <section class="portal-card" id="triageSection">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <span style="font-size:22px;">📋</span>
+        <div>
+          <h2 style="font-size:18px;font-weight:800;color:#fff;margin:0;">원내 빠른 진료를 위한 1분 사전 문진</h2>
+          <p style="font-size:12.5px;color:#94a3b8;margin:2px 0 0;">대기실에서 미리 작성하시면 진료실 원장님 차트로 즉시 요약됩니다.</p>
+        </div>
+      </div>
+
+      <form id="triageForm" onsubmit="return false;">
+        <!-- 반려동물 기본정보 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="petName">아이 이름 *</label>
+            <input type="text" id="petName" class="form-control" placeholder="예: 초코" required />
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="petSpecies">축종 *</label>
+            <select id="petSpecies" class="form-select">
+              <option value="강아지">반려견 (강아지)</option>
+              <option value="고양이">반려묘 (고양이)</option>
+              <option value="기타">기타 소동물</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="petAge">나이 (세)</label>
+            <input type="text" id="petAge" class="form-control" placeholder="예: 3세" />
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="petWeight">체중 (kg) *</label>
+            <input type="number" id="petWeight" step="0.1" class="form-control" placeholder="예: 4.5" required />
+          </div>
+        </div>
+
+        <!-- 주 호소 증상 (설사/소화기 집중) -->
+        <div class="form-group">
+          <label class="form-label">배변 / 설사 상태 (해당 항목 선택)</label>
+          <div class="chip-grid" id="stoolGrid">
+            <button type="button" class="chip-btn" data-val="정상변">정상변 (단단함)</button>
+            <button type="button" class="chip-btn active" data-val="묽은변/무른변">묽은변 (형태유지)</button>
+            <button type="button" class="chip-btn" data-val="물설사(수양성)">물설사 (수양성)</button>
+            <button type="button" class="chip-btn" data-val="혈변/점액변">혈변 / 점액변</button>
+          </div>
+        </div>
+
+        <!-- 구토 여부 -->
+        <div class="form-group">
+          <label class="form-label">구토 증상</label>
+          <div class="chip-grid" id="vomitGrid">
+            <button type="button" class="chip-btn active" data-val="구토 없음">구토 없음</button>
+            <button type="button" class="chip-btn" data-val="1~2회 사료토">1~2회 가벼운 구토</button>
+            <button type="button" class="chip-btn" data-val="3회 이상 반복">3회 이상 거품/위액토</button>
+          </div>
+        </div>
+
+        <!-- 식욕 및 활력 -->
+        <div class="form-group">
+          <label class="form-label">식욕 및 기력 상태</label>
+          <div class="chip-grid" id="activityGrid">
+            <button type="button" class="chip-btn active" data-val="정상">정상 (잘 먹고 뜀)</button>
+            <button type="button" class="chip-btn" data-val="식욕저하">식욕 반감 (기력 둔화)</button>
+            <button type="button" class="chip-btn" data-val="완전폐식/무기력">완전 폐식 (축 처짐)</button>
+          </div>
+        </div>
+
+        <!-- 증상 발현 기간 -->
+        <div class="form-group">
+          <label class="form-label" for="durationSelect">증상 지속 시간</label>
+          <select id="durationSelect" class="form-select">
+            <option value="12시간 이내">반나절(12시간 이내) 시작</option>
+            <option value="1~2일째">1~2일 전부터 지속</option>
+            <option value="3일 이상">3일 이상 만성 지속</option>
+          </select>
+        </div>
+
+        <!-- 보호자 연락처 -->
+        <div class="form-group">
+          <label class="form-label" for="ownerContact">보호자 성함 / 연락처</label>
+          <input type="text" id="ownerContact" class="form-control" placeholder="예: 김민수 / 010-1234-5678" />
+        </div>
+
+        <button type="button" id="btnSubmitTriage" class="btn-submit-triage">
+          ⚡ 사전 문진 완료 & 진료실 차트 전송
+        </button>
+      </form>
+
+      <!-- 문진 결과 박스 (제출 시 나타남) -->
+      <div id="triageResultBox" class="triage-result-box">
+        <div id="resultBadge" class="badge-triage" style="background:#f59e0b;color:#000;">ORANGE : 당일 정밀 진료 권고</div>
+        <h3 id="resultTitle" style="font-size:16px;color:#fff;margin:0 0 6px;">소화기 정밀 진료 권고</h3>
+        <p id="resultText" style="font-size:13.5px;color:#cbd5e1;line-height:1.5;margin-bottom:16px;">
+          접수가 완료되었습니다. 수의사 진료 시 탈수 예방 및 원내 지사/소화기 흡착제(몬스멕타 등) 처방 상담이 연결됩니다.
+        </p>
+
+        <div style="background:#0f172a;border:1px solid #334155;border-radius:12px;padding:14px;margin-bottom:16px;">
+          <strong style="color:#2dd4bf;font-size:13px;">📄 진료실 차트 요약본이 생성되었습니다:</strong>
+          <ul id="summaryList" style="margin:8px 0 0 18px;font-size:12.5px;color:#94a3b8;line-height:1.6;"></ul>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" class="no-print">
+          <button id="btnPrintDoctorSummary" class="btn-hero-primary" style="padding:10px 18px;font-size:13px;width:100%;justify-content:center;">
+            🖨️ 진료실 차트용 A4 요약서 즉시 인쇄하기
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- [2] 원내 카운터 A4 알림판 (데스크 비치용 미리보기 및 인쇄) -->
+    <section class="portal-card" id="posterCard">
+      <h3 style="font-size:17px;margin-bottom:6px;color:#fff;">📌 원내 카운터 비치용 A4 알림판</h3>
+      <p style="font-size:13px;color:#94a3b8;margin-bottom:14px;">대기실 카운터에 비치하여 보호자가 휴대폰 카메라로 1초 만에 사전 문진을 작성하도록 유도합니다.</p>
+      
+      <div class="qr-box">
+        <img id="qrImg" alt="QR 코드" src="" />
+      </div>
+      
+      <p style="text-align:center;font-size:13.5px;color:#cbd5e1;line-height:1.5;">
+        <strong id="posterName" style="color:#fff;">병원명</strong><br/>
+        <span id="posterSpecialty" style="color:#94a3b8;font-size:12.5px;">특화 진료과목</span><br/>
+        <span id="posterAddress" style="color:#64748b;font-size:12px;">소재지</span> · <a id="posterPhone" href="tel:" style="color:#2dd4bf;">전화</a>
+      </p>
+
+      <div style="text-align:center;margin-top:14px;" class="no-print">
+        <button id="btnPosterPrintDirect" class="btn-hero-secondary" style="padding:8px 18px;font-size:13px;">
+          🖨️ 이 알림판 A4로 바로 출력
+        </button>
+      </div>
+    </section>
+
+    <!-- [3] 오시는 길 & 진료시간 -->
+    <section class="portal-card">
+      <h3 style="font-size:17px;margin-bottom:8px;color:#fff;">📍 오시는 길 & 진료시간 안내</h3>
+      <p id="tenantAddress" style="font-size:14px;color:#cbd5e1;margin-bottom:4px;">주소</p>
+      <p id="tenantHours" style="font-size:13.5px;color:#94a3b8;line-height:1.5;">진료시간</p>
+      <div class="no-print" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <a id="tenantTelLink" href="tel:" class="btn-hero-primary" style="padding:9px 16px;font-size:13px;">📞 전화 문의</a>
+        <a id="tenantNaverLink" href="#" target="_blank" rel="noopener" class="btn-hero-secondary" style="padding:9px 16px;font-size:13px;">네이버 지도 길찾기</a>
+      </div>
+    </section>
 
   </main>
-  <footer style="text-align:center;padding:40px 24px;color:#64748b;font-size:12px;line-height:1.7">
-    <a href="./privacy.html" style="color:#5eead4;text-decoration:underline;">개인정보처리방침</a> · <a href="./terms.html" style="color:#5eead4;text-decoration:underline;">이용약관·면책고지</a><br/>
-    <span style="font-size:11px;">본 페이지는 VetLink AI SaaS 템플릿으로 생성되었습니다. AI 트리아지는 참고용이며 수의사 진단을 대체하지 않습니다.</span>
+
+  <footer style="text-align:center;padding:40px 20px;color:#64748b;font-size:12px;line-height:1.7">
+    <a href="./privacy.html" style="color:#5eead4;text-decoration:underline;">개인정보처리방침</a> · 
+    <a href="./terms.html" style="color:#5eead4;text-decoration:underline;">이용약관·면책고지</a><br/>
+    <span style="font-size:11px;">본 포털은 몬스멕타 공식 파트너 동물병원 전용 스마트 DX 키트로 구동됩니다. AI 사전 문진은 진료 참고용이며 수의사 대면 진단을 대체하지 않습니다.</span>
   </footer>
 
   <script type="module" src="./assets/js/hospital-config.js"></script>

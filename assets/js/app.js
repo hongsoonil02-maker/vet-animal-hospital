@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTriageSimulator();
   initDisclaimerModal();
   initMobileNav();
+  initPartnerApplyForm();
 });
 
 // 0. hospital-config → UI 브리지 (P0-1) + 비동기 fetch 대응
@@ -162,7 +163,7 @@ function initTriageSimulator() {
       simBadge.style.color = '#ffffff';
       simBadge.textContent = 'ORANGE : 당일 정밀 진료 권고';
       simTitle.textContent = '소화기/전신 염증 의심 - 당일 진료 권고';
-      simAction.textContent = '탈수 위험이 있어 당일 진료와 진단키트 검사를 권고합니다. 보호자 요약서가 진료실로 자동 전달됩니다. (수의사 상담 필요)';
+      simAction.textContent = '탈수 위험이 있어 당일 대면 진료 및 수액/처방 상담을 권고합니다. 보호자 요약서가 진료실로 자동 전달됩니다. (수의사 상담 필요)';
     } else {
       simBadge.style.background = '#10b981';
       simBadge.style.color = '#ffffff';
@@ -306,5 +307,31 @@ function initMobileNav() {
       nav.classList.remove('open');
       toggle.setAttribute('aria-expanded','false');
     }
+  });
+}
+
+function initPartnerApplyForm() {
+  var form = document.getElementById('partnerApplyForm');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var hName = document.getElementById('applyHospitalName')?.value.trim();
+    var docName = document.getElementById('applyDoctorName')?.value.trim();
+    var phone = document.getElementById('applyPhone')?.value.trim();
+    var region = document.getElementById('applyRegion')?.value.trim();
+
+    var successMsg = document.getElementById('applySuccessMsg');
+    if (successMsg) {
+      successMsg.style.display = 'block';
+      successMsg.textContent = '✅ ' + hName + '(' + docName + ' 원장님) 무상 키트 신청이 접수되었습니다! 24시간 내 시안과 전용 포털 링크를 발송해 드립니다.';
+    }
+
+    try {
+      var leads = JSON.parse(localStorage.getItem('vetlink_partner_leads') || '[]');
+      leads.push({ hName: hName, docName: docName, phone: phone, region: region, date: new Date().toISOString() });
+      localStorage.setItem('vetlink_partner_leads', JSON.stringify(leads));
+    } catch(err){}
+
+    form.reset();
   });
 }

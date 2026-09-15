@@ -187,11 +187,11 @@
         <span class="bento-icon">💊</span>
         <h3 style="font-size: 22px; margin-bottom: 12px;">처방 의약품 및 수의 임상 솔루션 연동 허브</h3>
         <p style="font-size: 15px; margin-bottom: 16px;">
-          <strong>몬스멕타(Monsmecta)</strong> 등 검증된 수의 처방 소화기 의약품 및 신속 진단키트(파보·코로나·브루셀라)의 원내 복약 상담 시스템을 결합하여, 
+          <strong>몬스멕타(Monsmecta)</strong> 등 검증된 수의 처방 소화기 의약품의 원내 복약 상담 시스템을 결합하여, 
           보호자의 신뢰를 확보하고 원내 처방 품목의 가치를 극대화합니다.
         </p>
         <span style="background:rgba(20,184,166,0.15); color:var(--brand-teal); font-size:12px; font-weight:800; padding:4px 10px; border-radius:6px;">
-          ★ 몬스멕타 파트너 동물병원 가입 시 50% 세팅 지원 특전 연동
+          ★ 몬스멕타 정기공급 파트너 동물병원 100% 무상 세팅 지원
         </span>
       </div>
     </div>
@@ -351,16 +351,37 @@
             <li><span class="bullet">✔</span> <strong>병원 전용 포털 1식 (hospital.html 기반) + 도메인 연결 지원</strong></li>
             <li><span class="bullet">✔</span> <strong>24시 AI 트리아지 + 진료실 1장 요약서 (인쇄/PDF)</strong></li>
             <li><span class="bullet">✔</span> 원내 카운터 A4 알림판 & 브랜디드 QR 자동 생성</li>
-            <li><span class="bullet">✔</span> 몬스멕타 복약지도 / 파보·코로나 키트 가이드 콘텐츠 내장</li>
+            <li><span class="bullet">✔</span> 몬스멕타 복약지도 / 급만성 설사 케어 임상 가이드 콘텐츠 내장</li>
             <li><span class="bullet">✔</span> 에스앤제이 운영 노하우 기반 세팅 + 1회 방문 교육</li>
           </ul>
           <p style="font-size: 12.5px; color: #64748b; margin-top: 12px; line-height: 1.6;">※ 비파트너 병원 제작 문의는 별도 유상(50만원)이나, 현재는 파트너 병원에만 집중합니다. 약 공급 중단 시 홈페이지는 그대로 병원 소유로 남습니다.</p>
         </div>
 
-        <a href="tel:010-5407-5708" class="btn-hero-primary" style="justify-content:center; width:100%; margin-top: 20px;">
-          📞 몬스멕타 파트너 무상 키트 신청하기
-        </a>
-      </div>
+          <form id="partnerApplyForm" style="margin-top:20px; text-align:left; background:rgba(15,23,42,0.85); padding:20px; border-radius:14px; border:1px solid #334155;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <span style="font-size:18px;">📋</span>
+              <strong style="font-size:15px; color:#fff;">파트너 동물병원 전용 무상 키트 간편 신청</strong>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+              <input type="text" id="applyHospitalName" placeholder="동물병원명 (예: 서울동물병원)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyDoctorName" placeholder="원장님 성함" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+              <input type="tel" id="applyPhone" placeholder="휴대폰 번호 (직통)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyRegion" placeholder="소재지 (예: 서울 강남구)" style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
+            </div>
+            <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:13px; font-size:14px; font-weight:800; cursor:pointer;">
+              ⚡ 몬스멕타 파트너 무상 키트 세팅 신청하기
+            </button>
+            <div id="applySuccessMsg" style="display:none; margin-top:12px; padding:12px; background:rgba(20,184,166,0.15); border:1px solid #14b8a6; border-radius:8px; color:#2dd4bf; font-size:13px; text-align:center;">
+              ✅ 신청이 완료되었습니다! 24시간 이내 원장님 병원 맞춤 QR 알림판과 포털 링크를 문자로 전달드립니다.
+            </div>
+            <p style="font-size:12px; color:#94a3b8; margin-top:10px; text-align:center; line-height:1.5;">
+              ※ 신청 즉시 원내 전용 QR 알림판 시안과 포털 링크를 무료로 제작해 드립니다. <br/>
+              직통 전화 문의: <a href="tel:010-5407-5708" style="color:#2dd4bf; text-decoration:underline;">010-5407-5708</a>
+            </p>
+          </form>
+        </div>
     </div>
   </section>
 
