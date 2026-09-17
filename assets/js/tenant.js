@@ -86,11 +86,11 @@ import { HOSPITAL_MAP, fetchHospitalConfig } from "./hospital-data.js";
     setText('tenantAddress', c.address || c.city || '');
     setText('tenantHours', c.businessHours || '평일 09:30 ~ 19:00 / 주말 진료');
 
-    // 테마 동적 색상 매핑
+    // 테마 동적 색상 매핑 (백의의 천사 병원 클리니컬 테마)
     var themeMap = {
-      teal: { primary: '#14b8a6', gradient: 'linear-gradient(135deg, #0d9488 0%, #14b8a6 100%)', badgeBg: 'rgba(20,184,166,0.15)', badgeBorder: 'rgba(20,184,166,0.4)', badgeText: '#2dd4bf' },
-      navy: { primary: '#3b82f6', gradient: 'linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%)', badgeBg: 'rgba(59,130,246,0.15)', badgeBorder: 'rgba(59,130,246,0.4)', badgeText: '#60a5fa' },
-      emerald: { primary: '#10b981', gradient: 'linear-gradient(135deg, #047857 0%, #10b981 100%)', badgeBg: 'rgba(16,185,129,0.15)', badgeBorder: 'rgba(16,185,129,0.4)', badgeText: '#34d399' }
+      teal: { primary: '#0d9488', gradient: 'linear-gradient(135deg, #0d9488 0%, #14b8a6 100%)', badgeBg: '#f0fdfa', badgeBorder: '#99f6e4', badgeText: '#0f766e' },
+      navy: { primary: '#0284c7', gradient: 'linear-gradient(135deg, #0369a1 0%, #0284c7 100%)', badgeBg: '#f0f9ff', badgeBorder: '#bae6fd', badgeText: '#0369a1' },
+      emerald: { primary: '#059669', gradient: 'linear-gradient(135deg, #047857 0%, #059669 100%)', badgeBg: '#f0fdf4', badgeBorder: '#bbf7d0', badgeText: '#065f46' }
     };
     var tTheme = themeMap[c.theme] || themeMap.teal;
     document.documentElement.style.setProperty('--portal-primary', tTheme.primary);
@@ -184,7 +184,7 @@ import { HOSPITAL_MAP, fetchHospitalConfig } from "./hospital-data.js";
           '<li><strong>보호자:</strong> ' + escapeHtml(ownerContact) + '</li>',
           '<li><strong>증상:</strong> 배변(' + escapeHtml(triageState.stool) + ') / 구토(' + escapeHtml(triageState.vomit) + ') / 활력(' + escapeHtml(triageState.activity) + ')</li>',
           '<li><strong>지속 기간:</strong> ' + escapeHtml(duration) + '</li>',
-          '<li style="color:#5eead4;"><strong>진료 연계:</strong> 수의사 대면 진료 시 위 사전 문진 데이터가 참고되며, 소화기 치료 및 처방 지사제(몬스멕타 등) 복약 상담이 진행됩니다.</li>'
+          '<li style="color:#0d9488; font-weight:700;"><strong>진료 연계:</strong> 수의사 대면 진료 시 위 사전 문진 데이터가 참고되며, 소화기 치료 및 처방 지사제(몬스멕타 등) 복약 상담이 진행됩니다.</li>'
         ].join('');
       }
 

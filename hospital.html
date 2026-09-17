@@ -38,12 +38,12 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
   <style>
     :root {
-      --portal-primary: #14b8a6;
+      --portal-primary: #0d9488;
       --portal-dark: #0f172a;
     }
     body {
-      background: #090e17;
-      color: #f1f5f9;
+      background: radial-gradient(circle at 50% 0%, #e0f2fe 0%, #f0fdfa 25%, #f8fafc 60%, #ffffff 100%);
+      color: #0f172a;
       font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
     }
     .tenant-hero {
@@ -56,24 +56,24 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 12px;
-      background: rgba(20, 184, 166, 0.15);
-      border: 1px solid rgba(20, 184, 166, 0.4);
-      color: #2dd4bf;
+      padding: 5px 14px;
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      color: #0f766e;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 700;
       margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(13, 148, 136, 0.06);
     }
     .portal-card {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
       border-radius: 20px;
-      padding: 24px;
+      padding: 28px;
       max-width: 680px;
-      margin: 16px auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      margin: 20px auto;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
     }
     .form-group {
       margin-bottom: 18px;
@@ -81,25 +81,26 @@
     }
     .form-label {
       display: block;
-      font-size: 13px;
-      font-weight: 700;
-      color: #cbd5e1;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #1e293b;
       margin-bottom: 8px;
     }
     .form-control, .form-select {
       width: 100%;
-      background: #090e17;
-      border: 1px solid #334155;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
       border-radius: 10px;
       padding: 12px 14px;
-      color: #fff;
+      color: #0f172a;
       font-size: 14px;
       box-sizing: border-box;
       outline: none;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
     .form-control:focus, .form-select:focus {
       border-color: var(--portal-primary);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
     }
     .chip-grid {
       display: grid;
@@ -107,22 +108,32 @@
       gap: 8px;
     }
     .chip-btn {
-      background: #090e17;
-      border: 1px solid #334155;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
       border-radius: 10px;
       padding: 10px 12px;
-      color: #94a3b8;
+      color: #475569;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       text-align: center;
       transition: all 0.2s;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chip-btn:hover {
+      border-color: var(--portal-primary);
+      color: #0f172a;
+      background: #f0fdfa;
     }
     .chip-btn.active {
-      background: rgba(20, 184, 166, 0.2);
-      border-color: #14b8a6;
-      color: #2dd4bf;
+      background: #ccfbf1;
+      border-color: #0d9488;
+      color: #0f766e;
       font-weight: 800;
+      box-shadow: 0 2px 8px rgba(13, 148, 136, 0.15);
     }
     .btn-submit-triage {
       width: 100%;
@@ -134,9 +145,10 @@
       border-radius: 14px;
       border: none;
       cursor: pointer;
-      margin-top: 12px;
-      box-shadow: 0 4px 14px rgba(20, 184, 166, 0.4);
+      margin-top: 14px;
+      box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
       transition: transform 0.15s, opacity 0.2s;
+      min-height: 48px;
     }
     .btn-submit-triage:hover {
       opacity: 0.95;
@@ -144,12 +156,13 @@
     }
     .triage-result-box {
       display: none;
-      background: #070d18;
-      border: 1px solid #334155;
+      background: #f8fafc;
+      border: 1.5px solid #0d9488;
       border-radius: 16px;
       padding: 24px;
-      margin-top: 20px;
+      margin-top: 24px;
       text-align: left;
+      box-shadow: 0 4px 20px rgba(13, 148, 136, 0.08);
     }
     .badge-triage {
       display: inline-block;
@@ -162,13 +175,15 @@
     .qr-box {
       width: 160px;
       height: 160px;
-      background: #fff;
-      border-radius: 12px;
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
       padding: 8px;
       margin: 16px auto;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
     }
     .qr-box img {
       width: 100%;
@@ -203,7 +218,7 @@
   </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#fff;color:#070d18;padding:8px 12px;border-radius:6px;font-weight:800">본문 바로가기</a>
+  <a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#0d9488;color:#fff;padding:8px 12px;border-radius:6px;font-weight:800">본문 바로가기</a>
   <header class="nav-header">
     <nav class="nav-pill" role="navigation" aria-label="병원 메뉴">
       <div class="nav-brand">
@@ -221,8 +236,8 @@
       <div class="partner-pill" id="partnerBadge">
         <span>💊</span> <span>몬스멕타 공식 처방 파트너 동물병원</span>
       </div>
-      <h1 id="tenantH1" style="margin:10px 0 8px;font-size:clamp(26px,4vw,36px);font-weight:900;">병원명 스마트 케어</h1>
-      <p id="tenantSpecialty" style="color:#94a3b8;font-size:15px;margin-bottom:6px;">특화 진료과목</p>
+      <h1 id="tenantH1" style="margin:10px 0 8px;font-size:clamp(26px,4vw,36px);font-weight:900;color:#0f172a;">병원명 스마트 케어</h1>
+      <p id="tenantSpecialty" style="color:#475569;font-size:15px;margin-bottom:6px;font-weight:600;">특화 진료과목</p>
       <p id="tenantAddressShort" style="color:#64748b;font-size:13px;">소재지 · 전화번호</p>
 
       <div class="no-print" style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
@@ -236,8 +251,8 @@
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
         <span style="font-size:22px;">📋</span>
         <div>
-          <h2 style="font-size:18px;font-weight:800;color:#fff;margin:0;">원내 빠른 진료를 위한 1분 사전 문진</h2>
-          <p style="font-size:12.5px;color:#94a3b8;margin:2px 0 0;">대기실에서 미리 작성하시면 진료실 원장님 차트로 즉시 요약됩니다.</p>
+          <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0;">원내 빠른 진료를 위한 1분 사전 문진</h2>
+          <p style="font-size:12.5px;color:#475569;margin:2px 0 0;">대기실에서 미리 작성하시면 진료실 원장님 차트로 즉시 요약됩니다.</p>
         </div>
       </div>
 
@@ -324,14 +339,14 @@
       <!-- 문진 결과 박스 (제출 시 나타남) -->
       <div id="triageResultBox" class="triage-result-box">
         <div id="resultBadge" class="badge-triage" style="background:#f59e0b;color:#000;">ORANGE : 당일 정밀 진료 권고</div>
-        <h3 id="resultTitle" style="font-size:16px;color:#fff;margin:0 0 6px;">소화기 정밀 진료 권고</h3>
-        <p id="resultText" style="font-size:13.5px;color:#cbd5e1;line-height:1.5;margin-bottom:16px;">
+        <h3 id="resultTitle" style="font-size:16px;color:#0f172a;margin:0 0 6px;font-weight:800;">소화기 정밀 진료 권고</h3>
+        <p id="resultText" style="font-size:13.5px;color:#334155;line-height:1.6;margin-bottom:16px;">
           접수가 완료되었습니다. 수의사 진료 시 탈수 예방 및 원내 지사/소화기 흡착제(몬스멕타 등) 처방 상담이 연결됩니다.
         </p>
 
-        <div style="background:#0f172a;border:1px solid #334155;border-radius:12px;padding:14px;margin-bottom:16px;">
-          <strong style="color:#2dd4bf;font-size:13px;">📄 진료실 차트 요약본이 생성되었습니다:</strong>
-          <ul id="summaryList" style="margin:8px 0 0 18px;font-size:12.5px;color:#94a3b8;line-height:1.6;"></ul>
+        <div style="background:#ffffff;border:1px solid #cbd5e1;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(15,23,42,0.03);">
+          <strong style="color:#0f766e;font-size:13.5px;">📄 진료실 차트 요약본이 생성되었습니다:</strong>
+          <ul id="summaryList" style="margin:8px 0 0 18px;font-size:13px;color:#334155;line-height:1.7;"></ul>
         </div>
 
         <div style="display:flex;gap:8px;flex-wrap:wrap;" class="no-print">
@@ -344,17 +359,17 @@
 
     <!-- [2] 원내 카운터 A4 알림판 (데스크 비치용 미리보기 및 인쇄) -->
     <section class="portal-card" id="posterCard">
-      <h3 style="font-size:17px;margin-bottom:6px;color:#fff;">📌 원내 카운터 비치용 A4 알림판</h3>
-      <p style="font-size:13px;color:#94a3b8;margin-bottom:14px;">대기실 카운터에 비치하여 보호자가 휴대폰 카메라로 1초 만에 사전 문진을 작성하도록 유도합니다.</p>
+      <h3 style="font-size:17px;margin-bottom:6px;color:#0f172a;font-weight:800;">📌 원내 카운터 비치용 A4 알림판</h3>
+      <p style="font-size:13px;color:#475569;margin-bottom:14px;">대기실 카운터에 비치하여 보호자가 휴대폰 카메라로 1초 만에 사전 문진을 작성하도록 유도합니다.</p>
       
       <div class="qr-box">
         <img id="qrImg" alt="QR 코드" src="" />
       </div>
       
-      <p style="text-align:center;font-size:13.5px;color:#cbd5e1;line-height:1.5;">
-        <strong id="posterName" style="color:#fff;">병원명</strong><br/>
-        <span id="posterSpecialty" style="color:#94a3b8;font-size:12.5px;">특화 진료과목</span><br/>
-        <span id="posterAddress" style="color:#64748b;font-size:12px;">소재지</span> · <a id="posterPhone" href="tel:" style="color:#2dd4bf;">전화</a>
+      <p style="text-align:center;font-size:13.5px;color:#334155;line-height:1.5;">
+        <strong id="posterName" style="color:#0f172a;font-weight:900;">병원명</strong><br/>
+        <span id="posterSpecialty" style="color:#475569;font-size:12.5px;font-weight:600;">특화 진료과목</span><br/>
+        <span id="posterAddress" style="color:#64748b;font-size:12px;">소재지</span> · <a id="posterPhone" href="tel:" style="color:#0d9488;font-weight:800;">전화</a>
       </p>
 
       <div style="text-align:center;margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;" class="no-print">
@@ -368,16 +383,16 @@
           🔗 카톡 전달 링크 복사
         </button>
       </div>
-      <div id="hospitalCopyToast" style="display:none;margin-top:10px;text-align:center;font-size:12.5px;color:#2dd4bf;font-weight:700;">
+      <div id="hospitalCopyToast" style="display:none;margin-top:10px;text-align:center;font-size:12.5px;color:#0d9488;font-weight:800;">
         ✅ 카카오톡에 바로 붙여넣기(Ctrl+V)할 수 있는 링크가 복사되었습니다!
       </div>
     </section>
 
     <!-- [3] 오시는 길 & 진료시간 -->
     <section class="portal-card">
-      <h3 style="font-size:17px;margin-bottom:8px;color:#fff;">📍 오시는 길 & 진료시간 안내</h3>
-      <p id="tenantAddress" style="font-size:14px;color:#cbd5e1;margin-bottom:4px;">주소</p>
-      <p id="tenantHours" style="font-size:13.5px;color:#94a3b8;line-height:1.5;">진료시간</p>
+      <h3 style="font-size:17px;margin-bottom:8px;color:#0f172a;font-weight:800;">📍 오시는 길 & 진료시간 안내</h3>
+      <p id="tenantAddress" style="font-size:14px;color:#334155;margin-bottom:4px;">주소</p>
+      <p id="tenantHours" style="font-size:13.5px;color:#475569;line-height:1.5;">진료시간</p>
       <div class="no-print" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
         <a id="tenantTelLink" href="tel:" class="btn-hero-primary" style="padding:9px 16px;font-size:13px;">📞 전화 문의</a>
         <a id="tenantNaverLink" href="#" target="_blank" rel="noopener" class="btn-hero-secondary" style="padding:9px 16px;font-size:13px;">네이버 지도 길찾기</a>
@@ -387,8 +402,8 @@
   </main>
 
   <footer style="text-align:center;padding:40px 20px;color:#64748b;font-size:12px;line-height:1.7">
-    <a href="./privacy.html" style="color:#5eead4;text-decoration:underline;">개인정보처리방침</a> · 
-    <a href="./terms.html" style="color:#5eead4;text-decoration:underline;">이용약관·면책고지</a><br/>
+    <a href="./privacy.html" style="color:#0d9488;font-weight:700;text-decoration:underline;">개인정보처리방침</a> · 
+    <a href="./terms.html" style="color:#0d9488;font-weight:700;text-decoration:underline;">이용약관·면책고지</a><br/>
     <span style="font-size:11px;">본 포털은 몬스멕타 공식 파트너 동물병원 전용 스마트 DX 키트로 구동됩니다. AI 사전 문진은 진료 참고용이며 수의사 대면 진단을 대체하지 않습니다.</span>
   </footer>
 

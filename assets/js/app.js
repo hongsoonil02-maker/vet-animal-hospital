@@ -356,7 +356,7 @@ function initTriageSimulator() {
       simTitle.textContent = '소화기/염증 증상 관련 표현이 확인되었습니다';
       simAction.textContent = '탈수 위험이 있으므로 당일 대면 진료 및 수의사 처방(몬스멕타 복약 등) 상담을 권고합니다. 작성된 사전 문진표는 원장님 차트로 전달됩니다.';
     } else {
-      simBadge.style.background = '#475569';
+      simBadge.style.background = '#0d9488';
       simBadge.style.color = '#ffffff';
       simBadge.textContent = '확인 필요 : 자동 판단 불가';
       simTitle.textContent = '입력 내용만으로 응급도를 판단할 수 없습니다';

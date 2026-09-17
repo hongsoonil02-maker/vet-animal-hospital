@@ -48,13 +48,13 @@
   </script>
   <link rel="stylesheet" href="./assets/css/style.css" />
   <style>
-    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#fff;color:#070d18;padding:8px 12px;border-radius:6px;font-weight:800;z-index:3000}
+    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#0d9488;color:#fff;padding:8px 12px;border-radius:6px;font-weight:800;z-index:3000}
     .skip-link:focus{left:12px;top:12px;width:auto;height:auto}
-    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.45);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px}
     .modal-overlay.open{display:flex}
-    .modal-card{background:#0e1726;border:1px solid var(--border-subtle);border-radius:16px;max-width:560px;width:100%;padding:28px;box-shadow:var(--shadow-ambient)}
-    .modal-card h3{font-size:18px;margin-bottom:10px}
-    .modal-card p{font-size:13.5px;line-height:1.7}
+    .modal-card{background:#ffffff;border:1px solid var(--border-subtle);border-radius:16px;max-width:560px;width:100%;padding:28px;box-shadow:0 20px 40px rgba(15,23,42,0.1);color:#0f172a}
+    .modal-card h3{font-size:18px;margin-bottom:10px;color:#0f172a;font-weight:800}
+    .modal-card p{font-size:13.5px;line-height:1.7;color:#334155}
   </style>
 </head>
 <body>
@@ -139,21 +139,21 @@
             <div style="font-size: 11px; color: var(--brand-teal); font-weight: 800;">LIVE ENGINE v2.4</div>
           </div>
           
-          <div class="hero-mockup-grid" style="padding: 32px; background: #0b1329; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left;">
-            <div style="background:#131f37; padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
+          <div class="hero-mockup-grid" style="padding: 32px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left;">
+            <div style="background:#ffffff; padding:20px; border-radius:12px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(15,23,42,0.04);">
               <span aria-hidden="true" style="font-size:24px;">🤖</span>
-              <h4 style="font-size:16px; margin:10px 0 6px;">24시 AI 스마트 문진</h4>
-              <p style="font-size:13px; color:#94a3b8;">증상 입력 즉시 RED/ORANGE/GREEN 4단계 응급도 분류 및 보호자 대처 가이드 제공</p>
+              <h4 style="font-size:16px; margin:10px 0 6px; color:#0f172a; font-weight:800;">24시 AI 스마트 문진</h4>
+              <p style="font-size:13px; color:#475569; line-height:1.6;">증상 입력 즉시 RED/ORANGE/GREEN 4단계 응급도 분류 및 보호자 대처 가이드 제공</p>
             </div>
-            <div style="background:#131f37; padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
+            <div style="background:#ffffff; padding:20px; border-radius:12px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(15,23,42,0.04);">
               <span aria-hidden="true" style="font-size:24px;">📄</span>
-              <h4 style="font-size:16px; margin:10px 0 6px;">진료실 1장 요약서</h4>
-              <p style="font-size:13px; color:#94a3b8;">보호자가 작성한 문진 데이터를 A4 규격 또는 모바일 차트 형태로 1초 만에 자동 출력</p>
+              <h4 style="font-size:16px; margin:10px 0 6px; color:#0f172a; font-weight:800;">진료실 1장 요약서</h4>
+              <p style="font-size:13px; color:#475569; line-height:1.6;">보호자가 작성한 문진 데이터를 A4 규격 또는 모바일 차트 형태로 1초 만에 자동 출력</p>
             </div>
-            <div style="background:#131f37; padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
+            <div style="background:#ffffff; padding:20px; border-radius:12px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(15,23,42,0.04);">
               <span aria-hidden="true" style="font-size:24px;">🖨️</span>
-              <h4 style="font-size:16px; margin:10px 0 6px;">카운터 A4 알림판 & QR</h4>
-              <p style="font-size:13px; color:#94a3b8;">원내 데스크 비치용 A4 포스터와 병원 전용 브랜디드 QR코드가 시스템에서 자동 생성</p>
+              <h4 style="font-size:16px; margin:10px 0 6px; color:#0f172a; font-weight:800;">카운터 A4 알림판 & QR</h4>
+              <p style="font-size:13px; color:#475569; line-height:1.6;">원내 데스크 비치용 A4 포스터와 병원 전용 브랜디드 QR코드가 시스템에서 자동 생성</p>
             </div>
           </div>
         </div>
@@ -341,19 +341,19 @@
       <p>실제 보호자가 증상을 남겼을 때 알고리즘이 어떻게 응급도를 분류하고 진료실 요약서로 가공하는지 직접 테스트해 보세요.</p>
     </div>
 
-    <div style="max-width: 800px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 36px;">
+    <div style="max-width: 800px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 36px; box-shadow: 0 4px 20px rgba(15,23,42,0.04);">
       <div style="margin-bottom: 16px;">
-        <label for="simSymptomInput" style="font-size: 13px; font-weight: 700; color: #cbd5e1; display:block; margin-bottom: 8px;">반려동물 증상 입력 시뮬레이션</label>
+        <label for="simSymptomInput" style="font-size: 13px; font-weight: 700; color: #1e293b; display:block; margin-bottom: 8px;">반려동물 증상 입력 시뮬레이션</label>
         <textarea id="simSymptomInput" class="sim-textarea" maxlength="500" aria-label="반려동물 증상 입력" aria-describedby="simInputHelp simError" placeholder="예: 오늘 새벽부터 노란 거품토를 3번 하고 설사를 심하게 해요."></textarea>
         <div id="simInputHelp" style="font-size:11.5px;color:#64748b;margin-top:6px;">최대 500자 · 입력 내용은 서버에 저장되지 않습니다 · Ctrl+Enter로 판독</div>
-        <div id="simError" role="alert" style="display:none;margin-top:8px;color:#fca5a5;font-size:13px;font-weight:700;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);padding:8px 12px;border-radius:8px;"></div>
+        <div id="simError" role="alert" style="display:none;margin-top:8px;color:#b91c1c;font-size:13px;font-weight:700;background:#fef2f2;border:1px solid #fecaca;padding:8px 12px;border-radius:8px;"></div>
       </div>
 
       <!-- Quick Test Chips -->
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
-        <button type="button" data-chip="새벽부터 피가 섞인 혈변을 보고 호흡이 매우 가빠요" class="chip-btn" style="background:#331b22; color:#fca5a5; border:1px solid #7f1d1d;">[응급] 혈변 및 호흡곤란</button>
-        <button type="button" data-chip="어제 저녁부터 밥을 안 먹고 묽은 변을 2번 봤어요" class="chip-btn" style="background:#332918; color:#fde047; border:1px solid #854d0e;">[주의] 구토 및 소화기 증상</button>
-        <button type="button" data-chip="평소보다 사료를 조금 남겼는데 잘 놀아요" class="chip-btn" style="background:#132d25; color:#6ee7b7; border:1px solid #065f46;">[안정] 경미한 식욕부진</button>
+        <button type="button" data-chip="새벽부터 피가 섞인 혈변을 보고 호흡이 매우 가빠요" class="chip-btn" style="background:#fef2f2; color:#b91c1c; border:1px solid #fecaca; font-weight:700;">[응급] 혈변 및 호흡곤란</button>
+        <button type="button" data-chip="어제 저녁부터 밥을 안 먹고 묽은 변을 2번 봤어요" class="chip-btn" style="background:#fffbeb; color:#b45309; border:1px solid #fde68a; font-weight:700;">[주의] 구토 및 소화기 증상</button>
+        <button type="button" data-chip="평소보다 사료를 조금 남겼는데 잘 놀아요" class="chip-btn" style="background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; font-weight:700;">[안정] 경미한 식욕부진</button>
       </div>
 
       <button id="simAnalyzeBtn" type="button" class="btn-hero-primary" style="width:100%; justify-content:center;" aria-label="AI 트리아지 판독 실행">
@@ -361,13 +361,13 @@
       </button>
 
       <!-- Simulated Output Result -->
-      <div id="simOutputCard" role="status" aria-live="polite" style="display:none; margin-top:24px; background:#0b1329; border:1.5px solid var(--brand-teal); border-radius:12px; padding:20px;">
+      <div id="simOutputCard" role="status" aria-live="polite" style="display:none; margin-top:24px; background:#f0fdfa; border:1.5px solid #0d9488; border-radius:12px; padding:20px; box-shadow: 0 4px 16px rgba(13, 148, 136, 0.08);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <span id="simBadge" style="font-size:12px; font-weight:800; padding:4px 10px; border-radius:6px;">-</span>
-          <span style="font-size:11px; color:#64748b; font-family:var(--font-mono);">DIAGNOSTIC TRIAGE RESULT</span>
+          <span style="font-size:11px; color:#0d9488; font-family:var(--font-mono); font-weight:700;">DIAGNOSTIC TRIAGE RESULT</span>
         </div>
-        <h4 id="simTitle" style="font-size:16px; margin-bottom:8px; color:#ffffff;">-</h4>
-        <p id="simAction" style="font-size:13.5px; color:#cbd5e1; margin:0; line-height:1.5;">-</p>
+        <h4 id="simTitle" style="font-size:16px; margin-bottom:8px; color:#0f172a; font-weight:800;">-</h4>
+        <p id="simAction" style="font-size:13.5px; color:#334155; margin:0; line-height:1.6;">-</p>
       </div>
     </div>
   </section>
@@ -390,8 +390,8 @@
           <h3 style="font-size: 26px; margin-top: 6px;">Monsmecta 운영키트 1식 무상</h3>
           <p style="font-size: 14.5px; margin-top: 8px; line-height: 1.6;">홈페이지 + 24시 트리아지 + 요약서 + 카운터 QR + 원내 복약지도까지.<br/>별도 제작비 없이 세팅해 드리고, 약 공급으로 함께 갑니다.</p>
           
-          <div class="price-number" style="color:var(--brand-teal);">0<span style="font-size: 1.4rem; font-weight: 600; color:#fff;">원</span> <span style="font-size: 1rem; font-weight: 700; color: #94a3b8;">/ 무상 세팅</span></div>
-          <div class="price-period" style="color:#5eead4;">몬스멕타 정기공급 1개월 이상 유지 시 전체 무상 · 소유권 병원 귀속</div>
+          <div class="price-number" style="color:var(--brand-teal);">0<span style="font-size: 1.4rem; font-weight: 700; color:#0f172a;">원</span> <span style="font-size: 1rem; font-weight: 700; color: #64748b;">/ 무상 세팅</span></div>
+          <div class="price-period" style="color:#0d9488; font-weight:700;">몬스멕타 정기공급 1개월 이상 유지 시 전체 무상 · 소유권 병원 귀속</div>
 
           <ul class="check-list">
             <li><span class="bullet">✔</span> <strong>병원 전용 포털 1식 (hospital.html 기반) + 도메인 연결 지원</strong></li>
@@ -403,32 +403,32 @@
           <p style="font-size: 12.5px; color: #64748b; margin-top: 12px; line-height: 1.6;">※ 비파트너 병원 제작 문의는 별도 유상(50만원)이나, 현재는 파트너 병원에만 집중합니다. 약 공급 중단 시 홈페이지는 그대로 병원 소유로 남습니다.</p>
         </div>
 
-          <form id="partnerApplyForm" style="margin-top:20px; text-align:left; background:rgba(15,23,42,0.85); padding:24px; border-radius:16px; border:1px solid #334155;">
+          <form id="partnerApplyForm" style="margin-top:24px; text-align:left; background:#ffffff; padding:28px; border-radius:16px; border:1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(15,23,42,0.04);">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
               <span style="font-size:20px;">📋</span>
-              <strong style="font-size:16px; color:#fff;">파트너 동물병원 전용 무상 키트 간편 신청</strong>
+              <strong style="font-size:17px; color:#0f172a; font-weight:900;">파트너 동물병원 전용 무상 키트 간편 신청</strong>
             </div>
-            <p style="font-size:13px; color:#94a3b8; margin-bottom:16px; line-height:1.5;">
+            <p style="font-size:13px; color:#475569; margin-bottom:16px; line-height:1.5;">
               병원 정보를 입력하시면 전용 포털 링크와 원내 카운터 A4 알림판 시안을 즉시 생성해 드립니다.
             </p>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
-              <input type="text" id="applyHospitalName" placeholder="동물병원명 (예: 서울센트럴동물병원)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
-              <input type="text" id="applyDoctorName" placeholder="원장님 성함" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyHospitalName" placeholder="동물병원명 (예: 서울센트럴동물병원)" required style="background:#ffffff; border:1.5px solid #cbd5e1; color:#0f172a; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyDoctorName" placeholder="원장님 성함" required style="background:#ffffff; border:1.5px solid #cbd5e1; color:#0f172a; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
             </div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-              <input type="tel" id="applyPhone" placeholder="휴대폰 번호 (직통)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
-              <input type="text" id="applyRegion" placeholder="소재지 (예: 서울 서초구 반포동)" style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="tel" id="applyPhone" placeholder="휴대폰 번호 (직통)" required style="background:#ffffff; border:1.5px solid #cbd5e1; color:#0f172a; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyRegion" placeholder="소재지 (예: 서울 서초구 반포동)" style="background:#ffffff; border:1.5px solid #cbd5e1; color:#0f172a; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
             </div>
             <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:14px; font-size:14px; font-weight:800; cursor:pointer;">
               ⚡ 몬스멕타 파트너 무상 키트 세팅 신청하기
             </button>
-            <div id="applySuccessMsg" style="display:none; margin-top:14px; padding:14px; background:rgba(20,184,166,0.15); border:1px solid #14b8a6; border-radius:10px; color:#2dd4bf; font-size:13px; line-height:1.6;">
-              <div id="applySuccessText" style="font-weight:800; margin-bottom:8px;"></div>
+            <div id="applySuccessMsg" style="display:none; margin-top:14px; padding:16px; background:#f0fdfa; border:1px solid #0d9488; border-radius:10px; color:#0f766e; font-size:13px; line-height:1.6;">
+              <div id="applySuccessText" style="font-weight:800; margin-bottom:8px; color:#0f766e;"></div>
               <div id="applyPortalLinkBox"></div>
             </div>
-            <p style="font-size:12px; color:#94a3b8; margin-top:12px; text-align:center; line-height:1.6;">
+            <p style="font-size:12px; color:#64748b; margin-top:14px; text-align:center; line-height:1.6;">
               ※ 신청 즉시 원내 전용 QR 알림판 시안과 포털 링크를 무료로 제공해 드립니다. <br/>
-              직통 전화 문의: <a href="tel:010-5407-5708" style="color:#2dd4bf; text-decoration:underline;">010-5407-5708</a> (평일 09:30 ~ 18:30)
+              직통 전화 문의: <a href="tel:010-5407-5708" style="color:#0d9488; font-weight:800; text-decoration:underline;">010-5407-5708</a> (평일 09:30 ~ 18:30)
             </p>
           </form>
         </div>
