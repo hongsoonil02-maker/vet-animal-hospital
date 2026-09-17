@@ -228,6 +228,11 @@
           </div>
 
           <div class="control-group">
+            <label class="control-label" for="inputPhone">대표 전화번호</label>
+            <input type="tel" id="inputPhone" class="studio-input" value="02-1234-5678" placeholder="예: 02-5407-5708" maxlength="20" />
+          </div>
+
+          <div class="control-group">
             <label class="control-label" id="theme-label">브랜드 메인 테마</label>
             <div class="theme-pill-selector" role="group" aria-labelledby="theme-label">
               <button type="button" class="theme-pill-btn active" data-theme="teal" aria-pressed="true">메디컬 틸</button>
@@ -357,28 +362,32 @@
           <p style="font-size: 12.5px; color: #64748b; margin-top: 12px; line-height: 1.6;">※ 비파트너 병원 제작 문의는 별도 유상(50만원)이나, 현재는 파트너 병원에만 집중합니다. 약 공급 중단 시 홈페이지는 그대로 병원 소유로 남습니다.</p>
         </div>
 
-          <form id="partnerApplyForm" style="margin-top:20px; text-align:left; background:rgba(15,23,42,0.85); padding:20px; border-radius:14px; border:1px solid #334155;">
+          <form id="partnerApplyForm" style="margin-top:20px; text-align:left; background:rgba(15,23,42,0.85); padding:24px; border-radius:16px; border:1px solid #334155;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-              <span style="font-size:18px;">📋</span>
-              <strong style="font-size:15px; color:#fff;">파트너 동물병원 전용 무상 키트 간편 신청</strong>
+              <span style="font-size:20px;">📋</span>
+              <strong style="font-size:16px; color:#fff;">파트너 동물병원 전용 무상 키트 간편 신청</strong>
             </div>
+            <p style="font-size:13px; color:#94a3b8; margin-bottom:16px; line-height:1.5;">
+              병원 정보를 입력하시면 전용 포털 링크와 원내 카운터 A4 알림판 시안을 즉시 생성해 드립니다.
+            </p>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
-              <input type="text" id="applyHospitalName" placeholder="동물병원명 (예: 서울동물병원)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
-              <input type="text" id="applyDoctorName" placeholder="원장님 성함" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyHospitalName" placeholder="동물병원명 (예: 서울센트럴동물병원)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyDoctorName" placeholder="원장님 성함" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
             </div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-              <input type="tel" id="applyPhone" placeholder="휴대폰 번호 (직통)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
-              <input type="text" id="applyRegion" placeholder="소재지 (예: 서울 강남구)" style="background:#090e17; border:1px solid #475569; color:#fff; padding:10px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="tel" id="applyPhone" placeholder="휴대폰 번호 (직통)" required style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
+              <input type="text" id="applyRegion" placeholder="소재지 (예: 서울 서초구 반포동)" style="background:#090e17; border:1px solid #475569; color:#fff; padding:11px 12px; border-radius:8px; font-size:13px; outline:none;" />
             </div>
-            <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:13px; font-size:14px; font-weight:800; cursor:pointer;">
+            <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:14px; font-size:14px; font-weight:800; cursor:pointer;">
               ⚡ 몬스멕타 파트너 무상 키트 세팅 신청하기
             </button>
-            <div id="applySuccessMsg" style="display:none; margin-top:12px; padding:12px; background:rgba(20,184,166,0.15); border:1px solid #14b8a6; border-radius:8px; color:#2dd4bf; font-size:13px; text-align:center;">
-              ✅ 신청이 완료되었습니다! 24시간 이내 원장님 병원 맞춤 QR 알림판과 포털 링크를 문자로 전달드립니다.
+            <div id="applySuccessMsg" style="display:none; margin-top:14px; padding:14px; background:rgba(20,184,166,0.15); border:1px solid #14b8a6; border-radius:10px; color:#2dd4bf; font-size:13px; line-height:1.6;">
+              <div id="applySuccessText" style="font-weight:800; margin-bottom:8px;"></div>
+              <div id="applyPortalLinkBox"></div>
             </div>
-            <p style="font-size:12px; color:#94a3b8; margin-top:10px; text-align:center; line-height:1.5;">
-              ※ 신청 즉시 원내 전용 QR 알림판 시안과 포털 링크를 무료로 제작해 드립니다. <br/>
-              직통 전화 문의: <a href="tel:010-5407-5708" style="color:#2dd4bf; text-decoration:underline;">010-5407-5708</a>
+            <p style="font-size:12px; color:#94a3b8; margin-top:12px; text-align:center; line-height:1.6;">
+              ※ 신청 즉시 원내 전용 QR 알림판 시안과 포털 링크를 무료로 제공해 드립니다. <br/>
+              직통 전화 문의: <a href="tel:010-5407-5708" style="color:#2dd4bf; text-decoration:underline;">010-5407-5708</a> (평일 09:30 ~ 18:30)
             </p>
           </form>
         </div>
