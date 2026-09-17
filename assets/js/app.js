@@ -1,6 +1,7 @@
 /**
  * VetLink AI Core Interactive Engine v2.5
  * - Live Template Customizer & Real-time Dynamic Hospital Portal Bridge
+ * - Interactive Live QR Code preview, download & KakaoTalk sharing link copy
  * - AI Triage Simulator (정규화 + 동의어 + XSS 방지)
  * - Counter A4 Poster & Branded QR Generation
  * - Partner Apply Form with Instant Portal Preview Link
@@ -86,7 +87,17 @@ function buildCustomHospitalQuery() {
   return params.toString();
 }
 
-// 1. Live Template Customizer Engine
+// 스마트폰 카메라 스캔 및 카카오톡 전달을 위한 공용 배포 URL 반환
+function getPublicPortalUrl() {
+  var query = buildCustomHospitalQuery();
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'https://vet-animal-hospital.pages.dev/hospital?' + query;
+  }
+  var basePath = window.location.pathname.replace(/\/[^\/]*$/, '/');
+  return window.location.origin + basePath + 'hospital?' + query;
+}
+
+// 1. Live Template Customizer Engine & Studio QR
 function initCustomizer() {
   var nameInput = document.getElementById('inputHospitalName');
   var cityInput = document.getElementById('inputCity');
@@ -101,15 +112,25 @@ function initCustomizer() {
   var previewNavbar = document.getElementById('previewNavbar');
   var previewBadge = document.getElementById('previewBadge');
   var btnTenant = document.getElementById('btnOpenTenant');
+  var studioQrImg = document.getElementById('studioPreviewQr');
 
   function safeText(v, fallback) {
     var s = (v || '').toString().trim().slice(0, 60);
     return s || fallback;
   }
 
-  function refreshTenantLink() {
+  function refreshTenantLinkAndQr() {
+    var query = buildCustomHospitalQuery();
     if (btnTenant) {
-      btnTenant.href = './hospital.html?' + buildCustomHospitalQuery();
+      btnTenant.href = './hospital.html?' + query;
+    }
+    if (studioQrImg) {
+      var publicUrl = getPublicPortalUrl();
+      QRCode.toDataURL(publicUrl, { width: 320, margin: 1, color: { dark: '#0f172a', light: '#ffffff' } })
+        .then(function (url) {
+          studioQrImg.src = url;
+        })
+        .catch(function (err) { console.error('Studio QR Error', err); });
     }
   }
 
@@ -118,26 +139,26 @@ function initCustomizer() {
       var val = safeText(e.target.value, '우리동물병원');
       if (previewName) previewName.textContent = val;
       if (previewHeroTitle) previewHeroTitle.textContent = val + ' 스마트 케어';
-      refreshTenantLink();
+      refreshTenantLinkAndQr();
     });
   }
   if (cityInput) {
     cityInput.addEventListener('input', function (e) {
       var val = safeText(e.target.value, '서울 강남구');
       if (previewCity) previewCity.textContent = val;
-      refreshTenantLink();
+      refreshTenantLinkAndQr();
     });
   }
   if (specialtyInput) {
     specialtyInput.addEventListener('input', function (e) {
       var val = safeText(e.target.value, '외과·내과·건강검진 전문');
       if (previewSpecialty) previewSpecialty.textContent = val;
-      refreshTenantLink();
+      refreshTenantLinkAndQr();
     });
   }
   if (phoneInput) {
     phoneInput.addEventListener('input', function () {
-      refreshTenantLink();
+      refreshTenantLinkAndQr();
     });
   }
 
@@ -148,11 +169,120 @@ function initCustomizer() {
       btn.setAttribute('aria-pressed','true');
       var theme = btn.getAttribute('data-theme');
       applyThemeToPreview(theme, previewNavbar, previewBadge);
-      refreshTenantLink();
+      refreshTenantLinkAndQr();
     });
   });
 
-  refreshTenantLink();
+  // [QR 다운로드]
+  var btnDownloadStudioQr = document.getElementById('btnDownloadStudioQr');
+  if (btnDownloadStudioQr) {
+    btnDownloadStudioQr.addEventListener('click', function () {
+      if (!studioQrImg || !studioQrImg.src) return;
+      var hName = safeText(nameInput && nameInput.value, '동물병원');
+      var a = document.createElement('a');
+      a.href = studioQrImg.src;
+      a.download = hName + '_스마트문진_QR코드.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  // [카톡 전달용 링크 복사 & 모바일 네이티브 공유]
+  var btnCopyStudioLink = document.getElementById('btnCopyStudioLink');
+  var studioCopyToast = document.getElementById('studioCopyToast');
+  if (btnCopyStudioLink) {
+    btnCopyStudioLink.addEventListener('click', function () {
+      var publicUrl = getPublicPortalUrl();
+      var hName = safeText(nameInput && nameInput.value, '동물병원');
+
+      if (navigator.share && /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)) {
+        navigator.share({
+          title: hName + ' 24시 스마트 케어 포털',
+          text: '[' + hName + '] 대기시간 단축 및 1초 사전 문진 모바일 안내 링크입니다.',
+          url: publicUrl
+        }).catch(function () {
+          fallbackCopy(publicUrl);
+        });
+      } else {
+        fallbackCopy(publicUrl);
+      }
+
+      function fallbackCopy(textToCopy) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textToCopy).then(showToast);
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = textToCopy;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast();
+        }
+      }
+
+      function showToast() {
+        if (studioCopyToast) {
+          studioCopyToast.style.display = 'block';
+          setTimeout(function () { studioCopyToast.style.display = 'none'; }, 3500);
+        }
+      }
+    });
+  }
+
+  // [원내 카운터 A4 알림판 인쇄 팝업]
+  var btnStudioPoster = document.getElementById('btnStudioPoster');
+  if (btnStudioPoster) {
+    btnStudioPoster.addEventListener('click', function () {
+      var hName = safeText(nameInput && nameInput.value, '동물병원');
+      var city = safeText(cityInput && cityInput.value, '서울 강남구 역삼동');
+      var phone = safeText(phoneInput && phoneInput.value, '02-1234-5678');
+      var publicUrl = getPublicPortalUrl();
+
+      QRCode.toDataURL(publicUrl, { width: 450, margin: 1, color: { dark: '#0f172a', light: '#ffffff' } }).then(function (qrDataUrl) {
+        var w = window.open('', '_blank');
+        if (!w) return;
+        var html = '<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">' +
+          '<title>원내 카운터 A4 알림판 - ' + escapeHtml(hName) + '</title>' +
+          '<style>' +
+          '@page { size: A4 portrait; margin: 15mm; }' +
+          'body { font-family: "Malgun Gothic", "Pretendard", -apple-system, sans-serif; color: #0f172a; text-align: center; padding: 30px 20px; line-height: 1.5; }' +
+          '.badge { display: inline-block; background: #0f172a; color: #2dd4bf; padding: 8px 18px; border-radius: 999px; font-size: 15px; font-weight: 800; margin-bottom: 20px; }' +
+          '.h1 { font-size: 32px; font-weight: 900; margin: 0 0 10px; color: #0f172a; }' +
+          '.sub { font-size: 18px; color: #475569; margin-bottom: 30px; font-weight: 600; }' +
+          '.qr-wrapper { border: 3px solid #0f172a; border-radius: 24px; padding: 24px; width: 280px; margin: 0 auto 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }' +
+          '.qr-img { width: 100%; height: auto; display: block; }' +
+          '.step-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; max-width: 480px; margin: 0 auto 30px; text-align: left; }' +
+          '.step-item { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }' +
+          '.step-desc { font-size: 13px; color: #64748b; margin-left: 24px; margin-bottom: 12px; }' +
+          '.footer { font-size: 14px; color: #64748b; border-top: 1px solid #cbd5e1; padding-top: 20px; max-width: 500px; margin: 0 auto; }' +
+          '</style></head><body>' +
+          '<div class="badge">🏥 스마트 원내 사전 접수처</div>' +
+          '<h1 class="h1">' + escapeHtml(hName) + '</h1>' +
+          '<div class="sub">대기실에서 스마트폰으로 1초 만에 사전 문진을 작성해 주세요</div>' +
+          '<div class="qr-wrapper">' +
+          '  <img class="qr-img" src="' + qrDataUrl + '" alt="QR" />' +
+          '</div>' +
+          '<div class="step-box">' +
+          '  <div class="step-item">1️⃣ 스마트폰 기본 카메라로 위 QR코드를 비춥니다.</div>' +
+          '  <div class="step-desc">별도의 앱 설치 없이 1초 만에 병원 전용 문진창이 열립니다.</div>' +
+          '  <div class="step-item">2️⃣ 아이의 증상(구토, 설사 등)을 간편하게 체크합니다.</div>' +
+          '  <div class="step-desc">작성 즉시 진료실 원장님 차트로 전달되어 진료 대기 시간이 단축됩니다.</div>' +
+          '</div>' +
+          '<div class="footer">' +
+          '  <strong>' + escapeHtml(hName) + '</strong>' + (phone ? ' | ' + escapeHtml(phone) : '') + '<br/>' +
+          '  <span style="font-size:12px;">' + escapeHtml(city) + ' · 몬스멕타 공식 파트너 병원</span>' +
+          '</div>' +
+          '<script>window.onload = function(){ window.print(); };<\/script>' +
+          '</body></html>';
+        w.document.write(html);
+        w.document.close();
+      });
+    });
+  }
+
+  refreshTenantLinkAndQr();
 }
 
 function applyThemeToPreview(theme, nav, badge) {
@@ -255,22 +385,20 @@ function setSimChip(text) {
 }
 window.setSimChip = setSimChip;
 
-// 3. Studio → Tenant & Dynamic Poster bridge
+// 3. Studio → Tenant, Dynamic Poster & Sharing bridge
 (function initStudioExtras(){
   var btnPoster = document.getElementById('btnStudioPoster');
   var nameInput = document.getElementById('inputHospitalName');
   var cityInput = document.getElementById('inputCity');
   var phoneInput = document.getElementById('inputPhone');
 
+  // Studio 알림판 A4 인쇄
   if (btnPoster) {
     btnPoster.addEventListener('click', function(){
       var name = (nameInput && nameInput.value.trim()) || '행복한 동물병원';
       var city = (cityInput && cityInput.value.trim()) || '서울 강남구 역삼동';
       var phone = (phoneInput && phoneInput.value.trim()) || '02-1234-5678';
-
-      // 현재 도메인 및 경로 기준 완벽한 URL 생성
-      var basePath = window.location.pathname.replace(/\/[^\/]*$/, '/');
-      var portalUrl = window.location.origin + basePath + 'hospital.html?' + buildCustomHospitalQuery();
+      var portalUrl = getPublicPortalUrl();
 
       QRCode.toDataURL(portalUrl, { width: 320, margin: 1, color: { dark: '#0f172a', light: '#ffffff' } }).then(function (qrDataUrl) {
         var w = window.open('', '_blank');
@@ -282,6 +410,48 @@ window.setSimChip = setSimChip;
         var toast = document.getElementById('simError');
         if (toast) { toast.textContent = 'QR 생성에 실패했습니다. 팝업 차단을 확인해 주세요.'; toast.style.display = 'block'; }
       });
+    });
+  }
+
+  // Studio QR 이미지 다운로드
+  var btnDownloadStudioQr = document.getElementById('btnDownloadStudioQr');
+  if (btnDownloadStudioQr) {
+    btnDownloadStudioQr.addEventListener('click', function () {
+      var studioQr = document.getElementById('studioPreviewQr');
+      if (!studioQr || !studioQr.src) return;
+      var name = (nameInput && nameInput.value.trim()) || '동물병원';
+      var a = document.createElement('a');
+      a.href = studioQr.src;
+      a.download = name + '_스마트문진_QR코드.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  // Studio 카카오톡 공유 링크 복사
+  var btnCopyStudioLink = document.getElementById('btnCopyStudioLink');
+  if (btnCopyStudioLink) {
+    btnCopyStudioLink.addEventListener('click', function () {
+      var url = getPublicPortalUrl();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(showToast);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      }
+      function showToast() {
+        var toast = document.getElementById('studioCopyToast');
+        if (toast) {
+          toast.style.display = 'block';
+          setTimeout(function () { toast.style.display = 'none'; }, 3500);
+        }
+      }
     });
   }
 })();
@@ -374,9 +544,62 @@ function initPartnerApplyForm() {
     if (successMsg && successText) {
       successMsg.style.display = 'block';
       successText.innerHTML = '🎉 <strong>' + escapeHtml(hName) + ' (' + escapeHtml(docName) + ' 원장님)</strong> 무상 키트 세팅 신청이 완료되었습니다!';
+
       if (linkBox) {
-        linkBox.innerHTML = '<a href="' + customPortalUrl + '" target="_blank" class="btn-hero-primary" style="display:inline-flex; align-items:center; gap:6px; margin-top:8px; padding:10px 18px; font-size:13px; font-weight:800; text-decoration:none; box-shadow: 0 4px 14px rgba(20,184,166,0.35);">' +
-                            '🏥 생성된 ' + escapeHtml(hName) + ' 스마트 포털 바로 열기 &rarr;</a>';
+        var publicShareUrl = customPortalUrl;
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          publicShareUrl = 'https://vet-animal-hospital.pages.dev/hospital.html?name=' + encodeURIComponent(hName) +
+                           '&phone=' + encodeURIComponent(phone) +
+                           '&city=' + encodeURIComponent(region || '대한민국') +
+                           '&theme=teal';
+        }
+
+        QRCode.toDataURL(publicShareUrl, { width: 320, margin: 1, color: { dark: '#0f172a', light: '#ffffff' } })
+          .then(function (qrDataUrl) {
+            linkBox.innerHTML =
+              '<div style="margin-top:12px; background:#ffffff; border-radius:12px; padding:16px; text-align:center; color:#0f172a;">' +
+              '  <div style="font-size:13px; font-weight:800; margin-bottom:8px;">📱 스마트폰 카메라로 비추면 바로 열립니다</div>' +
+              '  <img src="' + qrDataUrl + '" alt="' + escapeHtml(hName) + ' QR 코드" style="width:140px; height:140px; display:inline-block; border:2px solid #0f172a; border-radius:12px; padding:6px; background:#fff;" />' +
+              '  <div style="margin-top:12px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">' +
+              '    <a href="' + customPortalUrl + '" target="_blank" class="btn-hero-primary" style="padding:8px 14px; font-size:12px; text-decoration:none;">🏥 포털 열기 &rarr;</a>' +
+              '    <button type="button" id="btnDownloadApplyQr" class="btn-hero-secondary" style="padding:8px 14px; font-size:12px;">📥 QR 다운로드</button>' +
+              '    <button type="button" id="btnCopyApplyLink" class="btn-hero-secondary" style="padding:8px 14px; font-size:12px;">🔗 카톡 링크 복사</button>' +
+              '  </div>' +
+              '  <div id="applyCopyToast" style="display:none; margin-top:8px; font-size:12px; color:#0d9488; font-weight:800;">✅ 카카오톡에 전달할 수 있는 링크가 복사되었습니다!</div>' +
+              '</div>';
+
+            var btnDown = document.getElementById('btnDownloadApplyQr');
+            if (btnDown) {
+              btnDown.addEventListener('click', function () {
+                var a = document.createElement('a');
+                a.href = qrDataUrl;
+                a.download = hName + '_스마트문진_QR코드.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+              });
+            }
+
+            var btnCopy = document.getElementById('btnCopyApplyLink');
+            if (btnCopy) {
+              btnCopy.addEventListener('click', function () {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(publicShareUrl).then(showToast);
+                } else {
+                  showToast();
+                }
+                function showToast() {
+                  var t = document.getElementById('applyCopyToast');
+                  if (t) { t.style.display = 'block'; setTimeout(function () { t.style.display = 'none'; }, 3500); }
+                }
+              });
+            }
+          })
+          .catch(function (err) {
+            console.error('Apply QR generate error', err);
+            linkBox.innerHTML = '<a href="' + customPortalUrl + '" target="_blank" class="btn-hero-primary" style="display:inline-flex; align-items:center; gap:6px; margin-top:8px; padding:10px 18px; font-size:13px; font-weight:800; text-decoration:none;">' +
+                                '🏥 생성된 ' + escapeHtml(hName) + ' 스마트 포털 바로 열기 &rarr;</a>';
+          });
       }
       successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }

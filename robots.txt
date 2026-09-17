@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vet-animal-hospital.net/sitemap.xml
+Sitemap: https://vet-animal-hospital.pages.dev/sitemap.xml

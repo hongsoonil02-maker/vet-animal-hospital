@@ -64,6 +64,15 @@ import { HOSPITAL_MAP, fetchHospitalConfig } from "./hospital-data.js";
     });
   }
 
+  function getPublicPortalUrl() {
+    var search = window.location.search;
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'https://vet-animal-hospital.pages.dev/hospital' + search;
+    }
+    var cleanPath = window.location.pathname.replace(/\.html$/, '');
+    return window.location.origin + cleanPath + search;
+  }
+
   function render(c) {
     var hName = c.name || '동물병원';
     setText('tenantNavName', hName);
@@ -106,8 +115,8 @@ import { HOSPITAL_MAP, fetchHospitalConfig } from "./hospital-data.js";
     setHref('btnCallHospital', 'tel:' + tel);
     if (c.naverPlaceUrl) setHref('tenantNaverLink', c.naverPlaceUrl);
 
-    // 현재 창의 URL(동적 쿼리 포함)을 그대로 QR 및 메타데이터에 연동
-    var portalUrl = window.location.href;
+    // 현재 창의 URL(동적 쿼리 포함)을 공개 배포 도메인 기준으로 연동
+    var portalUrl = getPublicPortalUrl();
     var qrImg = document.getElementById('qrImg');
     if (qrImg) {
       qrImg.alt = hName + ' QR 코드';
@@ -255,7 +264,7 @@ import { HOSPITAL_MAP, fetchHospitalConfig } from "./hospital-data.js";
   // 카운터 A4 알림판 인쇄
   function printPoster() {
     var hName = cfg.name || '동물병원';
-    var portalUrl = window.location.href;
+    var portalUrl = getPublicPortalUrl();
     QRCode.toDataURL(portalUrl, { width: 450, margin: 1, color: { dark: '#0f172a', light: '#ffffff' } }).then(function(qrDataUrl) {
       var w = window.open('', '_blank');
       if (!w) return;
@@ -301,6 +310,64 @@ import { HOSPITAL_MAP, fetchHospitalConfig } from "./hospital-data.js";
   if (btnPoster1) btnPoster1.addEventListener('click', printPoster);
   var btnPoster2 = document.getElementById('btnPosterPrintDirect');
   if (btnPoster2) btnPoster2.addEventListener('click', printPoster);
+
+  // QR 이미지 다운로드
+  var btnDownloadHospitalQr = document.getElementById('btnDownloadHospitalQr');
+  if (btnDownloadHospitalQr) {
+    btnDownloadHospitalQr.addEventListener('click', function () {
+      var qrImg = document.getElementById('qrImg');
+      if (!qrImg || !qrImg.src) return;
+      var a = document.createElement('a');
+      a.href = qrImg.src;
+      a.download = (cfg.name || '동물병원') + '_스마트문진_QR코드.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  // 카톡 공유 링크 복사 & 모바일 네이티브 공유
+  var btnCopyHospitalLink = document.getElementById('btnCopyHospitalLink');
+  if (btnCopyHospitalLink) {
+    btnCopyHospitalLink.addEventListener('click', function () {
+      var url = getPublicPortalUrl();
+      var hName = cfg.name || '동물병원';
+
+      if (navigator.share && /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)) {
+        navigator.share({
+          title: hName + ' 24시 스마트 케어 포털',
+          text: '[' + hName + '] 대기시간 단축 및 1초 사전 문진 모바일 안내 링크입니다.',
+          url: url
+        }).catch(function () {
+          fallbackCopy(url);
+        });
+      } else {
+        fallbackCopy(url);
+      }
+
+      function fallbackCopy(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(showToast);
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast();
+        }
+      }
+
+      function showToast() {
+        var toast = document.getElementById('hospitalCopyToast');
+        if (toast) {
+          toast.style.display = 'block';
+          setTimeout(function () { toast.style.display = 'none'; }, 3500);
+        }
+      }
+    });
+  }
 
   render(cfg);
 
