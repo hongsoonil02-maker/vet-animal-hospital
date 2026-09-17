@@ -91,8 +91,128 @@ a {
   text-decoration: none;
 }
 
-/* Floating Navigation Pill */
-.nav-header {
+/* ==========================================================================
+   Header & Navigation System (Unified Sticky Header, Zero Overlap)
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  pointer-events: none;
+}
+
+.disclaimer-bar {
+  pointer-events: auto;
+  position: relative;
+  background: rgba(24, 18, 10, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fffbeb;
+  padding: 8px 40px 8px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+.disclaimer-bar.dismissed {
+  display: none !important;
+}
+
+.disclaimer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.disclaimer-badge {
+  background: rgba(245, 158, 11, 0.22);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 850;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.disclaimer-text {
+  color: #fef3c7;
+  font-size: 12.5px;
+}
+
+.disclaimer-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.disclaimer-links a {
+  color: #fde68a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 700;
+  transition: color 0.15s;
+}
+
+.disclaimer-links a:hover {
+  color: #ffffff;
+}
+
+.disclaimer-dot {
+  color: #d97706;
+}
+
+.disclaimer-dismiss {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #f59e0b;
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.disclaimer-dismiss:hover {
+  opacity: 1;
+  background: rgba(245, 158, 11, 0.2);
+}
+
+/* Nav Header within .site-header (natural non-overlapping flow) */
+.site-header .nav-header {
+  pointer-events: auto;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 12px 20px 0;
+  margin: 0 auto;
+}
+
+/* Standalone .nav-header on pages without .site-header */
+body > .nav-header {
   position: fixed;
   top: 20px;
   left: 0;
@@ -103,6 +223,7 @@ a {
   padding: 0 20px;
 }
 
+/* Floating Navigation Pill */
 .nav-pill {
   background: rgba(14, 23, 38, 0.85);
   backdrop-filter: blur(16px);
@@ -190,7 +311,7 @@ a {
 
 /* Wide Hero Architecture */
 .hero-section {
-  padding: 160px 24px 80px;
+  padding: 48px 24px 80px;
   text-align: center;
   position: relative;
 }
@@ -584,7 +705,11 @@ a {
   .nav-links li a { display: block; padding: 12px 14px; border-radius: 10px; }
   .nav-links li a:hover { background: rgba(255,255,255,0.06); }
   .nav-cta { display: none; }
-  .hero-section { padding-top: 110px; padding-left: 16px; padding-right: 16px; }
+  .disclaimer-bar { padding: 7px 32px 7px 12px; font-size: 11.5px; }
+  .disclaimer-inner { gap: 6px; }
+  .disclaimer-text { font-size: 11.5px; line-height: 1.4; }
+  .site-header .nav-header { padding: 8px 12px 0; }
+  .hero-section { padding-top: 36px; padding-left: 16px; padding-right: 16px; }
   .hero-h1 { font-size: clamp(1.9rem, 7vw, 2.4rem); }
   .hero-mockup-grid { grid-template-columns: 1fr !important; }
   .mockup-url { display: none; }

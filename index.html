@@ -50,8 +50,6 @@
   <style>
     .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#fff;color:#070d18;padding:8px 12px;border-radius:6px;font-weight:800;z-index:3000}
     .skip-link:focus{left:12px;top:12px;width:auto;height:auto}
-    .disclaimer-bar{position:sticky;top:0;z-index:999;background:#7c3a09;color:#fffbeb;border-bottom:1px solid #92400e;padding:8px 16px;text-align:center;font-size:12.5px;font-weight:700;line-height:1.5}
-    .disclaimer-bar a{color:#fde68a;text-decoration:underline;text-underline-offset:3px}
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px}
     .modal-overlay.open{display:flex}
     .modal-card{background:#0e1726;border:1px solid var(--border-subtle);border-radius:16px;max-width:560px;width:100%;padding:28px;box-shadow:var(--shadow-ambient)}
@@ -61,29 +59,44 @@
 </head>
 <body>
   <a href="#main-content" class="skip-link">본문 바로가기</a>
-  <!-- 0. Medical Disclaimer Bar (법적 고지) -->
-  <div class="disclaimer-bar" role="alert">
-    <span aria-hidden="true">⚠️</span> 본 AI 트리아지는 수의사 진단을 대체하지 않습니다. 호흡곤란·경련·혈변 등 응급 시 즉시 내원하세요. <a href="./terms.html">면책고지 전문 보기</a> · <a href="#" id="openDisclaimer">자세히</a>
-  </div>
 
-  <!-- 1. Floating Glass Navigation -->
-  <header class="nav-header">
-    <nav class="nav-pill" role="navigation" aria-label="주요 메뉴">
-      <div class="nav-brand">
-        <span aria-hidden="true">🐾</span> VetLink AI
-        <span class="nav-brand-badge">SaaS DX</span>
+  <!-- Unified Sticky Header System (Disclaimer Bar + Floating Navigation) -->
+  <header class="site-header" id="siteHeader">
+    <!-- 0. Top Medical Disclaimer Bar (법적 고지) -->
+    <div class="disclaimer-bar" id="disclaimerBar" role="alert">
+      <div class="disclaimer-inner">
+        <span class="disclaimer-badge">⚠️ 의료 면책고지</span>
+        <span class="disclaimer-text">
+          본 AI 트리아지는 수의사 진단을 대체하지 않습니다. 호흡곤란·경련·혈변 등 응급 시 즉시 내원하세요.
+        </span>
+        <span class="disclaimer-links">
+          <a href="./terms.html">면책고지 전문 보기</a>
+          <span class="disclaimer-dot" aria-hidden="true">·</span>
+          <a href="#" id="openDisclaimer">자세히</a>
+        </span>
       </div>
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="메뉴 열기">
-        <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
-      </button>
-      <ul class="nav-links" id="primary-nav">
-        <li><a href="#features">핵심 기능</a></li>
-        <li><a href="#studio">실시간 체험 스튜디오</a></li>
-        <li><a href="#simulator">AI 트리아지 시뮬레이터</a></li>
-        <li><a href="#pricing">공급 플랜</a></li>
-      </ul>
-      <a href="#pricing" class="nav-cta">원장님 무료 상담 신청</a>
-    </nav>
+      <button type="button" id="dismissDisclaimer" class="disclaimer-dismiss" aria-label="면책 알림 닫기">&times;</button>
+    </div>
+
+    <!-- 1. Floating Glass Navigation -->
+    <div class="nav-header">
+      <nav class="nav-pill" role="navigation" aria-label="주요 메뉴">
+        <div class="nav-brand">
+          <span aria-hidden="true">🐾</span> VetLink AI
+          <span class="nav-brand-badge">SaaS DX</span>
+        </div>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="메뉴 열기">
+          <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="nav-links" id="primary-nav">
+          <li><a href="#features">핵심 기능</a></li>
+          <li><a href="#studio">실시간 체험 스튜디오</a></li>
+          <li><a href="#simulator">AI 트리아지 시뮬레이터</a></li>
+          <li><a href="#pricing">공급 플랜</a></li>
+        </ul>
+        <a href="#pricing" class="nav-cta">원장님 무료 상담 신청</a>
+      </nav>
+    </div>
   </header>
 
   <main id="main-content">

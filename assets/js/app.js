@@ -385,82 +385,29 @@ function setSimChip(text) {
 }
 window.setSimChip = setSimChip;
 
-// 3. Studio → Tenant, Dynamic Poster & Sharing bridge
-(function initStudioExtras(){
-  var btnPoster = document.getElementById('btnStudioPoster');
-  var nameInput = document.getElementById('inputHospitalName');
-  var cityInput = document.getElementById('inputCity');
-  var phoneInput = document.getElementById('inputPhone');
-
-  // Studio 알림판 A4 인쇄
-  if (btnPoster) {
-    btnPoster.addEventListener('click', function(){
-      var name = (nameInput && nameInput.value.trim()) || '행복한 동물병원';
-      var city = (cityInput && cityInput.value.trim()) || '서울 강남구 역삼동';
-      var phone = (phoneInput && phoneInput.value.trim()) || '02-1234-5678';
-      var portalUrl = getPublicPortalUrl();
-
-      QRCode.toDataURL(portalUrl, { width: 320, margin: 1, color: { dark: '#0f172a', light: '#ffffff' } }).then(function (qrDataUrl) {
-        var w = window.open('', '_blank');
-        if (!w) return;
-        w.document.write('<!doctype html><html lang=ko><head><meta charset=utf-8><title>원내 카운터 A4 알림판 - ' + escapeHtml(name) + '</title><style>@page{size:A4 portrait;margin:15mm}body{font-family:"Malgun Gothic","Pretendard",sans-serif;padding:30px 20px;color:#0f172a;text-align:center;line-height:1.5}.badge{display:inline-block;background:#0f172a;color:#2dd4bf;font-size:14px;font-weight:800;padding:6px 16px;border-radius:999px;margin-bottom:16px}.h1{font-size:30px;font-weight:900;margin:0 0 10px}.sub{font-size:16px;color:#475569;margin-bottom:24px;font-weight:600}.qr-wrapper{width:240px;height:240px;margin:20px auto;border:2px solid #0f172a;padding:12px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.06)}.qr-wrapper img{width:100%;height:100%;display:block}.steps{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:18px;max-width:460px;margin:20px auto;text-align:left;font-size:14px;color:#334155}.step-item{font-weight:700;margin-bottom:6px}.step-desc{font-size:12px;color:#64748b;margin-left:22px;margin-bottom:10px}.foot{margin-top:24px;font-size:12px;color:#64748b;border-top:1px solid #e2e8f0;padding-top:14px}</style></head><body><div><div class=badge>🏥 스마트 원내 사전 접수처</div><h1 class=h1>' + escapeHtml(name) + '</h1><div class=sub>대기실에서 스마트폰 카메라로 QR을 스캔하여 1초 만에 문진을 작성해 주세요</div><div class=qr-wrapper><img src=\"' + qrDataUrl + '\" alt=\"QR\"/></div><div class=steps><div class=step-item>1️⃣ 기본 카메라로 위 QR코드를 비춥니다.</div><div class=step-desc>별도 앱 설치 없이 병원 전용 스마트 문진창으로 즉시 연결됩니다.</div><div class=step-item>2️⃣ 아이의 주요 증상을 간편하게 체크합니다.</div><div class=step-desc>작성 즉시 진료실 차트로 전달되어 대기 시간이 대폭 단축됩니다.</div></div><div class=foot><strong>' + escapeHtml(name) + '</strong> | ' + escapeHtml(phone) + ' (' + escapeHtml(city) + ')<br/>몬스멕타 공식 처방 파트너 · VetLink AI</div></div><script>window.onload=function(){window.print();};<\/script></body></html>');
-        w.document.close();
-      }).catch(function (err) {
-        console.error('QR 생성 실패', err);
-        var toast = document.getElementById('simError');
-        if (toast) { toast.textContent = 'QR 생성에 실패했습니다. 팝업 차단을 확인해 주세요.'; toast.style.display = 'block'; }
-      });
-    });
-  }
-
-  // Studio QR 이미지 다운로드
-  var btnDownloadStudioQr = document.getElementById('btnDownloadStudioQr');
-  if (btnDownloadStudioQr) {
-    btnDownloadStudioQr.addEventListener('click', function () {
-      var studioQr = document.getElementById('studioPreviewQr');
-      if (!studioQr || !studioQr.src) return;
-      var name = (nameInput && nameInput.value.trim()) || '동물병원';
-      var a = document.createElement('a');
-      a.href = studioQr.src;
-      a.download = name + '_스마트문진_QR코드.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
-  }
-
-  // Studio 카카오톡 공유 링크 복사
-  var btnCopyStudioLink = document.getElementById('btnCopyStudioLink');
-  if (btnCopyStudioLink) {
-    btnCopyStudioLink.addEventListener('click', function () {
-      var url = getPublicPortalUrl();
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(showToast);
-      } else {
-        var ta = document.createElement('textarea');
-        ta.value = url;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast();
-      }
-      function showToast() {
-        var toast = document.getElementById('studioCopyToast');
-        if (toast) {
-          toast.style.display = 'block';
-          setTimeout(function () { toast.style.display = 'none'; }, 3500);
-        }
-      }
-    });
-  }
-})();
-
-// 4. Disclaimer Modal (focus trap, inert)
+// 4. Disclaimer Modal (focus trap, inert) & Top Banner Dismiss
 function initDisclaimerModal() {
   var modal = document.getElementById('disclaimerModal');
   var openBtn = document.getElementById('openDisclaimer');
   var closeBtn = document.getElementById('closeDisclaimer');
+  var dismissBannerBtn = document.getElementById('dismissDisclaimer');
+  var disclaimerBar = document.getElementById('disclaimerBar');
+
+  if (dismissBannerBtn && disclaimerBar) {
+    try {
+      if (sessionStorage.getItem('vetlink_disclaimer_dismissed') === '1') {
+        disclaimerBar.classList.add('dismissed');
+      }
+    } catch (e) {}
+
+    dismissBannerBtn.addEventListener('click', function () {
+      disclaimerBar.classList.add('dismissed');
+      try {
+        sessionStorage.setItem('vetlink_disclaimer_dismissed', '1');
+      } catch (e) {}
+    });
+  }
+
   if (!modal) return;
   var lastFocus = null;
   function open() {
