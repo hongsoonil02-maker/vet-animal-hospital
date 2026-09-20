@@ -13,19 +13,34 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
-# CI Colors - Samwon Pharmtech
-C_NAVY_DARK = RGBColor(10, 25, 47)        # #0A192F Dark Navy
-C_NAVY_PRIMARY = RGBColor(15, 32, 67)     # #0F2043 Deep Navy
-C_NAVY_LIGHT = RGBColor(30, 58, 138)      # #1E3A8A Slate Navy
-C_EMERALD = RGBColor(16, 185, 129)        # #10B981 Bio Green / Emerald
-C_EMERALD_DARK = RGBColor(5, 150, 105)    # #059669 Dark Emerald
-C_EMERALD_LIGHT = RGBColor(236, 253, 245) # #ECFDF5 Light Mint
-C_BG_LIGHT = RGBColor(248, 250, 252)      # #F8FAFC
-C_CARD_BG = RGBColor(255, 255, 255)       # #FFFFFF
-C_BORDER = RGBColor(226, 232, 240)        # #E2E8F0
-C_TEXT_DARK = RGBColor(30, 41, 59)        # #1E293B Slate 800
-C_TEXT_MUTED = RGBColor(71, 85, 105)      # #475569 Slate 600 (more visible)
+# CI Colors - Seoul Milk Brand Identity (Fresh White Milk & Signature Green)
+C_BG_WHITE = RGBColor(255, 255, 255)       # Pure Milk White (#FFFFFF)
+C_CARD_BG = RGBColor(255, 255, 255)        # Pure Milk White Card (#FFFFFF)
+C_BORDER_SOFT = RGBColor(226, 232, 240)    # Soft Slate Border (#E2E8F0)
+C_BORDER_MINT = RGBColor(167, 243, 208)    # Fresh Mint Border (#A7F3D0)
+
+# Seoul Milk Green Accents
+C_SEOUL_GREEN = RGBColor(0, 139, 71)       # #008B47 Seoul Milk Signature Green
+C_GREEN_DARK = RGBColor(5, 122, 70)        # #057A46 Deep Forest Green
+C_MINT_LIGHT = RGBColor(240, 253, 244)     # #F0FDF4 Soft Milk Mint
+C_MINT_ACCENT = RGBColor(220, 252, 231)    # #DCFCE7 Mint Badge
+
+# High Contrast Premium Typography
+C_TEXT_DARK = RGBColor(15, 23, 42)         # #0F172A Deep Slate Charcoal
+C_TEXT_KEYWORD = RGBColor(15, 23, 42)      # #0F172A Slate 900 Bold
+C_TEXT_BODY = RGBColor(51, 65, 85)         # #334155 Slate 700
+C_TEXT_MUTED = RGBColor(71, 85, 105)       # #475569 Slate 600
 C_TEXT_WHITE = RGBColor(255, 255, 255)
+
+# Aliases for backward compatibility
+C_NAVY_PRIMARY = C_TEXT_DARK
+C_NAVY_LIGHT = C_BORDER_SOFT
+C_NAVY_DARK = C_BG_WHITE
+C_EMERALD = C_SEOUL_GREEN
+C_EMERALD_DARK = C_SEOUL_GREEN
+C_EMERALD_LIGHT = C_MINT_LIGHT
+C_BG_LIGHT = C_BG_WHITE
+C_BORDER = C_BORDER_SOFT
 
 ASSETS_DIR = r"C:\Users\master\vet_animal_hospital\s_project\assets"
 
@@ -45,15 +60,21 @@ CHART_HOMOGENEITY = os.path.join(ASSETS_DIR, "chart_homogeneity_cv.png")
 CHART_HEAT = os.path.join(ASSETS_DIR, "chart_pellet_heat.png")
 CHART_ROI = os.path.join(ASSETS_DIR, "chart_livestock_roi.png")
 
-def apply_slide_bg(slide, prs, color):
+def apply_slide_bg(slide, prs, color=C_BG_WHITE):
     bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, prs.slide_width, prs.slide_height)
     bg.fill.solid()
     bg.fill.fore_color.rgb = color
     bg.line.fill.background()
+    
+    # Top accent line - Seoul Milk Fresh Green
+    top_line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, prs.slide_width, Inches(0.06))
+    top_line.fill.solid()
+    top_line.fill.fore_color.rgb = C_SEOUL_GREEN
+    top_line.line.fill.background()
     return bg
 
 def add_header(slide, prs, tag_text, title_text, subtitle_text=""):
-    header_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.7), Inches(1.25))
+    header_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.38), Inches(11.7), Inches(1.25))
     tf = header_box.text_frame
     tf.word_wrap = True
     tf.margin_left = tf.margin_top = tf.margin_right = tf.margin_bottom = 0
@@ -63,7 +84,7 @@ def add_header(slide, prs, tag_text, title_text, subtitle_text=""):
     p_tag.font.name = "Malgun Gothic"
     p_tag.font.size = Pt(11.5)
     p_tag.font.bold = True
-    p_tag.font.color.rgb = C_EMERALD_DARK
+    p_tag.font.color.rgb = C_SEOUL_GREEN
     p_tag.space_after = Pt(2)
     
     p_title = tf.add_paragraph()
@@ -71,7 +92,7 @@ def add_header(slide, prs, tag_text, title_text, subtitle_text=""):
     p_title.font.name = "Malgun Gothic"
     p_title.font.size = Pt(23)
     p_title.font.bold = True
-    p_title.font.color.rgb = C_NAVY_PRIMARY
+    p_title.font.color.rgb = C_TEXT_DARK
     
     if subtitle_text:
         p_sub = tf.add_paragraph()
@@ -83,28 +104,50 @@ def add_header(slide, prs, tag_text, title_text, subtitle_text=""):
         p_sub.space_before = Pt(4)
 
 def add_footer(slide, prs, current_page, total_pages=30):
-    footer_box = slide.shapes.add_textbox(Inches(0.8), Inches(6.92), Inches(11.7), Inches(0.35))
-    tf = footer_box.text_frame
-    tf.margin_left = tf.margin_top = tf.margin_right = tf.margin_bottom = 0
-    p = tf.paragraphs[0]
-    p.text = f"(주)삼원팜텍  |  서울우유 한일사료 임가공 배합 라인 맞춤형 고농축 사료첨가제 제안                                                              Slide {current_page:02d} / {total_pages:02d}"
-    p.font.name = "Malgun Gothic"
-    p.font.size = Pt(8.5)
-    p.font.color.rgb = RGBColor(148, 163, 184)
+    fb_left = slide.shapes.add_textbox(Inches(0.8), Inches(6.92), Inches(8.5), Inches(0.35))
+    tf_l = fb_left.text_frame
+    tf_l.margin_left = tf_l.margin_top = tf_l.margin_right = tf_l.margin_bottom = 0
+    p_l = tf_l.paragraphs[0]
+    p_l.text = "(주)삼원팜텍  |  서울우유 한일사료 임가공 배합 라인 맞춤형 고농축 사료첨가제 제안"
+    p_l.font.name = "Malgun Gothic"
+    p_l.font.size = Pt(8.5)
+    p_l.font.color.rgb = RGBColor(148, 163, 184)
+    
+    fb_right = slide.shapes.add_textbox(Inches(9.5), Inches(6.92), Inches(3.0), Inches(0.35))
+    tf_r = fb_right.text_frame
+    tf_r.margin_left = tf_r.margin_top = tf_r.margin_right = tf_r.margin_bottom = 0
+    p_r = tf_r.paragraphs[0]
+    p_r.text = f"Slide {current_page:02d} / {total_pages:02d}"
+    p_r.alignment = PP_ALIGN.RIGHT
+    p_r.font.name = "Malgun Gothic"
+    p_r.font.size = Pt(8.5)
+    p_r.font.bold = True
+    p_r.font.color.rgb = C_SEOUL_GREEN
 
-def create_card(slide, left, top, width, height, title, body_bullets, tag="", bg_color=C_CARD_BG, border_color=C_BORDER, title_color=C_NAVY_PRIMARY):
+def create_card(slide, left, top, width, height, title, body_bullets, tag="", bg_color=C_CARD_BG, border_color=C_BORDER_SOFT, title_color=C_TEXT_DARK):
     """
-    Enhanced card component with responsive typography and keyword bold highlighting.
-    Fills card vertically to avoid empty bottom areas.
+    Enhanced card component for Seoul Milk White identity:
+    - Pure white card background
+    - Soft, subtle slate border (C_BORDER_SOFT, width 1.2pt)
+    - Seoul Milk Green top accent bar
+    - Hanging indent on bullet text (OpenXML marL/indent)
+    - Keyword bold highlighting
+    - Vertical expansion to fill card height
     """
     shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
     shape.fill.solid()
     shape.fill.fore_color.rgb = bg_color
     shape.line.color.rgb = border_color
-    shape.line.width = Pt(1.5)
+    shape.line.width = Pt(1.2)
+    
+    # Card top green accent line
+    accent_bar = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left + Inches(0.12), top, width - Inches(0.24), Pt(3.5))
+    accent_bar.fill.solid()
+    accent_bar.fill.fore_color.rgb = C_SEOUL_GREEN
+    accent_bar.line.fill.background()
     
     pad_h = Inches(0.32)
-    pad_v = Inches(0.28)
+    pad_v = Inches(0.26)
     tb = slide.shapes.add_textbox(left + pad_h, top + pad_v, width - pad_h * 2, height - pad_v * 2)
     tf = tb.text_frame
     tf.word_wrap = True
@@ -113,36 +156,36 @@ def create_card(slide, left, top, width, height, title, body_bullets, tag="", bg
     w_val = width.inches
     num_b = len(body_bullets) if body_bullets else 1
     
-    if w_val >= 5.0:  # Wide split card
+    if w_val >= 5.0:  # Wide split card (5.7")
         sz_tag = Pt(11)
         sz_title = Pt(17)
-        title_space_after = Pt(12)
+        title_space_after = Pt(14)
         if num_b <= 5:
             sz_bullet = Pt(12.5)
             space_bullet_before = Pt(4)
-            space_bullet_after = Pt(10)
+            space_bullet_after = Pt(11)
         else:
             sz_bullet = Pt(11.5)
             space_bullet_before = Pt(3)
             space_bullet_after = Pt(7)
-    elif w_val >= 3.5:  # 3-column card
+    elif w_val >= 3.5:  # 3-column card (3.8")
         sz_tag = Pt(10.5)
         sz_title = Pt(15.5)
         title_space_after = Pt(10)
         if num_b <= 4:
-            sz_bullet = Pt(12.5)
+            sz_bullet = Pt(12)
             space_bullet_before = Pt(4)
             space_bullet_after = Pt(10)
         else:
-            sz_bullet = Pt(11.5)
+            sz_bullet = Pt(11)
             space_bullet_before = Pt(3)
-            space_bullet_after = Pt(7)
-    else:  # 4-column card
+            space_bullet_after = Pt(6)
+    else:  # 4-column card (2.8")
         sz_tag = Pt(9.5)
         sz_title = Pt(13.5)
         title_space_after = Pt(8)
-        sz_bullet = Pt(11)
-        space_bullet_before = Pt(2)
+        sz_bullet = Pt(10.5)
+        space_bullet_before = Pt(3)
         space_bullet_after = Pt(6)
         
     p0 = tf.paragraphs[0]
@@ -152,7 +195,7 @@ def create_card(slide, left, top, width, height, title, body_bullets, tag="", bg
         r_tag.font.name = "Malgun Gothic"
         r_tag.font.size = sz_tag
         r_tag.font.bold = True
-        r_tag.font.color.rgb = C_EMERALD_DARK
+        r_tag.font.color.rgb = C_SEOUL_GREEN
         
     r_title = p0.add_run()
     r_title.text = title
@@ -166,7 +209,12 @@ def create_card(slide, left, top, width, height, title, body_bullets, tag="", bg
         p_b = tf.add_paragraph()
         p_b.space_before = space_bullet_before
         p_b.space_after = space_bullet_after
-        p_b.line_spacing = 1.2
+        p_b.line_spacing = 1.25
+        
+        # Hanging indent
+        pPr = p_b._p.get_or_add_pPr()
+        pPr.set('marL', str(int(Pt(18))))
+        pPr.set('indent', str(int(-Pt(18))))
         
         # Bullet marker
         r_icon = p_b.add_run()
@@ -174,7 +222,7 @@ def create_card(slide, left, top, width, height, title, body_bullets, tag="", bg
         r_icon.font.name = "Malgun Gothic"
         r_icon.font.size = sz_bullet - Pt(1.5)
         r_icon.font.bold = True
-        r_icon.font.color.rgb = C_EMERALD_DARK
+        r_icon.font.color.rgb = C_SEOUL_GREEN
         
         # Keyword highlighting on colon
         if ":" in bullet:
@@ -187,43 +235,43 @@ def create_card(slide, left, top, width, height, title, body_bullets, tag="", bg
             r_key.font.name = "Malgun Gothic"
             r_key.font.size = sz_bullet
             r_key.font.bold = True
-            r_key.font.color.rgb = C_NAVY_PRIMARY
+            r_key.font.color.rgb = C_TEXT_KEYWORD
             
             r_val = p_b.add_run()
             r_val.text = val_part
             r_val.font.name = "Malgun Gothic"
             r_val.font.size = sz_bullet
             r_val.font.bold = False
-            r_val.font.color.rgb = C_TEXT_DARK
+            r_val.font.color.rgb = C_TEXT_BODY
         else:
             r_b = p_b.add_run()
             r_b.text = bullet
             r_b.font.name = "Malgun Gothic"
             r_b.font.size = sz_bullet
-            r_b.font.color.rgb = C_TEXT_DARK
+            r_b.font.color.rgb = C_TEXT_BODY
             if "★" in bullet or "100%" in bullet or "1위" in bullet:
                 r_b.font.bold = True
-                r_b.font.color.rgb = C_EMERALD_DARK
+                r_b.font.color.rgb = C_GREEN_DARK
                 
     return shape
 
 def add_split_slide_with_image(slide, prs, page_num, section_tag, title, subtitle, bullets_data, image_path, img_caption="", mascot_tip=""):
-    apply_slide_bg(slide, prs, C_BG_LIGHT)
+    apply_slide_bg(slide, prs, C_BG_WHITE)
     add_header(slide, prs, section_tag, title, subtitle)
     
     card_w = Inches(5.7)
     card_h = Inches(4.85)
-    create_card(slide, Inches(0.8), Inches(1.8), card_w, card_h, bullets_data["title"], bullets_data["bullets"], tag=bullets_data.get("tag", ""), border_color=C_NAVY_LIGHT)
+    create_card(slide, Inches(0.8), Inches(1.8), card_w, card_h, bullets_data["title"], bullets_data["bullets"], tag=bullets_data.get("tag", ""), border_color=C_BORDER_SOFT)
     
     img_left = Inches(6.8)
     img_top = Inches(1.8)
     img_w = Inches(5.7)
-    img_h = Inches(3.85) if mascot_tip else Inches(4.5)
+    img_h = Inches(3.6) if mascot_tip else Inches(4.55)
     
     if os.path.exists(image_path):
         slide.shapes.add_picture(image_path, img_left, img_top, width=img_w, height=img_h)
         if img_caption:
-            tb_c = slide.shapes.add_textbox(img_left, img_top + img_h + Inches(0.06), img_w, Inches(0.28))
+            tb_c = slide.shapes.add_textbox(img_left, img_top + img_h + Inches(0.04), img_w, Inches(0.28))
             p_c = tb_c.text_frame.paragraphs[0]
             p_c.text = "▲ " + img_caption
             p_c.font.name = "Malgun Gothic"
@@ -233,10 +281,11 @@ def add_split_slide_with_image(slide, prs, page_num, section_tag, title, subtitl
             p_c.alignment = PP_ALIGN.CENTER
             
     if mascot_tip:
-        tip_box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, img_left, img_top + img_h + Inches(0.36), img_w, Inches(0.72))
+        tip_box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, img_left, Inches(5.82), img_w, Inches(0.83))
         tip_box.fill.solid()
-        tip_box.fill.fore_color.rgb = C_EMERALD_LIGHT
-        tip_box.line.color.rgb = C_EMERALD_DARK
+        tip_box.fill.fore_color.rgb = C_MINT_LIGHT
+        tip_box.line.color.rgb = C_BORDER_MINT
+        tip_box.line.width = Pt(1.5)
         tf_t = tip_box.text_frame
         tf_t.word_wrap = True
         tf_t.margin_left = Inches(0.2)
@@ -246,21 +295,21 @@ def add_split_slide_with_image(slide, prs, page_num, section_tag, title, subtitl
         p_t.font.name = "Malgun Gothic"
         p_t.font.size = Pt(11.5)
         p_t.font.bold = True
-        p_t.font.color.rgb = RGBColor(6, 95, 70)
+        p_t.font.color.rgb = C_GREEN_DARK
         p_t.alignment = PP_ALIGN.CENTER
         
     add_footer(slide, prs, page_num)
 
 def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers, rows_data, col_widths, top_card_text="", mascot_text=""):
-    apply_slide_bg(slide, prs, C_BG_LIGHT)
+    apply_slide_bg(slide, prs, C_BG_WHITE)
     add_header(slide, prs, section_tag, title, subtitle)
     
     cur_top = Inches(1.8)
     if top_card_text:
         t_card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), cur_top, Inches(11.7), Inches(0.6))
         t_card.fill.solid()
-        t_card.fill.fore_color.rgb = RGBColor(236, 253, 245)
-        t_card.line.color.rgb = C_EMERALD_DARK
+        t_card.fill.fore_color.rgb = C_MINT_LIGHT
+        t_card.line.color.rgb = C_BORDER_MINT
         tf = t_card.text_frame
         tf.margin_left = Inches(0.2)
         p = tf.paragraphs[0]
@@ -268,7 +317,7 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
         p.font.name = "Malgun Gothic"
         p.font.size = Pt(11.5)
         p.font.bold = True
-        p.font.color.rgb = RGBColor(6, 95, 70)
+        p.font.color.rgb = C_GREEN_DARK
         cur_top += Inches(0.72)
         
     num_rows = len(rows_data) + 1
@@ -285,7 +334,7 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
         cell = table.cell(0, c_idx)
         cell.text = h_text
         cell.fill.solid()
-        cell.fill.fore_color.rgb = C_NAVY_PRIMARY
+        cell.fill.fore_color.rgb = C_GREEN_DARK
         p = cell.text_frame.paragraphs[0]
         p.alignment = PP_ALIGN.CENTER
         p.font.name = "Malgun Gothic"
@@ -300,9 +349,9 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
             cell.text = str(val)
             cell.fill.solid()
             if is_highlight:
-                cell.fill.fore_color.rgb = RGBColor(236, 253, 245)
+                cell.fill.fore_color.rgb = C_MINT_LIGHT
             elif r_idx % 2 == 1:
-                cell.fill.fore_color.rgb = RGBColor(241, 245, 249)
+                cell.fill.fore_color.rgb = RGBColor(248, 250, 252)
             else:
                 cell.fill.fore_color.rgb = C_CARD_BG
                 
@@ -312,7 +361,7 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
             p.font.size = Pt(10.5)
             if is_highlight:
                 p.font.bold = True
-                p.font.color.rgb = C_EMERALD_DARK
+                p.font.color.rgb = C_GREEN_DARK
             else:
                 p.font.color.rgb = C_TEXT_DARK
                 
@@ -323,7 +372,7 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
         m_box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(1.9), m_top, Inches(10.6), Inches(0.95))
         m_box.fill.solid()
         m_box.fill.fore_color.rgb = C_CARD_BG
-        m_box.line.color.rgb = C_EMERALD_DARK
+        m_box.line.color.rgb = C_BORDER_MINT
         tf_m = m_box.text_frame
         tf_m.margin_left = Inches(0.2)
         tf_m.margin_right = Inches(0.2)
@@ -332,7 +381,7 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
         p_m.font.name = "Malgun Gothic"
         p_m.font.size = Pt(11)
         p_m.font.bold = True
-        p_m.font.color.rgb = C_EMERALD_DARK
+        p_m.font.color.rgb = C_SEOUL_GREEN
         p_m2 = tf_m.add_paragraph()
         p_m2.text = mascot_text
         p_m2.font.name = "Malgun Gothic"
@@ -349,17 +398,17 @@ def build_complete_v3_deck():
     blank_layout = prs.slide_layouts[6]
 
     # ====================================================
-    # SLIDE 1: Cover (Vivid Dark Navy + Factory + Mascot)
+    # SLIDE 1: Cover (Seoul Milk Fresh White & Bio Green)
     # ====================================================
     s1 = prs.slides.add_slide(blank_layout)
-    apply_slide_bg(s1, prs, C_NAVY_DARK)
+    apply_slide_bg(s1, prs, C_BG_WHITE)
     
     if os.path.exists(IMG_FACTORY):
-        s1.shapes.add_picture(IMG_FACTORY, Inches(6.5), Inches(0.9), Inches(6.0), Inches(4.6))
+        s1.shapes.add_picture(IMG_FACTORY, Inches(6.5), Inches(1.05), Inches(6.0), Inches(4.3))
     if os.path.exists(IMG_MASCOT):
-        s1.shapes.add_picture(IMG_MASCOT, Inches(10.7), Inches(4.3), Inches(2.1), Inches(2.1))
+        s1.shapes.add_picture(IMG_MASCOT, Inches(10.5), Inches(4.1), Inches(2.1), Inches(2.1))
         
-    tb1 = s1.shapes.add_textbox(Inches(0.8), Inches(1.1), Inches(5.5), Inches(5.2))
+    tb1 = s1.shapes.add_textbox(Inches(0.8), Inches(1.0), Inches(5.5), Inches(4.2))
     tf1 = tb1.text_frame
     tf1.word_wrap = True
     
@@ -369,7 +418,7 @@ def build_complete_v3_deck():
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(13)
     r.font.bold = True
-    r.font.color.rgb = C_EMERALD
+    r.font.color.rgb = C_SEOUL_GREEN
     p.space_after = Pt(14)
     
     p = tf1.add_paragraph()
@@ -378,7 +427,7 @@ def build_complete_v3_deck():
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(28)
     r.font.bold = True
-    r.font.color.rgb = C_TEXT_WHITE
+    r.font.color.rgb = C_TEXT_DARK
     p.space_after = Pt(16)
     
     p = tf1.add_paragraph()
@@ -386,38 +435,60 @@ def build_complete_v3_deck():
     r.text = "한일사료 임가공 배합 라인(월 18,000 M/T) 전용\n표준 첨가량 500g/ton (0.05%) 낙농 전문 처방"
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(13)
-    r.font.color.rgb = RGBColor(148, 163, 184)
-    p.space_after = Pt(22)
-    
-    p = tf1.add_paragraph()
-    r = p.add_run()
-    r.text = "제조 및 판매원: 주식회사 삼원팜텍 (대표이사 김한호)\n충북 옥천 테크노밸리 본사  |  국가 조달청 관납 전국 총판  |  2026. 09"
-    r.font.name = "Malgun Gothic"
-    r.font.size = Pt(11)
     r.font.bold = True
-    r.font.color.rgb = C_EMERALD
+    r.font.color.rgb = C_TEXT_MUTED
+    
+    # Bottom Badge Box
+    b_box = s1.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(5.4), Inches(5.5), Inches(1.2))
+    b_box.fill.solid()
+    b_box.fill.fore_color.rgb = C_MINT_LIGHT
+    b_box.line.color.rgb = C_BORDER_MINT
+    b_box.line.width = Pt(1.5)
+    tf_b = b_box.text_frame
+    tf_b.margin_left = Inches(0.25)
+    tf_b.margin_top = Inches(0.18)
+    p_b0 = tf_b.paragraphs[0]
+    p_b0.text = "제조 및 판매원: 주식회사 삼원팜텍 (대표이사 김한호)"
+    p_b0.font.name = "Malgun Gothic"
+    p_b0.font.size = Pt(11.5)
+    p_b0.font.bold = True
+    p_b0.font.color.rgb = C_GREEN_DARK
+    
+    p_b1 = tf_b.add_paragraph()
+    p_b1.text = "충북 옥천 테크노밸리 첨단 R&D 제조 본사 및 공장  |  국가 조달청 관납 전국 총판  |  2026. 09"
+    p_b1.font.name = "Malgun Gothic"
+    p_b1.font.size = Pt(10)
+    p_b1.font.color.rgb = C_TEXT_MUTED
+    p_b1.space_before = Pt(4)
+    
     add_footer(s1, prs, 1)
 
     # ====================================================
     # SLIDE 2: Executive Summary (4 Hero KPIs + Mascot + Pouch)
     # ====================================================
     s2 = prs.slides.add_slide(blank_layout)
-    apply_slide_bg(s2, prs, C_BG_LIGHT)
+    apply_slide_bg(s2, prs, C_BG_WHITE)
     add_header(s2, prs, "EXECUTIVE SUMMARY", "핵심 제안 요약: 낙농 사료 원가는 낮추고 산유량과 유질은 극대화", "한일사료 18,000톤 라인 맞춤형 삼원팜텍 고농축 프리믹스 핵심 4대 지표")
     
     kpis = [
-        ("500g", "/ ton", "표준 투입량", ["투입량 혁신: 시중(1~2kg) 대비 50~75% 절감", "공간 확보: 배합 공간 1kg 이상 확보", "영양 보존: 옥수수·대두박 영양 100% 보존"]),
-        ("3,000원", "/ ton", "사료 톤당 비용", ["적용 단가: 제품 기준가 6,000원/kg 적용", "원가 절감: 기존 대비 톤당 3,000~5,000원 절감", "비용 방어: 사료 제조원가 즉각 절감"]),
-        ("5,400만원", "/ 월", "월간 총 공급액", ["공급 규모: 월 18,000톤 기준 총 9,000kg", "월간 절감: 기존 대비 월 최대 1억원 절감", "목장 환원: 연간 12억원 조합원 목장 환원"]),
-        ("CV < 5%", "초정밀", "균질 혼화도", ["공정 일치: Twin-Shaft 패들 믹서 최적화", "내열성 보증: 85~110℃ 펠렛열 95% 생존", "품질 보증: 로트별 공인 COA 무결점 보증"])
+        ("500g", "/ ton", "표준 투입량", ["투입량 혁신 : 시중(1~2kg) 대비 50~75% 절감", "공간 확보 : 배합 공간 1kg 이상 확보", "영양 보존 : 옥수수·대두박 영양 100% 보존"]),
+        ("3,000원", "/ ton", "사료 톤당 비용", ["적용 단가 : 제품 기준가 6,000원/kg 적용", "원가 절감 : 기존 대비 톤당 3,000~5,000원 절감", "비용 방어 : 사료 제조원가 즉각 절감"]),
+        ("5,400만원", "/ 월", "월간 총 공급액", ["공급 규모 : 월 18,000톤 기준 총 9,000kg", "월간 절감 : 기존 대비 월 최대 1억원 절감", "목장 환원 : 연간 12억원 조합원 목장 환원"]),
+        ("CV < 5%", "초정밀", "균질 혼화도", ["공정 일치 : Twin-Shaft 패들 믹서 최적화", "내열성 보증 : 85~110℃ 펠렛열 95% 생존", "품질 보증 : 로트별 공인 COA 무결점 보증"])
     ]
     for i, (num, unit, title, bullets) in enumerate(kpis):
         x = Inches(0.8 + i * 2.95)
         slide_card = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, x, Inches(1.8), Inches(2.8), Inches(3.6))
         slide_card.fill.solid()
         slide_card.fill.fore_color.rgb = C_CARD_BG
-        slide_card.line.color.rgb = C_EMERALD_DARK
-        slide_card.line.width = Pt(1.5)
+        slide_card.line.color.rgb = C_BORDER_SOFT
+        slide_card.line.width = Pt(1.2)
+        
+        # Card top accent line
+        c_acc = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, x + Inches(0.1), Inches(1.8), Inches(2.6), Pt(3.5))
+        c_acc.fill.solid()
+        c_acc.fill.fore_color.rgb = C_SEOUL_GREEN
+        c_acc.line.fill.background()
         
         tb = s2.shapes.add_textbox(x + Inches(0.18), Inches(1.95), Inches(2.44), Inches(3.3))
         tf = tb.text_frame
@@ -427,7 +498,7 @@ def build_complete_v3_deck():
         p0.font.name = "Malgun Gothic"
         p0.font.size = Pt(12)
         p0.font.bold = True
-        p0.font.color.rgb = C_EMERALD_DARK
+        p0.font.color.rgb = C_SEOUL_GREEN
         
         p1 = tf.add_paragraph()
         r1 = p1.add_run()
@@ -435,7 +506,7 @@ def build_complete_v3_deck():
         r1.font.name = "Malgun Gothic"
         r1.font.size = Pt(24)
         r1.font.bold = True
-        r1.font.color.rgb = C_NAVY_PRIMARY
+        r1.font.color.rgb = C_SEOUL_GREEN
         
         r2 = p1.add_run()
         r2.text = " " + unit
@@ -450,26 +521,31 @@ def build_complete_v3_deck():
             pb.space_after = Pt(4)
             pb.line_spacing = 1.15
             
+            pPr = pb._p.get_or_add_pPr()
+            pPr.set('marL', str(int(Pt(14))))
+            pPr.set('indent', str(int(-Pt(14))))
+            
             parts = b.split(":", 1)
             r_k = pb.add_run()
             r_k.text = "▶ " + parts[0].strip() + " :"
             r_k.font.name = "Malgun Gothic"
             r_k.font.size = Pt(10.5)
             r_k.font.bold = True
-            r_k.font.color.rgb = C_NAVY_PRIMARY
+            r_k.font.color.rgb = C_TEXT_KEYWORD
             
             r_v = pb.add_run()
             r_v.text = parts[1]
             r_v.font.name = "Malgun Gothic"
             r_v.font.size = Pt(10)
-            r_v.font.color.rgb = C_TEXT_DARK
+            r_v.font.color.rgb = C_TEXT_BODY
             
     if os.path.exists(IMG_MASCOT):
         s2.shapes.add_picture(IMG_MASCOT, Inches(0.8), Inches(5.6), Inches(1.2), Inches(1.2))
     banner = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(2.2), Inches(5.6), Inches(10.3), Inches(1.2))
     banner.fill.solid()
-    banner.fill.fore_color.rgb = C_EMERALD_LIGHT
-    banner.line.color.rgb = C_EMERALD_DARK
+    banner.fill.fore_color.rgb = C_MINT_LIGHT
+    banner.line.color.rgb = C_BORDER_MINT
+    banner.line.width = Pt(1.5)
     tf_b = banner.text_frame
     tf_b.margin_left = Inches(0.3)
     p_b = tf_b.paragraphs[0]
@@ -477,14 +553,14 @@ def build_complete_v3_deck():
     p_b.font.name = "Malgun Gothic"
     p_b.font.size = Pt(12.5)
     p_b.font.bold = True
-    p_b.font.color.rgb = RGBColor(6, 95, 70)
+    p_b.font.color.rgb = C_GREEN_DARK
     add_footer(s2, prs, 2)
 
     # ====================================================
     # SLIDE 3: Agenda (6 Visual Cards)
     # ====================================================
     s3 = prs.slides.add_slide(blank_layout)
-    apply_slide_bg(s3, prs, C_BG_LIGHT)
+    apply_slide_bg(s3, prs, C_BG_WHITE)
     add_header(s3, prs, "AGENDA", "제안서 목차 및 프레젠테이션 진행 순서", "체계적인 6개 부문 분석 및 실행 로드맵")
     
     tocs = [
@@ -498,7 +574,7 @@ def build_complete_v3_deck():
     for i, (part, title, desc_list) in enumerate(tocs):
         row = i // 3
         col = i % 3
-        create_card(s3, Inches(0.8 + col * 3.95), Inches(1.8 + row * 2.45), Inches(3.8), Inches(2.25), f"{part}. {title}", desc_list, tag=f"SECTION 0{i+1}", border_color=C_NAVY_LIGHT)
+        create_card(s3, Inches(0.8 + col * 3.95), Inches(1.8 + row * 2.45), Inches(3.8), Inches(2.25), f"{part}. {title}", desc_list, tag=f"SECTION 0{i+1}", border_color=C_BORDER_SOFT)
     add_footer(s3, prs, 3)
 
     # ====================================================
@@ -1067,17 +1143,17 @@ def build_complete_v3_deck():
                                 "기상 이변이나 물류 파동 시에도 한일사료의 사료 생산 라인이 멈추는 일은 결코 없습니다.")
 
     # ====================================================
-    # SLIDE 30: Conclusion & Official Closing (Dark Navy)
+    # SLIDE 30: Conclusion & Official Closing (Seoul Milk Fresh White)
     # ====================================================
     s30 = prs.slides.add_slide(blank_layout)
-    apply_slide_bg(s30, prs, C_NAVY_DARK)
+    apply_slide_bg(s30, prs, C_BG_WHITE)
     
     if os.path.exists(IMG_FACTORY):
-        s30.shapes.add_picture(IMG_FACTORY, Inches(6.5), Inches(0.9), Inches(6.0), Inches(4.6))
+        s30.shapes.add_picture(IMG_FACTORY, Inches(6.5), Inches(1.05), Inches(6.0), Inches(4.3))
     if os.path.exists(IMG_MASCOT):
-        s30.shapes.add_picture(IMG_MASCOT, Inches(10.7), Inches(4.3), Inches(2.1), Inches(2.1))
+        s30.shapes.add_picture(IMG_MASCOT, Inches(10.5), Inches(4.1), Inches(2.1), Inches(2.1))
         
-    tb30 = s30.shapes.add_textbox(Inches(0.8), Inches(1.1), Inches(5.5), Inches(5.3))
+    tb30 = s30.shapes.add_textbox(Inches(0.8), Inches(1.0), Inches(5.5), Inches(4.4))
     tf30 = tb30.text_frame
     tf30.word_wrap = True
     
@@ -1087,51 +1163,71 @@ def build_complete_v3_deck():
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(13)
     r.font.bold = True
-    r.font.color.rgb = C_EMERALD
-    p.space_after = Pt(14)
+    r.font.color.rgb = C_SEOUL_GREEN
+    p.space_after = Pt(12)
     
     p = tf30.add_paragraph()
     r = p.add_run()
     r.text = "서울우유 사료의 새로운 도약,\n(주)삼원팜텍이 최고의 품질과\n경제성으로 함께하겠습니다!"
     r.font.name = "Malgun Gothic"
-    r.font.size = Pt(26)
+    r.font.size = Pt(25)
     r.font.bold = True
-    r.font.color.rgb = C_TEXT_WHITE
-    p.space_after = Pt(16)
+    r.font.color.rgb = C_TEXT_DARK
+    p.space_after = Pt(14)
     
     closing_bullets = [
-        "표준 투입량 혁신: 서울우유 월 18,000톤 라인 맞춤형 500g/ton (단 3,000원) 처방",
-        "압도적 제조원가 방어: 월 5,400만원 공급으로 연간 12억원 제조원가 방어",
-        "실증된 낙농 생산성: 하절기 산유량 방어(+1.8kg) 및 체세포수 42% 급감 실증",
-        "공공 조달 최고 신뢰: 조달청 관납 전국 총판의 검증된 공공 신뢰도"
+        "표준 투입량 혁신 : 서울우유 월 18,000톤 라인 맞춤형 500g/ton (단 3,000원) 처방",
+        "압도적 제조원가 방어 : 월 5,400만원 공급으로 연간 12억원 제조원가 방어",
+        "실증된 낙농 생산성 : 하절기 산유량 방어(+1.8kg) 및 체세포수 42% 급감 실증",
+        "공공 조달 최고 신뢰 : 조달청 관납 전국 총판의 검증된 공공 신뢰도"
     ]
     for cb in closing_bullets:
         p = tf30.add_paragraph()
-        p.space_before = Pt(4)
-        p.space_after = Pt(6)
+        p.space_before = Pt(3)
+        p.space_after = Pt(5)
+        
+        pPr = p._p.get_or_add_pPr()
+        pPr.set('marL', str(int(Pt(16))))
+        pPr.set('indent', str(int(-Pt(16))))
+        
         parts = cb.split(":", 1)
         
         r_k = p.add_run()
         r_k.text = "▶ " + parts[0].strip() + " :"
         r_k.font.name = "Malgun Gothic"
-        r_k.font.size = Pt(12)
+        r_k.font.size = Pt(11)
         r_k.font.bold = True
-        r_k.font.color.rgb = C_EMERALD
+        r_k.font.color.rgb = C_SEOUL_GREEN
         
         r_v = p.add_run()
         r_v.text = parts[1]
         r_v.font.name = "Malgun Gothic"
-        r_v.font.size = Pt(11.5)
-        r_v.font.color.rgb = RGBColor(226, 232, 240)
+        r_v.font.size = Pt(10.5)
+        r_v.font.color.rgb = C_TEXT_BODY
     
-    p = tf30.add_paragraph()
-    p.space_before = Pt(16)
-    r = p.add_run()
-    r.text = "공식 제조 및 공급원: 주식회사 삼원팜텍  |  대표이사 김한호 (직인생략)\n본사: 충북 옥천군 옥천읍 테크노밸리로 88  |  문의: 043-731-8800"
-    r.font.name = "Malgun Gothic"
-    r.font.size = Pt(10.5)
-    r.font.bold = True
-    r.font.color.rgb = C_EMERALD
+    # Bottom Contact Box
+    b_c30 = s30.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(5.65), Inches(5.5), Inches(1.0))
+    b_c30.fill.solid()
+    b_c30.fill.fore_color.rgb = C_MINT_LIGHT
+    b_c30.line.color.rgb = C_BORDER_MINT
+    b_c30.line.width = Pt(1.5)
+    tf_c30 = b_c30.text_frame
+    tf_c30.margin_left = Inches(0.2)
+    tf_c30.margin_top = Inches(0.14)
+    p_c0 = tf_c30.paragraphs[0]
+    p_c0.text = "공식 제조 및 공급원: 주식회사 삼원팜텍  |  대표이사 김한호"
+    p_c0.font.name = "Malgun Gothic"
+    p_c0.font.size = Pt(11)
+    p_c0.font.bold = True
+    p_c0.font.color.rgb = C_GREEN_DARK
+    
+    p_c1 = tf_c30.add_paragraph()
+    p_c1.text = "충북 옥천 테크노밸리 첨단 R&D 제조 본사 및 공장  |  전국 조달청 관납 총판"
+    p_c1.font.name = "Malgun Gothic"
+    p_c1.font.size = Pt(9.5)
+    p_c1.font.color.rgb = C_TEXT_MUTED
+    p_c1.space_before = Pt(3)
+    
     add_footer(s30, prs, 30)
 
     out_file = r"C:\Users\master\vet_animal_hospital\s_project\S-NACF_고농축사료첨가제_제안_30장덱_삼원팜텍.pptx"
