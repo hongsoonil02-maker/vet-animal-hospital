@@ -1,0 +1,7 @@
+file 'C:/Users/master/vet_animal_hospital/s_project/clips_v3/scene_01_padded.mp3'
+file 'C:/Users/master/vet_animal_hospital/s_project/clips_v3/scene_02_padded.mp3'
+file 'C:/Users/master/vet_animal_hospital/s_project/clips_v3/scene_03_padded.mp3'
+file 'C:/Users/master/vet_animal_hospital/s_project/clips_v3/scene_04_padded.mp3'
+file 'C:/Users/master/vet_animal_hospital/s_project/clips_v3/scene_05_padded.mp3'
+file 'C:/Users/master/vet_animal_hospital/s_project/clips_v3/scene_06_padded.mp3'
+file 'C:/Users/master/vet_animal_hospital/s_project/clips_v3/scene_07_padded.mp3'

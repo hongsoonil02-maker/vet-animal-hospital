@@ -8,3 +8,9 @@ dist/
 Thumbs.db
 *.log
 .kilo/
+__pycache__/
+*.pyc
+s_project/clips/
+s_project/clips_v3/
+s_project/test*
+
