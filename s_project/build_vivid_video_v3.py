@@ -42,7 +42,7 @@ SHOTS = [
     },
     {
         "scene_id": 1, "shot_idx": 3, "dur": 10.9,
-        "image": os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg"),
+        "image": os.path.join(ASSETS_DIR, "child_drinking_milk.jpg"),
         "tag": "SOLUTION PARADIGM | 혁신 처방", "tag_col": (16, 185, 129),
         "headline": "원가 방어 + 낙농 생산성 극대화 = 삼원팜텍 고농축 솔루션",
         "stat_num": "500g", "stat_label": "톤당 초고농축 투입",
@@ -106,7 +106,7 @@ SHOTS = [
     },
     {
         "scene_id": 3, "shot_idx": 3, "dur": 11.0,
-        "image": os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg"),
+        "image": os.path.join(ASSETS_DIR, "child_drinking_milk_girl.jpg"),
         "tag": "SURPLUS & PROFIT | 조합원 환원", "tag_col": (16, 185, 129),
         "headline": "서울우유 경영 실익 및 낙농 조합원 목장 환원 극대화",
         "stat_num": "12억원+", "stat_label": "연간 원가 방어 규모",
@@ -234,7 +234,7 @@ SHOTS = [
     },
     {
         "scene_id": 7, "shot_idx": 3, "dur": 9.3,
-        "image": os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg"),
+        "image": os.path.join(ASSETS_DIR, "child_drinking_milk.jpg"),
         "tag": "PARTNERSHIP | 성공의 동반자", "tag_col": (5, 150, 105),
         "headline": "서울우유 사료의 새로운 도약, 삼원팜텍이 함께합니다",
         "stat_num": "No.1", "stat_label": "대한민국 낙농 파트너",
@@ -246,58 +246,110 @@ SHOTS = [
 
 def render_vivid_shot_frame(shot_data, out_png):
     width, height = 1920, 1080
-    img = Image.new("RGB", (width, height), color=(10, 25, 47)) # Dark Navy
+    
+    # Seoul Milk Brand Identity: Pure Milk White & Signature Green
+    C_BG = (255, 255, 255)                  # Pure Milk White
+    C_CARD_BG = (248, 250, 252)             # Crisp Slate 50 Card
+    C_BORDER_CARD = (226, 232, 240)         # Soft Slate 200 Border
+    C_GREEN_PRIMARY = (0, 139, 71)          # #008B47 Seoul Milk Signature Green
+    C_GREEN_DARK = (5, 122, 70)             # Deep Forest Green
+    C_GREEN_LIGHT = (240, 253, 244)         # #F0FDF4 Soft Milk Mint
+    C_GREEN_BORDER = (167, 243, 208)        # Fresh Mint Outline
+    C_TEXT_TITLE = (15, 23, 42)             # Slate 900 Charcoal
+    C_TEXT_BODY = (51, 65, 85)              # Slate 700
+    C_TEXT_MUTED = (100, 116, 139)          # Slate 500
+    C_DIVIDER = (226, 232, 240)             # Slate 200 Divider
+
+    img = Image.new("RGB", (width, height), color=C_BG)
     draw = ImageDraw.Draw(img)
 
-    # Top emerald line
-    draw.rectangle([(0, 0), (width, 8)], fill=(16, 185, 129))
+    # Top accent line - Seoul Milk Fresh Green
+    draw.rectangle([(0, 0), (width, 10)], fill=C_GREEN_PRIMARY)
 
-    # Top Brand Bar (Seoul Milk Dedicated)
-    draw.text((70, 32), "주식회사 삼원팜텍  |  SAMWON PHARMTECH", font=get_font(21, bold=True), fill=(16, 185, 129))
-    draw.text((1200, 34), "서울우유 한일사료 임가공(월 18,000톤) 맞춤형 제안", font=get_font(18), fill=(148, 163, 184))
-    draw.line([(70, 72), (width - 70, 72)], fill=(30, 58, 138), width=2)
+    # Top Brand Bar
+    draw.text((70, 32), "(주)삼원팜텍  |  SAMWON PHARMTECH", font=get_font(21, bold=True), fill=C_GREEN_PRIMARY)
+    draw.text((1200, 34), "서울우유 한일사료 임가공(월 18,000톤) 맞춤형 제안", font=get_font(18), fill=C_TEXT_MUTED)
+    draw.line([(70, 72), (width - 70, 72)], fill=C_DIVIDER, width=2)
 
     # Left Column (width ~ 960px)
     # Tag Pill
-    tag_col = shot_data["tag_col"]
-    draw.rounded_rectangle([(70, 95), (440, 138)], radius=12, fill=(15, 32, 67), outline=tag_col, width=2)
-    draw.text((90, 104), f"★ {shot_data['tag']}", font=get_font(17, bold=True), fill=tag_col)
+    tag_bg = C_GREEN_LIGHT
+    tag_outline = C_GREEN_PRIMARY
+    draw.rounded_rectangle([(70, 95), (460, 138)], radius=12, fill=tag_bg, outline=tag_outline, width=2)
+    draw.text((90, 104), f"★ {shot_data['tag']}", font=get_font(17, bold=True), fill=C_GREEN_DARK)
 
     # Headline
     hl = shot_data["headline"]
-    draw.text((70, 155), hl, font=get_font(30, bold=True), fill=(255, 255, 255))
+    draw.text((70, 155), hl, font=get_font(30, bold=True), fill=C_TEXT_TITLE)
 
     # Left Main Card Box
     card_top = 230
     card_bottom = 810
     card_w = 950
-    draw.rounded_rectangle([(70, card_top), (70 + card_w, card_bottom)], radius=16, fill=(15, 32, 67), outline=(30, 58, 138), width=2)
+    draw.rounded_rectangle([(70, card_top), (70 + card_w, card_bottom)], radius=16, fill=C_CARD_BG, outline=C_BORDER_CARD, width=2)
+    # Card top green accent line
+    draw.rounded_rectangle([(70, card_top), (70 + card_w, card_top + 6)], radius=4, fill=C_GREEN_PRIMARY)
 
-    # Hero KPI Stat Box inside Left Card (Top of Card)
+    # Hero KPI Stat Box inside Left Card
     stat_box_w = card_w - 60
-    draw.rounded_rectangle([(100, card_top + 25), (100 + stat_box_w, card_top + 145)], radius=12, fill=(10, 25, 47), outline=(16, 185, 129), width=2)
+    draw.rounded_rectangle([(100, card_top + 25), (100 + stat_box_w, card_top + 145)], radius=12, fill=(255, 255, 255), outline=C_GREEN_BORDER, width=2)
     
     # Hero Stat Number & Label
-    draw.text((130, card_top + 40), shot_data["stat_num"], font=get_font(52, bold=True), fill=(16, 185, 129))
-    draw.text((450, card_top + 55), "▶  " + shot_data["stat_label"], font=get_font(24, bold=True), fill=(241, 245, 249))
-    draw.text((450, card_top + 95), "한일사료 18,000톤 라인 표준 특화 스펙", font=get_font(16), fill=(148, 163, 184))
+    draw.text((130, card_top + 40), shot_data["stat_num"], font=get_font(52, bold=True), fill=C_GREEN_PRIMARY)
+    draw.text((450, card_top + 55), "▶  " + shot_data["stat_label"], font=get_font(24, bold=True), fill=C_TEXT_TITLE)
+    draw.text((450, card_top + 95), "한일사료 18,000톤 라인 표준 특화 스펙", font=get_font(16), fill=C_TEXT_MUTED)
 
-    # Bullet Points
+    # Bullet Points with clean word-based wrap and hanging indent
     bullets = shot_data["card_bullets"]
-    b_start_y = card_top + 180
-    for idx, b_text in enumerate(bullets):
-        by = b_start_y + idx * 85
-        # Marker
-        draw.rounded_rectangle([(105, by + 6), (122, by + 23)], radius=4, fill=(16, 185, 129))
-        if len(b_text) > 33:
-            t1 = b_text[:33]
-            t2 = b_text[33:]
-            draw.text((140, by), t1, font=get_font(21, bold=True), fill=(241, 245, 249))
-            draw.text((140, by + 28), t2, font=get_font(18), fill=(203, 213, 225))
-        else:
-            draw.text((140, by + 2), b_text, font=get_font(21, bold=True), fill=(241, 245, 249))
+    b_start_y = card_top + 175
+    gap_y = 90 if len(bullets) <= 3 else 72
+    f_b_key = get_font(19, bold=True)
+    f_b_val = get_font(18, bold=False)
+    avail_w = 800
 
-    # Right Column: Big Visual Spotlight (Photo / Chart / Mascot)
+    for idx, b_text in enumerate(bullets):
+        by = b_start_y + idx * gap_y
+        # Marker pill
+        draw.rounded_rectangle([(105, by + 5), (120, by + 20)], radius=4, fill=C_GREEN_PRIMARY)
+        if ":" in b_text:
+            parts = b_text.split(":", 1)
+            k_str = parts[0].strip() + " : "
+            v_str = parts[1].strip()
+            k_bbox = draw.textbbox((0, 0), k_str, font=f_b_key)
+            k_w = k_bbox[2] - k_bbox[0]
+            draw.text((135, by), k_str, font=f_b_key, fill=C_TEXT_TITLE)
+
+            words = v_str.split(" ")
+            line1, line2 = [], []
+            cur_w = k_w
+            for w in words:
+                w_bbox = draw.textbbox((0, 0), " " + w if line1 else w, font=f_b_val)
+                ww = w_bbox[2] - w_bbox[0]
+                if cur_w + ww <= avail_w:
+                    line1.append(w)
+                    cur_w += ww
+                else:
+                    line2.append(w)
+            draw.text((135 + k_w, by), " ".join(line1), font=f_b_val, fill=C_TEXT_BODY)
+            if line2:
+                draw.text((135, by + 26), " ".join(line2), font=f_b_val, fill=C_TEXT_BODY)
+        else:
+            words = b_text.split(" ")
+            line1, line2 = [], []
+            cur_w = 0
+            for w in words:
+                w_bbox = draw.textbbox((0, 0), " " + w if line1 else w, font=f_b_key)
+                ww = w_bbox[2] - w_bbox[0]
+                if cur_w + ww <= avail_w:
+                    line1.append(w)
+                    cur_w += ww
+                else:
+                    line2.append(w)
+            draw.text((135, by), " ".join(line1), font=f_b_key, fill=C_TEXT_TITLE)
+            if line2:
+                draw.text((135, by + 26), " ".join(line2), font=f_b_val, fill=C_TEXT_BODY)
+
+    # Right Column: Big Visual Spotlight
     img_x = 1060
     img_y = 95
     img_w = 790
@@ -309,32 +361,32 @@ def render_vivid_shot_frame(shot_data, out_png):
             with Image.open(p_path) as p_img:
                 p_resized = p_img.resize((img_w, img_h), Image.Resampling.LANCZOS)
                 img.paste(p_resized, (img_x, img_y))
-                # Frame
-                draw.rectangle([(img_x, img_y), (img_x + img_w, img_y + img_h)], outline=(16, 185, 129), width=3)
+                # Soft elegant border
+                draw.rectangle([(img_x, img_y), (img_x + img_w, img_y + img_h)], outline=C_GREEN_BORDER, width=2)
         except Exception as e:
             print(f"Error loading image {p_path}: {e}")
 
     # Subtitle / Lower-Third Caption Banner
     sub_top = 840
     sub_h = 135
-    draw.rounded_rectangle([(70, sub_top), (width - 70, sub_top + sub_h)], radius=14, fill=(15, 32, 67), outline=(16, 185, 129), width=2)
+    draw.rounded_rectangle([(70, sub_top), (width - 70, sub_top + sub_h)], radius=14, fill=C_GREEN_LIGHT, outline=C_GREEN_BORDER, width=2)
     
     # Subtitle Badge
-    draw.rounded_rectangle([(95, sub_top + 15), (260, sub_top + 48)], radius=6, fill=(16, 185, 129))
-    draw.text((115, sub_top + 20), "NARRATION", font=get_font(15, bold=True), fill=(10, 25, 47))
+    draw.rounded_rectangle([(95, sub_top + 15), (260, sub_top + 48)], radius=6, fill=C_GREEN_PRIMARY)
+    draw.text((115, sub_top + 20), "NARRATION", font=get_font(15, bold=True), fill=(255, 255, 255))
 
     # Dots Indicator on right of subtitle banner
     cur_dot, total_dots = shot_data["dots"]
     dots_text = f"Scene 0{shot_data['scene_id']}  " + "● " * cur_dot + "○ " * (total_dots - cur_dot)
-    draw.text((width - 320, sub_top + 20), dots_text, font=get_font(18, bold=True), fill=(52, 211, 153))
+    draw.text((width - 320, sub_top + 20), dots_text, font=get_font(18, bold=True), fill=C_GREEN_DARK)
 
     # Subtitle Spoken Text
-    draw.text((95, sub_top + 62), shot_data["subtitle"], font=get_font(23, bold=True), fill=(255, 255, 255))
+    draw.text((95, sub_top + 62), shot_data["subtitle"], font=get_font(23, bold=True), fill=C_TEXT_TITLE)
 
     # Bottom Footer
-    draw.line([(70, 995), (width - 70, 995)], fill=(30, 58, 138), width=1)
-    draw.text((70, 1015), "(주)삼원팜텍 대표이사 김한호  |  충북 옥천 테크노밸리 본사 및 공장  |  국가 조달청 관납 전국 총판", font=get_font(18), fill=(148, 163, 184))
-    draw.text((1680, 1015), f"Scene 0{shot_data['scene_id']} / 07", font=get_font(20, bold=True), fill=(16, 185, 129))
+    draw.line([(70, 995), (width - 70, 995)], fill=C_DIVIDER, width=1)
+    draw.text((70, 1015), "(주)삼원팜텍 대표이사 김한호  |  충북 옥천 테크노밸리 본사 및 공장  |  국가 조달청 관납 전국 총판", font=get_font(18), fill=C_TEXT_MUTED)
+    draw.text((1680, 1015), f"Scene 0{shot_data['scene_id']} / 07", font=get_font(20, bold=True), fill=C_GREEN_PRIMARY)
 
     img.save(out_png, quality=95)
     print(f"Generated frame: {os.path.basename(out_png)}")

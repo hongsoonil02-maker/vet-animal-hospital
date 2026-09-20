@@ -28,7 +28,7 @@ IMG_DAIRY = os.path.join(ASSETS_DIR, "dairy_cows_smart_farm_1789881841764.jpg")
 IMG_CALF = os.path.join(ASSETS_DIR, "dairy_calf_nutrition.jpg")
 IMG_CAPSULE = os.path.join(ASSETS_DIR, "micro_capsule_science_1789881698716.jpg")
 IMG_POUCH = os.path.join(ASSETS_DIR, "premix_product_packaging_1789881875376.jpg")
-IMG_MASCOT = os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg")
+IMG_MASCOT = os.path.join(ASSETS_DIR, "child_drinking_milk.jpg")
 
 CHART_COST = os.path.join(ASSETS_DIR, "chart_cost_comparison.png")
 CHART_HOMOGENEITY = os.path.join(ASSETS_DIR, "chart_homogeneity_cv.png")

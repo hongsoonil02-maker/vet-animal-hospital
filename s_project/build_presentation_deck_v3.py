@@ -51,7 +51,9 @@ IMG_DAIRY = os.path.join(ASSETS_DIR, "dairy_cows_smart_farm_1789881841764.jpg")
 IMG_CALF = os.path.join(ASSETS_DIR, "dairy_calf_nutrition.jpg")
 IMG_CAPSULE = os.path.join(ASSETS_DIR, "micro_capsule_science_1789881698716.jpg")
 IMG_POUCH = os.path.join(ASSETS_DIR, "premix_product_packaging_1789881875376.jpg")
-IMG_MASCOT = os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg")
+IMG_MASCOT = os.path.join(ASSETS_DIR, "child_drinking_milk.jpg")
+IMG_CHILD_MILK = os.path.join(ASSETS_DIR, "child_drinking_milk.jpg")
+IMG_CHILD_MILK_GIRL = os.path.join(ASSETS_DIR, "child_drinking_milk_girl.jpg")
 IMG_PELLET = os.path.join(ASSETS_DIR, "feed_pellet_extrusion.jpg")
 IMG_LAB = os.path.join(ASSETS_DIR, "livestock_nutrition_lab.jpg")
 
@@ -377,7 +379,7 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
         tf_m.margin_left = Inches(0.2)
         tf_m.margin_right = Inches(0.2)
         p_m = tf_m.paragraphs[0]
-        p_m.text = "★ 삼원팜텍 낙농 바이오 닥터의 분석 요약"
+        p_m.text = "★ 삼원팜텍 낙농 바이오 연구팀 분석 제언 (신선 원유 & 건강 가치)"
         p_m.font.name = "Malgun Gothic"
         p_m.font.size = Pt(11)
         p_m.font.bold = True

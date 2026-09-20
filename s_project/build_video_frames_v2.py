@@ -19,7 +19,7 @@ SCENE_IMAGES = {
     7: os.path.join(ASSETS_DIR, "company_factory_panorama_1789881641339.jpg"),
 }
 
-MASCOT_PATH = os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg")
+MASCOT_PATH = os.path.join(ASSETS_DIR, "child_drinking_milk.jpg")
 
 def render_vivid_scene_frame(scene_data, scene_num, total_scenes=7, output_path="frame.png"):
     width, height = 1920, 1080
