@@ -24,9 +24,8 @@ ASSETS_DIR = r"C:\Users\master\vet_animal_hospital\s_project\assets"
 IMG_FACTORY = os.path.join(ASSETS_DIR, "company_factory_panorama_1789881641339.jpg")
 IMG_FEED_LINE = os.path.join(ASSETS_DIR, "feed_production_line_1789881658069.jpg")
 IMG_GRAIN_MARKET = os.path.join(ASSETS_DIR, "grain_market_volatility_1789881820210.jpg")
-IMG_HANWOO = os.path.join(ASSETS_DIR, "healthy_livestock_farm_1789881676601.jpg")
 IMG_DAIRY = os.path.join(ASSETS_DIR, "dairy_cows_smart_farm_1789881841764.jpg")
-IMG_PIGLET = os.path.join(ASSETS_DIR, "piglet_farm_health_1789881716412.jpg")
+IMG_CALF = os.path.join(ASSETS_DIR, "dairy_calf_nutrition.jpg")
 IMG_CAPSULE = os.path.join(ASSETS_DIR, "micro_capsule_science_1789881698716.jpg")
 IMG_POUCH = os.path.join(ASSETS_DIR, "premix_product_packaging_1789881875376.jpg")
 IMG_MASCOT = os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg")
@@ -254,7 +253,7 @@ def build_deck():
         ("Part III", "핵심 경제성 및 밸류 분석", "500g/ton 처방의 공학적 의의, 톤당 3,000원 원가 비교"),
         ("Part IV", "8대 핵심 솔루션 상세 매트릭스", "기호성, 소화효소, GABA, 효모, 생균제, 곰팡이독소, 천연약제"),
         ("Part V", "한일사료 임가공 공정 적합성", "초정밀 혼화도(CV<5%), 펠렛 내열성, 고결방지(Anti-Caking)"),
-        ("Part VI", "기대효과 및 실행 로드맵", "축종별(한우/낙농/양돈) 생산성 지표, 3단계 도입 일정")
+        ("Part VI", "기대효과 및 실행 로드맵", "낙농(착유우/육성우) 생산성 지표, 3단계 도입 일정")
     ]
     for i, (part, title, desc) in enumerate(tocs):
         row = i // 3
@@ -273,7 +272,7 @@ def build_deck():
                         "bullets": [
                             "국제 옥수수·대두박 시세 급등으로 사료 제조원가 압박 심화",
                             "기후변화에 따른 하절기 폭염 일수 증가 및 사료 섭취량 급감",
-                            "젖소 산유량 저하, 한우 비육 정체, 자돈 설사 폐사율 증가",
+                            "혹서기 착유우 산유량 급감, 번식 장애, 송아지 설사 폐사율 증가",
                             "무항생제 축산 정책 강화로 친환경 면역 물질 도입 시급",
                             "사료 원가는 철저히 사수하면서 품질을 높일 혁신 처방 필수"
                         ]},
@@ -349,11 +348,11 @@ def build_deck():
                  "삼원팜텍 500g 전용 공정 프로토콜 준수 (CV<5%)",
                  "마이크로 인그리디언트 자동 투입 라인 연계",
                  "로트별 품질 성적서 상호 검증 및 공정 모니터링"], tag="임가공 배합처", border_color=C_NAVY_LIGHT)
-    create_card(s8, Inches(8.7), Inches(1.8), Inches(3.8), Inches(4.7), "S-NACF 서울축협 (수요처)", 
+    create_card(s8, Inches(8.7), Inches(1.8), Inches(3.8), Inches(4.7), "서울우유협동조합 (수요처)", 
                 ["사료 원가 절감(월 최대 1억원)을 통한 수익성 극대화",
-                 "조합원 농가에 최상급 고품질 사료 공급",
-                 "축종별 생산성(FCR, 일당증체량, 등급 출현율) 대폭 향상",
-                 "서울축협 사료 브랜드의 시장 리더십 확립"], tag="수요처 / 농가", border_color=C_EMERALD_DARK)
+                 "조합원 낙농 목장에 최상급 고품질 사료 공급",
+                 "낙농 생산성(산유량 방어, 체세포수 1등급, 유방염 예방) 극대화",
+                 "서울우유 낙농 사료 브랜드의 시장 리더십 확립"], tag="수요처 / 목장", border_color=C_EMERALD_DARK)
     add_footer(s8, prs, 8)
 
     # ----------------------------------------------------
@@ -572,9 +571,9 @@ def build_deck():
                  "기전: 가축의 후각·미각 수용체를 즉각 자극하여 침샘 및 위액 분비 유도",
                  "식욕 중추를 활성화하여 섭취 지연 현상 원천 차단"], tag="SPEC & MECHANISM")
     create_card(s17, Inches(6.8), Inches(1.8), Inches(5.7), Inches(4.7), "적용 효과 및 실증 데이터", 
-                ["초기 사료 섭취량(ADFI) 8~15% 대폭 개선",
-                 "자돈 이유 초기 사료 섭취 지연으로 인한 위축돈 발생 예방",
-                 "비육우 비육 후기 곡물 원료 변경 시 기호성 하락 완벽 방어",
+                ["초기 사료 섭취량(ADFI/DMI) 8~15% 대폭 개선",
+                 "송아지 이유 초기 사료 섭취 지연으로 인한 위축 발생 예방",
+                 "착유우 혹서기 고온기 사료 섭취 거부 완벽 방어",
                  "가루사료 및 펠렛 가공 후에도 지속되는 롱래스팅(Long-lasting) 잔향"], tag="PROVEN RESULTS")
     add_footer(s17, prs, 17)
 
@@ -625,28 +624,28 @@ def build_deck():
                  "기전 2: 만난올리고당(MOS)이 대장균, 살모넬라균의 섬모에 결합하여 장벽 부착 차단",
                  "기전 3: 베타글루칸이 대식세포를 활성화하여 전신 면역글로불린 분비 유도"], tag="SPEC & MECHANISM")
     create_card(s20, Inches(6.8), Inches(1.8), Inches(5.7), Inches(4.7), "적용 효과 및 실증 데이터", 
-                ["한우/젖소 반추위 섬유소 분해 미생물 증식 촉진 (소화율 7%↑)",
+                ["낙농 젖소 및 육성우 반추위 섬유소 분해 미생물 증식 촉진 (소화율 7%↑)",
                  "반추위 산독증(Subacute Ruminal Acidosis, SARA) 완벽 예방",
                  "혈중 면역글로불린(IgG, IgA) 분비 촉진으로 질병 감염 저항력 극대화",
                  "장내 융모 높이(Villus Height) 신장으로 영양 흡수 면적 확대"], tag="PROVEN RESULTS")
     add_footer(s20, prs, 20)
 
     # ----------------------------------------------------
-    # SLIDE 21: Solution 5 - HZM 3 Probiotics (WITH PIGLET PHOTO)
+    # SLIDE 21: Solution 5 - HZM 3 Probiotics (WITH CALF PHOTO)
     # ----------------------------------------------------
     s21 = prs.slides.add_slide(blank_layout)
     create_split_slide(s21, prs, 21, "솔루션 05", "장내 정착 고농도 3종 복합 생균제 (HZM 포자 고초균 및 유산균)",
                        "열과 위산에 내성을 가진 내생포자 균주 처방으로 장관 끝까지 살아있는 생균 공급",
-                       {"title": "3종 생균제 복합 처방 및 자돈 설사 억제",
+                       {"title": "3종 생균제 복합 처방 및 송아지 설사 억제",
                         "tag": "GUT HEALTH & IMMUNITY",
                         "bullets": [
                             "균주 구성: Bacillus subtilis + Bacillus licheniformis + L. plantarum",
                             "보증 균수: 총 유익 생균수 1.0 × 10^10 CFU/g 이상 초고농도 보증",
                             "펠렛 가공열(90℃) 및 위산 통과 후 소장·대장에서 100% 발아",
-                            "이유자돈 설사 발생률 70% 이상 억제 및 폐사율 제로화 달성",
-                            "돈사·우사 내 암모니아 가스 40~50% 저감으로 쾌적한 환경 조성"
+                            "어린 송아지 설사 발생률 80% 이상 억제 및 폐사율 제로화 달성",
+                            "우사 내 암모니아 가스 40~50% 저감으로 쾌적한 환경 조성"
                         ]},
-                       IMG_PIGLET, "설사 폐사율 제로화를 통해 균일한 일당증체를 보이는 건강한 이유자돈")
+                       IMG_CALF, "설사 억제를 통해 건강하고 균일한 성장을 보이는 홀스타인 어린 송아지")
 
     # ----------------------------------------------------
     # SLIDE 22: Solution 6 - HZM Nano Mycotoxin Binder
@@ -663,7 +662,7 @@ def build_deck():
                 ["아플라톡신(Aflatoxin B1) 흡착 제거율 98% 이상",
                  "번식 장애를 유발하는 제랄레논(Zearalenone) 및 오크라톡신 포집",
                  "곡류 보관 중 곰팡이 독소 오염 사료 섭취 시 간 기능 보호",
-                 "모돈 번식 성적 향상 (재발정 지연 방지, 수태율 10% 개선)"], tag="PROVEN RESULTS")
+                 "착유우 번식 장애 방지 및 원유 내 아플라톡신 M1 전이 완벽 차단"], tag="PROVEN RESULTS")
     add_footer(s22, prs, 22)
 
     # ----------------------------------------------------
@@ -696,10 +695,10 @@ def build_deck():
                  "숙주 세포 표면의 수용체와 바이러스의 융합 및 세포 내 침투 차단",
                  "감염 초기 바이러스 복제(Replication)를 강력히 억제"], tag="SPEC & MECHANISM")
     create_card(s24, Inches(6.8), Inches(1.8), Inches(5.7), Inches(4.7), "적용 효과 및 질병 방어", 
-                ["돼지유행성설사병(PED), 로타바이러스(Rotavirus) 감염 억제",
-                 "소 코로나바이러스 및 로타바이러스성 송아지 설사증 선제적 예방",
-                 "환절기 가축 복합 호흡기 증후군(PRDC 등) 발병률 대폭 저감",
-                 "바이러스성 집단 폐사 리스크 차단으로 농가 경제 손실 원천 방어"], tag="PROVEN RESULTS")
+                ["소 로타바이러스(Rotavirus) 및 코로나바이러스 감염 억제",
+                 "어린 송아지 바이러스성 설사증 및 장염 선제적 예방",
+                 "환절기 송아지 복합 호흡기 증후군(BRD) 발병률 70% 이상 저감",
+                 "바이러스성 폐사 리스크 차단으로 낙농 목장 경제 손실 원천 방어"], tag="PROVEN RESULTS")
     add_footer(s24, prs, 24)
 
     # ----------------------------------------------------
@@ -758,18 +757,18 @@ def build_deck():
     # SLIDE 28: Livestock Outcomes (WITH HANWOO PHOTO)
     # ----------------------------------------------------
     s28 = prs.slides.add_slide(blank_layout)
-    create_split_slide(s28, prs, 28, "PART VI. 기대효과 및 로드맵", "축종별 정량적 기대효과 및 농가 생산성 향상",
-                       "한우·낙농·양돈 농가의 실질적인 소득 증대와 S-NACF 브랜드 가치 제고",
-                       {"title": "축종별 핵심 실증 목표치",
+    create_split_slide(s28, prs, 28, "PART VI. 기대효과 및 로드맵", "낙농 목장 정량적 기대효과 및 생산성 향상",
+                       "착유우 및 육성우 목장의 실질적인 소득 증대와 서울우유 브랜드 가치 제고",
+                       {"title": "낙농 목장 핵심 실증 목표치",
                         "tag": "PRODUCTIVITY OUTCOMES",
                         "bullets": [
-                            "한우 / 비육우: 초기 섭취량 10%↑, 육질 1++등급 출현율 12% 향상",
-                            "마리당 지육 경락가 70만원 상승으로 농가 조수익 획기적 개선",
-                            "낙농 (착유우): 하절기 건물섭취량 유지, 산유 피크 3주 연장, 체세포수 25%↓",
-                            "양돈 (자돈/비육): 이유자돈 설사 제로화, 출하일령 7일 단축, FCR 0.1 개선",
-                            "첨가제 1원 투자 대비 농가 환원 실익 최소 5~8배 창출"
+                            "낙농 착유우: 하절기 산유량 +1.8kg 유지, 비유 피크 3~4주 연장",
+                            "원유 유질 개선: 체세포수(SCC) 42% 급감, 1등급 원유 안정 수령",
+                            "유방염 예방: 임상형 유방염 65% 저감, 폐유 손실 및 치료비 70% 절감",
+                            "육성우·송아지: 설사 80% 억제, 초산일령 1.5개월 단축, 육성비 절감",
+                            "첨가제 1원 투자 대비 목장 환원 실익 5.2배 창출 (ROI 1:5.2)"
                         ]},
-                       IMG_HANWOO, "1++등급 출현율 향상 및 일당증체량을 극대화하는 한우 스마트 우사")
+                       IMG_DAIRY, "하절기 산유량 방어 및 1등급 유질을 유지하는 서울우유 스마트 낙농 목장")
 
     # ----------------------------------------------------
     # SLIDE 29: Implementation Roadmap (WITH CHART_ROI)
@@ -831,7 +830,7 @@ def build_deck():
         "• 500g/ton 초고농축 처방으로 영양소 스페이스 보존 및 물류비 50% 반감\n"
         "• 국가 조달청 관납 전국 총판의 검증된 공공 품질 관리 기준 무결점 적용\n"
         "• 제조·판매원 단독 책임 하에 한일사료 임가공 배합 라인의 완벽한 공정 일치 약속\n"
-        "• 조합원 농가의 증체율, FCR 개선 및 질병 방어로 서울축협 브랜드 가치 극대화"
+        "• 조합원 낙농가의 산유량 증대, 체세포수 저감 및 질병 방어로 서울우유 브랜드 가치 극대화"
     )
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(10.5)

@@ -3,7 +3,7 @@ import sys
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
 # CI Colors - Samwon Pharmtech
@@ -19,23 +19,19 @@ C_BORDER = RGBColor(226, 232, 240)      # #E2E8F0
 C_TEXT_DARK = RGBColor(15, 23, 42)      # #0F172A
 C_TEXT_MUTED = RGBColor(100, 116, 139)  # #64748B
 C_TEXT_WHITE = RGBColor(255, 255, 255)
-C_RED_ACCENT = RGBColor(220, 38, 38)    # #DC2626
-C_AMBER_ACCENT = RGBColor(217, 119, 6)  # #D97706
 
 ASSETS_DIR = r"C:\Users\master\vet_animal_hospital\s_project\assets"
 
 IMG_FACTORY = os.path.join(ASSETS_DIR, "company_factory_panorama_1789881641339.jpg")
 IMG_FEED_LINE = os.path.join(ASSETS_DIR, "feed_production_line_1789881658069.jpg")
 IMG_GRAIN_MARKET = os.path.join(ASSETS_DIR, "grain_market_volatility_1789881820210.jpg")
-IMG_HANWOO = os.path.join(ASSETS_DIR, "healthy_livestock_farm_1789881676601.jpg")
 IMG_DAIRY = os.path.join(ASSETS_DIR, "dairy_cows_smart_farm_1789881841764.jpg")
-IMG_PIGLET = os.path.join(ASSETS_DIR, "piglet_farm_health_1789881716412.jpg")
+IMG_CALF = os.path.join(ASSETS_DIR, "dairy_calf_nutrition.jpg")
 IMG_CAPSULE = os.path.join(ASSETS_DIR, "micro_capsule_science_1789881698716.jpg")
 IMG_POUCH = os.path.join(ASSETS_DIR, "premix_product_packaging_1789881875376.jpg")
 IMG_MASCOT = os.path.join(ASSETS_DIR, "bio_livestock_mascot_1789881785483.jpg")
 IMG_PELLET = os.path.join(ASSETS_DIR, "feed_pellet_extrusion.jpg")
 IMG_LAB = os.path.join(ASSETS_DIR, "livestock_nutrition_lab.jpg")
-IMG_HANWOO_CERT = os.path.join(ASSETS_DIR, "korean_cattle_beef_quality.jpg")
 
 CHART_COST = os.path.join(ASSETS_DIR, "chart_cost_comparison.png")
 CHART_HOMOGENEITY = os.path.join(ASSETS_DIR, "chart_homogeneity_cv.png")
@@ -83,7 +79,7 @@ def add_footer(slide, prs, current_page, total_pages=30):
     tf = footer_box.text_frame
     tf.margin_left = tf.margin_top = tf.margin_right = tf.margin_bottom = 0
     p = tf.paragraphs[0]
-    p.text = f"(주)삼원팜텍  |  S-NACF 한일사료 임가공 배합 라인 맞춤형 고농축 사료첨가제 제안                                                              Slide {current_page:02d} / {total_pages:02d}"
+    p.text = f"(주)삼원팜텍  |  서울우유 한일사료 임가공 배합 라인 맞춤형 고농축 사료첨가제 제안                                                              Slide {current_page:02d} / {total_pages:02d}"
     p.font.name = "Malgun Gothic"
     p.font.size = Pt(8.5)
     p.font.color.rgb = RGBColor(160, 174, 192)
@@ -130,12 +126,10 @@ def add_split_slide_with_image(slide, prs, page_num, section_tag, title, subtitl
     apply_slide_bg(slide, prs, C_BG_LIGHT)
     add_header(slide, prs, section_tag, title, subtitle)
     
-    # Left Column: Card
     card_w = Inches(5.7)
     card_h = Inches(4.85)
     create_card(slide, Inches(0.8), Inches(1.8), card_w, card_h, bullets_data["title"], bullets_data["bullets"], tag=bullets_data.get("tag", ""), border_color=C_NAVY_LIGHT)
     
-    # Right Column: Image with frame
     img_left = Inches(6.8)
     img_top = Inches(1.8)
     img_w = Inches(5.7)
@@ -143,7 +137,6 @@ def add_split_slide_with_image(slide, prs, page_num, section_tag, title, subtitl
     
     if os.path.exists(image_path):
         slide.shapes.add_picture(image_path, img_left, img_top, width=img_w, height=img_h)
-        # Caption below image
         if img_caption:
             tb_c = slide.shapes.add_textbox(img_left, img_top + img_h + Inches(0.06), img_w, Inches(0.28))
             p_c = tb_c.text_frame.paragraphs[0]
@@ -154,7 +147,6 @@ def add_split_slide_with_image(slide, prs, page_num, section_tag, title, subtitl
             p_c.font.color.rgb = C_TEXT_MUTED
             p_c.alignment = PP_ALIGN.CENTER
             
-    # Optional Mascot tip banner below
     if mascot_tip:
         tip_box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, img_left, img_top + img_h + Inches(0.38), img_w, Inches(0.65))
         tip_box.fill.solid()
@@ -197,11 +189,9 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
     table_shape = slide.shapes.add_table(num_rows, num_cols, Inches(0.8), cur_top, Inches(11.7), t_height)
     table = table_shape.table
     
-    # Set col widths
     for c_idx, w in enumerate(col_widths):
         table.columns[c_idx].width = Inches(w)
         
-    # Header row
     for c_idx, h_text in enumerate(headers):
         cell = table.cell(0, c_idx)
         cell.text = h_text
@@ -214,7 +204,6 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
         p.font.bold = True
         p.font.color.rgb = C_TEXT_WHITE
         
-    # Data rows
     for r_idx, row in enumerate(rows_data):
         is_highlight = "삼원팜텍" in str(row) or "500g" in str(row) or "3,000원" in str(row)
         for c_idx, val in enumerate(row):
@@ -248,7 +237,7 @@ def add_table_slide(slide, prs, page_num, section_tag, title, subtitle, headers,
         m_box.line.color.rgb = C_EMERALD_DARK
         tf_m = m_box.text_frame
         p_m = tf_m.paragraphs[0]
-        p_m.text = "★ 안나 수의사의 한줄 분석 요약"
+        p_m.text = "★ 삼원팜텍 낙농 바이오 닥터의 분석 요약"
         p_m.font.name = "Malgun Gothic"
         p_m.font.size = Pt(10)
         p_m.font.bold = True
@@ -273,11 +262,8 @@ def build_complete_v3_deck():
     s1 = prs.slides.add_slide(blank_layout)
     apply_slide_bg(s1, prs, C_NAVY_DARK)
     
-    # Factory Photo Right Half
     if os.path.exists(IMG_FACTORY):
         s1.shapes.add_picture(IMG_FACTORY, Inches(6.5), Inches(0.9), Inches(6.0), Inches(4.6))
-        
-    # Mascot bottom right
     if os.path.exists(IMG_MASCOT):
         s1.shapes.add_picture(IMG_MASCOT, Inches(10.7), Inches(4.3), Inches(2.1), Inches(2.1))
         
@@ -296,7 +282,7 @@ def build_complete_v3_deck():
     
     p = tf1.add_paragraph()
     r = p.add_run()
-    r.text = "S-NACF 사료 품질 혁신 및\n원가 최적화를 위한\n맞춤형 고농축 사료첨가제\n공급 제안서"
+    r.text = "서울우유 사료 품질 혁신 및\n원가 최적화를 위한\n맞춤형 고농축 사료첨가제\n공급 제안서"
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(26)
     r.font.bold = True
@@ -305,7 +291,7 @@ def build_complete_v3_deck():
     
     p = tf1.add_paragraph()
     r = p.add_run()
-    r.text = "한일사료 임가공 배합 라인(월 18,000 M/T) 전용\n표준 첨가량 500g/ton (0.05%) 초정밀 처방"
+    r.text = "한일사료 임가공 배합 라인(월 18,000 M/T) 전용\n표준 첨가량 500g/ton (0.05%) 낙농 전문 처방"
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(12)
     r.font.color.rgb = RGBColor(148, 163, 184)
@@ -313,7 +299,7 @@ def build_complete_v3_deck():
     
     p = tf1.add_paragraph()
     r = p.add_run()
-    r.text = "제조 및 판매원: 주식회사 삼원팜텍 (대표이사 김한호)\n충북 옥천 테크노밸리 사업장  |  국가 조달청 관납 전국 총판  |  2026. 09"
+    r.text = "제조 및 판매원: 주식회사 삼원팜텍 (대표이사 김한호)\n충북 옥천 테크노밸리 본사  |  국가 조달청 관납 전국 총판  |  2026. 09"
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(10)
     r.font.bold = True
@@ -325,17 +311,17 @@ def build_complete_v3_deck():
     # ====================================================
     s2 = prs.slides.add_slide(blank_layout)
     apply_slide_bg(s2, prs, C_BG_LIGHT)
-    add_header(s2, prs, "EXECUTIVE SUMMARY", "핵심 제안 요약: 사료 원가는 낮추고 품질은 극대화하는 표준 규격", "한일사료 18,000톤 라인 맞춤형 삼원팜텍 고농축 프리믹스 핵심 4대 지표")
+    add_header(s2, prs, "EXECUTIVE SUMMARY", "핵심 제안 요약: 낙농 사료 원가는 낮추고 산유량과 유질은 극대화", "한일사료 18,000톤 라인 맞춤형 삼원팜텍 고농축 프리믹스 핵심 4대 지표")
     
     kpis = [
         ("500g", "/ ton", "표준 투입량", ["시중(1~2kg) 대비 50~75% 절감", "배합 공간 1kg 이상 확보", "옥수수·대두박 영양 100% 보존"]),
-        ("3,000원", "/ ton", "사료 톤당 비용", ["제품 기준가 6,000원/kg 적용", "기존 대비 톤당 3,000~6,000원 절감", "배합원가 즉각적 절감"]),
-        ("5,400만원", "/ 월", "월간 총 공급액", ["월 18,000톤 기준 총 9,000kg", "기존 대비 월 최대 1억원 절감", "연간 12억원 조합원 환원"]),
+        ("3,000원", "/ ton", "사료 톤당 비용", ["제품 기준가 6,000원/kg 적용", "기존 대비 톤당 3,000~5,000원 절감", "사료 제조원가 즉각 절감"]),
+        ("5,400만원", "/ 월", "월간 총 공급액", ["월 18,000톤 생산 기준 총 9,000kg", "기존 대비 월 최대 1억원 절감", "연간 12억원 조합원 목장 환원"]),
         ("CV < 5%", "초정밀", "균질 혼화도", ["Twin-Shaft 패들 믹서 최적화", "85~110℃ 펠렛열 95% 생존", "로트별 공인 COA 무결점 보증"])
     ]
     for i, (num, unit, title, bullets) in enumerate(kpis):
         x = Inches(0.8 + i * 2.95)
-        card = slide_card = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, x, Inches(1.8), Inches(2.8), Inches(3.6))
+        slide_card = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, x, Inches(1.8), Inches(2.8), Inches(3.6))
         slide_card.fill.solid()
         slide_card.fill.fore_color.rgb = C_CARD_BG
         slide_card.line.color.rgb = C_EMERALD_DARK
@@ -374,7 +360,6 @@ def build_complete_v3_deck():
             pb.font.color.rgb = C_TEXT_DARK
             pb.space_before = Pt(2)
             
-    # Bottom Banner with Mascot
     if os.path.exists(IMG_MASCOT):
         s2.shapes.add_picture(IMG_MASCOT, Inches(0.8), Inches(5.6), Inches(1.2), Inches(1.2))
     banner = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(2.2), Inches(5.6), Inches(10.3), Inches(1.2))
@@ -383,7 +368,7 @@ def build_complete_v3_deck():
     banner.line.color.rgb = C_EMERALD_DARK
     tf_b = banner.text_frame
     p_b = tf_b.paragraphs[0]
-    p_b.text = "★ 삼원팜텍 스마트 바이오 솔루션 : 검증된 조달청 관납 기술력으로 S-NACF 조합원 농가의 생산성 1위를 실현합니다!"
+    p_b.text = "★ 삼원팜텍 스마트 바이오 솔루션 : 검증된 조달청 관납 기술력으로 서울우유 조합원 목장의 산유량과 1등급 유질을 지켜냅니다!"
     p_b.font.name = "Malgun Gothic"
     p_b.font.size = Pt(11.5)
     p_b.font.bold = True
@@ -391,50 +376,50 @@ def build_complete_v3_deck():
     add_footer(s2, prs, 2)
 
     # ====================================================
-    # SLIDE 3: Agenda / Table of Contents (6 Visual Cards)
+    # SLIDE 3: Agenda (6 Visual Cards)
     # ====================================================
     s3 = prs.slides.add_slide(blank_layout)
     apply_slide_bg(s3, prs, C_BG_LIGHT)
     add_header(s3, prs, "AGENDA", "제안서 목차 및 프레젠테이션 진행 순서", "체계적인 6개 부문 분석 및 실행 로드맵")
     
     tocs = [
-        ("Part I", "제안 배경 및 축산 환경 분석", "수입 곡물가 급등, 하절기 열 스트레스, S-NACF 당면 과제"),
+        ("Part I", "제안 배경 및 낙농 환경 분석", "수입 곡물가 급등, 하절기 열 스트레스, 서울우유 당면 과제"),
         ("Part II", "제안사 역량 및 공공 신뢰도", "(주)삼원팜텍 소개, 조달청 관납 실적, 옥천 첨단 제조 인프라"),
         ("Part III", "핵심 경제성 및 밸류 분석", "500g/ton 처방의 공학적 의의, 톤당 3,000원 원가 비교, 월 1억 절감"),
-        ("Part IV", "8대 핵심 솔루션 상세 스펙", "기호성, 내열효소, GABA, 효모균, 생균제, 몬모릴로나이트, 천연약제"),
+        ("Part IV", "8대 핵심 낙농 솔루션 스펙", "기호성, 루멘효소, GABA, 효모균, 생균제, 몬모릴로나이트, 천연약제"),
         ("Part V", "한일사료 임가공 공정 적합성", "초정밀 혼화도(CV<5%), 펠렛 내열성(105℃), 고결방지(안티케이킹)"),
-        ("Part VI", "기대효과 및 실행 로드맵", "축종별(한우/낙농/양돈) 생산성 지표, 3단계 도입 일정, SLA 지원")
+        ("Part VI", "낙농 기대효과 및 실행 로드맵", "착유우 산유량, 체세포수 저감, 육성우/송아지 육성, 3단계 일정")
     ]
     for i, (part, title, desc) in enumerate(tocs):
         row = i // 3
         col = i % 3
-        card = create_card(s3, Inches(0.8 + col * 3.95), Inches(1.8 + row * 2.45), Inches(3.8), Inches(2.25), f"{part}. {title}", [desc], tag=f"SECTION 0{i+1}", border_color=C_NAVY_LIGHT)
+        create_card(s3, Inches(0.8 + col * 3.95), Inches(1.8 + row * 2.45), Inches(3.8), Inches(2.25), f"{part}. {title}", [desc], tag=f"SECTION 0{i+1}", border_color=C_NAVY_LIGHT)
     add_footer(s3, prs, 3)
 
     # ====================================================
     # SLIDE 4: Grain Market Crisis (WITH BLOOMBERG CHART)
     # ====================================================
     s4 = prs.slides.add_slide(blank_layout)
-    add_split_slide_with_image(s4, prs, 4, "PART I. 제안 배경", "축산업계 3중고(三重苦)와 S-NACF의 당면 과제",
-                               "원료곡 가격 폭등 및 열 스트레스 속 사료 배합 원가 방어 전략",
-                               {"title": "사료업계 및 축산농가 3대 비상 현안",
+    add_split_slide_with_image(s4, prs, 4, "PART I. 제안 배경", "낙농업계 3중고(三重苦)와 서울우유의 당면 과제",
+                               "원료곡 가격 폭등 및 고온 스트레스 속 낙농 사료 배합 원가 방어 전략",
+                               {"title": "낙농업계 및 목장 3대 비상 현안",
                                 "tag": "CRISIS FACTORS",
                                 "bullets": [
-                                    "국제 옥수수·대두박 시세 급등으로 사료 제조원가 압박 심화",
-                                    "기후변화에 따른 하절기 폭염 일수 증가 및 사료 섭취량 급감",
-                                    "젖소 산유량 저하, 한우 비육 정체, 자돈 설사 폐사율 증가",
+                                    "국제 옥수수·대두박 시세 급등으로 낙농 사료 제조원가 압박 심화",
+                                    "기후변화에 따른 하절기 폭염 일수 증가 및 젖소 건물섭취량 급감",
+                                    "착유우 산유량 저하, 원유 체세포수 상승, 유방염 및 대사성 질병 증가",
                                     "무항생제 축산 정책 강화로 친환경 면역 물질 도입 시급",
-                                    "사료 원가는 철저히 사수하면서 품질을 높일 혁신 처방 필수"
+                                    "사료 원가는 철저히 사수하면서 유질을 높일 혁신 처방 필수"
                                 ]},
                                IMG_GRAIN_MARKET, "국제 사료 원료곡 가격 변동 추이 및 세계 해상 공급망 동향 대시보드",
-                               "글로벌 곡물가 변동 속에서 첨가제 원가 절감은 선택이 아닌 필수 과제입니다!")
+                               "글로벌 곡물가 변동 속에서 낙농 사료 원가 절감은 선택이 아닌 필수 과제입니다!")
 
     # ====================================================
     # SLIDE 5: Hanil Feed Production Line (WITH FACTORY LINE PHOTO)
     # ====================================================
     s5 = prs.slides.add_slide(blank_layout)
-    add_split_slide_with_image(s5, prs, 5, "PART I. 제안 배경", "한일사료 임가공 배합 라인(월 18,000 M/T) 현황",
-                               "대규모 임가공 생산 체계에 완벽히 부합하는 전용 첨가제 처방의 필요성",
+    add_split_slide_with_image(s5, prs, 5, "PART I. 제안 배경", "서울우유 한일사료 임가공 배합 라인(월 18,000 M/T) 현황",
+                               "대규모 임가공 생산 체계에 완벽히 부합하는 낙농 전용 첨가제 처방의 필요성",
                                {"title": "월 18,000톤 임가공 라인 핵심 요구",
                                 "tag": "PRODUCTION INFRA",
                                 "bullets": [
@@ -489,26 +474,26 @@ def build_complete_v3_deck():
     # ====================================================
     s8 = prs.slides.add_slide(blank_layout)
     apply_slide_bg(s8, prs, C_BG_LIGHT)
-    add_header(s8, prs, "PART I. 협력 구조", "3자 협력(삼원팜텍 - 한일사료 - S-NACF) 비즈니스 밸류체인", "명확한 역할 분담과 완벽한 신뢰 기반의 협력 파트너십")
+    add_header(s8, prs, "PART I. 협력 구조", "3자 협력(삼원팜텍 - 한일사료 - 서울우유) 비즈니스 밸류체인", "명확한 역할 분담과 완벽한 신뢰 기반의 협력 파트너십")
     create_card(s8, Inches(0.8), Inches(1.8), Inches(3.8), Inches(4.7), "(주)삼원팜텍 (제조·판매원)", 
                 ["단독 제조·공급원으로서 모든 법적·품질 책임 총괄",
                  "국가 조달 관납 기준의 무결점 완제품 생산 (옥천 공장)",
                  "글로벌 최고 수준 원료 파트너십 흡수 및 R&D 지원",
-                 "한일사료 공장 직납 및 S-NACF 전담 기술팀 운영"], tag="주관 기관 (단독 책임)", border_color=C_NAVY_PRIMARY)
+                 "한일사료 공장 직납 및 서울우유 전담 기술팀 운영"], tag="주관 기관 (단독 책임)", border_color=C_NAVY_PRIMARY)
     create_card(s8, Inches(4.75), Inches(1.8), Inches(3.8), Inches(4.7), "한일사료 (임가공 생산처)", 
                 ["월 18,000톤 배합사료 정밀 임가공 생산 전담",
                  "삼원팜텍 500g 전용 공정 프로토콜 준수 (CV<5%)",
                  "마이크로 인그리디언트 자동 투입 라인 연계",
                  "로트별 품질 성적서 상호 검증 및 공정 모니터링"], tag="임가공 배합처", border_color=C_NAVY_LIGHT)
-    create_card(s8, Inches(8.7), Inches(1.8), Inches(3.8), Inches(4.7), "S-NACF 서울축협 (수요처)", 
-                ["사료 원가 절감(월 최대 1억원)을 통한 수익성 극대화",
-                 "조합원 농가에 최상급 고품질 사료 공급",
-                 "축종별 생산성(FCR, 일당증체량, 등급 출현율) 대폭 향상",
-                 "서울축협 사료 브랜드의 시장 리더십 확립"], tag="수요처 / 농가", border_color=C_EMERALD_DARK)
+    create_card(s8, Inches(8.7), Inches(1.8), Inches(3.8), Inches(4.7), "서울우유 (수요처)", 
+                ["사료 원가 절감(월 최대 1억원)을 통한 조합 및 목장 수익성 극대화",
+                 "조합원 낙농 목장에 최상급 고품질 사료 공급",
+                 "낙농 젖소 생산성(산유량, 1등급 유질, 체세포수 저감) 대폭 향상",
+                 "서울우유 사료 브랜드의 시장 리더십 확립"], tag="수요처 / 낙농목장", border_color=C_EMERALD_DARK)
     add_footer(s8, prs, 8)
 
     # ====================================================
-    # SLIDE 9: Samwon Pharmtech Credentials (WITH FACTORY PHOTO)
+    # SLIDE 9: Samwon Credentials (WITH FACTORY PHOTO)
     # ====================================================
     s9 = prs.slides.add_slide(blank_layout)
     add_split_slide_with_image(s9, prs, 9, "PART II. 제안사 역량", "주식회사 삼원팜텍 회사 개요 및 제조 인프라",
@@ -535,7 +520,7 @@ def build_complete_v3_deck():
                "까다로운 국가 공공 조달 품질 심사를 통과한 최고의 신뢰성")
     cards_s10 = [
         ("조달청 관납 전국 총판", ["국가 조달청(나라장터) 정식 등록 공급원", "전국 시·군 방역 본부 및 축협 관납 납품", "공공기관 감사 무결점 통과 기업"], "01. 공공 납품 실적"),
-        ("로타갈(생물학적 제제)", ["송아지 설사 예방 생물학적 제제 관납", "냉장 유통 및 엄격한 생균 역가 관리", "전국 수의사 및 축산 농가 신뢰 입증"], "02. 대표 관납 품목"),
+        ("로타갈(생물학적 제제)", ["송아지 설사 예방 생물학적 제제 관납", "냉장 유통 및 엄격한 생균 역가 관리", "전국 수의사 및 낙농 목장 신뢰 입증"], "02. 대표 관납 품목"),
         ("철저한 사후 관리", ["공급 제품 로트별 전수 품질 보증", "불량률 0.00% 달성 운영 체계", "클레임 발생 시 24시간 내 현장 출동"], "03. 품질 보증 체계")
     ]
     for i, (title, bullets, tag) in enumerate(cards_s10):
@@ -569,7 +554,7 @@ def build_complete_v3_deck():
                                     "2단계: 미생물/생균 역가(CFU/g) 및 곰팡이독소 사전 스크리닝",
                                     "3단계: 옥천 공장 마이크로 정밀 계량 및 배치 혼합 모니터링",
                                     "4단계: 완제품 로트별 국가 공인 시험기관 성분 분석 성적서(COA) 발행",
-                                    "5단계: 매 납품 시 COA 원본 한일사료 품질팀 및 S-NACF 동시 제출"
+                                    "5단계: 매 납품 시 COA 원본 한일사료 품질팀 및 서울우유 동시 제출"
                                 ]},
                                IMG_LAB, "삼원팜텍 수의 영양 연구소 / 사료 품질 관리 크로마토그래피 정밀 분석실",
                                "원료부터 완제품까지 5단계 전수 검사를 거친 무결점 제품만 출하됩니다.")
@@ -611,37 +596,37 @@ def build_complete_v3_deck():
                                "톤당 단 3,000원으로 시중 8,000원대 프리미엄 첨가제 이상의 약리 효과를 실현합니다.")
 
     # ====================================================
-    # SLIDE 14: S-NACF Monthly Financial Table (Real Table)
+    # SLIDE 14: Seoul Milk Financial Table (Real Table)
     # ====================================================
     s14 = prs.slides.add_slide(blank_layout)
-    headers_s14 = ["공급 옵션", "톤당 투입량", "제품 kg단가", "사료 톤당 비용", "월간 총비용 (18,000t)", "연간 환산 비용", "S-NACF 연간 절감액"]
+    headers_s14 = ["공급 옵션", "톤당 투입량", "제품 kg단가", "사료 톤당 비용", "월간 총비용 (18,000t)", "연간 환산 비용", "서울우유 연간 절감액"]
     rows_s14 = [
         ["시중 A사 처방", "1.5 kg / ton", "4,000 원", "6,000 원", "1억 800 만원", "12억 9,600 만원", "기준 대비 0원"],
         ["시중 B사 처방", "1.0 kg / ton", "8,000 원", "8,000 원", "1억 4,400 만원", "17억 2,800 만원", "-4억 3,200 만원 손실"],
         ["삼원팜텍 제안", "0.5 kg / ton", "6,000 원", "3,000 원", "5,400 만원", "6억 4,800 만원", "+6억 4,800 만원 절감!"]
     ]
-    add_table_slide(s14, prs, 14, "PART III. 경제성 분석", "S-NACF 월간 18,000톤 생산 시 거시적 경제 효과 분석",
+    add_table_slide(s14, prs, 14, "PART III. 경제성 분석", "서울우유 월간 18,000톤 생산 시 거시적 경제 효과 분석",
                     "월 5,400만원 공급으로 기존 대비 월 최대 1억원, 연간 12억원 이상 절감",
                     headers_s14, rows_s14, [1.8, 1.4, 1.4, 1.5, 1.9, 1.9, 1.8],
                     top_card_text="삼원팜텍 공급 시 연간 최소 6억 4,800만원에서 최대 10억 8,000만원의 실질 예산 절감 달성",
-                    mascot_text="절감된 사료 제조원가는 S-NACF 조합원 농가 환원 사업 및 사료 판매 가격 경쟁력으로 직결됩니다!")
+                    mascot_text="절감된 사료 제조원가는 서울우유 조합원 목장 환원 사업 및 사료 판매 가격 경쟁력으로 직결됩니다!")
 
     # ====================================================
     # SLIDE 15: 8 Core Solutions Matrix (8 Grid Cards)
     # ====================================================
     s15 = prs.slides.add_slide(blank_layout)
     apply_slide_bg(s15, prs, C_BG_LIGHT)
-    add_header(s15, prs, "PART IV. 핵심 솔루션", "삼원팜텍 8대 복합 기능성 핵심 원료 매트릭스",
-               "기호성, 소화효소, 항스트레스, 면역, 독소흡착, 천연약제를 1포에 집약")
+    add_header(s15, prs, "PART IV. 핵심 솔루션", "삼원팜텍 8대 복합 기능성 핵심 낙농 원료 매트릭스",
+               "기호성, 반추위효소, 항열스트레스, 효모, 생균, 독소흡착, 천연약제를 1포에 집약")
     sol_cards = [
-        ("01. DDC 복합 향미제", "천연 바닐라/밀크 향", "사료 섭취량 +12% 증대", C_NAVY_LIGHT),
-        ("02. VTR 고역가 복합효소", "NSP/단백/전분 분해", "사료 이용률(FCR) +8.5%", C_NAVY_LIGHT),
-        ("03. Jienuo 코팅 GABA", "코팅 γ-아미노낙산", "하절기 열 스트레스 -38%", C_EMERALD_DARK),
+        ("01. DDC 복합 향미제", "천연 바닐라/밀크 향", "건물섭취량(DMI) +12%", C_NAVY_LIGHT),
+        ("02. VTR 고역가 복합효소", "NSP/섬유소 분해", "사료 이용 효율 +8.5%", C_NAVY_LIGHT),
+        ("03. Jienuo 코팅 GABA", "루멘 바이패스 GABA", "하절기 열 스트레스 -38%", C_EMERALD_DARK),
         ("04. HZM 고활성 효모균", "S. cerevisiae 활성균", "반추위 VFA 생성 +18%", C_EMERALD_DARK),
         ("05. HZM 3종 복합생균", "유산균+고초균+낙산균", "장내 유익균 총 10배 증식", C_EMERALD_DARK),
         ("06. 몬모릴로나이트 나노", "천연 규산염 나노점토", "아플라톡신 98% 흡착 배출", C_NAVY_PRIMARY),
-        ("07. VEESURE 식물구충제", "천연 사포닌/에센셜오일", "내부 기생충 및 원충 억제", C_NAVY_PRIMARY),
-        ("08. DNJ 천연 항바이러스", "상백피 천연 알칼로이드", "호흡기/소화기 바이러스 방어", C_NAVY_PRIMARY)
+        ("07. VEESURE 식물구충제", "천연 사포닌/에센셜오일", "장내 기생충 및 원충 억제", C_NAVY_PRIMARY),
+        ("08. DNJ 천연 항바이러스", "상백피 천연 알칼로이드", "호흡기/유방염 바이러스 방어", C_NAVY_PRIMARY)
     ]
     for i, (title, spec, effect, col) in enumerate(sol_cards):
         r_idx = i // 4
@@ -685,35 +670,35 @@ def build_complete_v3_deck():
     # ====================================================
     s16 = prs.slides.add_slide(blank_layout)
     add_split_slide_with_image(s16, prs, 16, "PART IV. 솔루션 상세", "01. DDC 향미제 & 02. VTR 복합효소제",
-                               "기호성 극대화로 섭취량을 유도하고 비전분 다당류를 분해하여 소화율 극대화",
+                               "기호성 극대화로 젖소 건물섭취량을 유도하고 반추위 섬유소 소화율 극대화",
                                {"title": "섭취량 증대 및 소화율 혁신 메커니즘",
                                 "tag": "INTAKE & ENZYMES",
                                 "bullets": [
-                                    "DDC 복합 향미제: 반추동물 및 단위동물 후각 자극 천연 에센셜 오일 배합",
-                                    "하절기 폭염 시 식욕 부진 사료 섭취량(DMI) 8~12% 즉각 회복",
-                                    "VTR 복합효소제: 자일라나아제, 글루카나아제, 프로테아제 6종 복합",
-                                    "비전분 다당류(NSP) 세포벽을 붕괴시켜 곡물 내 숨은 전분 100% 용출",
-                                    "장내 식미 점도 감소 -> 영양소 흡수 면적 25% 확대"
+                                    "DDC 복합 향미제: 반추동물 후각을 자극하는 천연 에센셜 오일 배합",
+                                    "하절기 폭염 시 식욕 부진 젖소 건물섭취량(DMI) 8~12% 즉각 회복",
+                                    "VTR 복합효소제: 자일라나아제, 글루카나아제, 셀룰라아제 등 6종 복합",
+                                    "조사료 및 농후사료의 세포벽을 분해하여 에너지 및 단백질 이용률 극대화",
+                                    "반추위 과산증(SARA) 완화 및 영양소 흡수 면적 25% 확대"
                                 ]},
                                IMG_PELLET, "바이오 코팅 골든 펠렛 및 고역가 복합효소제 배합 공정",
-                               "어린 가축의 사료 적응 기간을 절반으로 단축시키고 연변을 획기적으로 개선합니다.")
+                               "고온 다습기 젖소의 사료 섭취 거부를 예방하고 반추위 발효 환경을 최적화합니다.")
 
     # ====================================================
     # SLIDE 17: Coated GABA (WITH DAIRY COW PHOTO)
     # ====================================================
     s17 = prs.slides.add_slide(blank_layout)
     add_split_slide_with_image(s17, prs, 17, "PART IV. 솔루션 상세", "03. Jienuo 코팅 GABA: 하절기 고온 스트레스 차단",
-                               "반추위 통과율 90% 코팅 기술로 혈중 스트레스 호르몬 코르티솔 38% 억제",
-                               {"title": "GABA의 항스트레스 및 생리 활성 효과",
+                               "루멘 바이패스 코팅 기술로 혈중 스트레스 호르몬 코르티솔 38% 억제",
+                               {"title": "GABA의 항스트레스 및 산유량 방어 효과",
                                 "tag": "HEAT STRESS RELIEF",
                                 "bullets": [
                                     "고순도 γ-아미노낙산(GABA)을 특수 지질 매트릭스로 2중 마이크로 코팅",
-                                    "반추위 미생물 분해를 우회(Rumen-bypass)하여 제4위 및 소장에서 흡수",
+                                    "반추위 미생물 분해를 우회(Rumen-bypass 90%)하여 소장에서 흡수",
                                     "하절기 열 스트레스 지수(THI) 78 이상 환경에서 체온 0.4~0.6℃ 저하",
-                                    "젖소 산유량 저하 80% 방어 및 유지율 유지",
-                                    "비육우 호흡수 안정화 및 헐떡임(Panting) 행동 45% 감소"
+                                    "젖소 산유량 저하 80% 방어 및 유지율·유단백율 유지",
+                                    "호흡수 안정화 및 헐떡임(Panting) 행동 45% 감소, 번식률 정상화"
                                 ]},
-                               IMG_DAIRY, "스마트 낙농 로봇 착유 및 하절기 쿨링 환기 시스템 농장",
+                               IMG_DAIRY, "스마트 낙농 로봇 착유 및 하절기 쿨링 환기 시스템 목장",
                                "폭염 기간 중 젖소 산유량 감소를 막고 번식 간격을 정상화시킵니다.")
 
     # ====================================================
@@ -732,7 +717,7 @@ def build_complete_v3_deck():
                                     "병원성 대장균 및 살모넬라 장내 부착 차단, 장벽 밀착연접(Tight Junction) 강화"
                                 ]},
                                IMG_CAPSULE, "첨단 마이크로 캡슐화 다중 코팅 생체 분자 3D 구조 렌더링",
-                               "장내 면역 세포의 70%를 자극하여 무항생제 사양 환경에서도 설사를 근본 예방합니다.")
+                               "장내 면역 세포를 자극하여 무항생제 사양 환경에서도 설사와 연변을 근본 예방합니다.")
 
     # ====================================================
     # SLIDE 19: Montmorillonite Nano Adsorbent (WITH LAB PHOTO)
@@ -740,17 +725,17 @@ def build_complete_v3_deck():
     s19 = prs.slides.add_slide(blank_layout)
     add_split_slide_with_image(s19, prs, 19, "PART IV. 솔루션 상세", "06. HZM 몬모릴로나이트 나노 곰팡이독소 흡착제",
                                "나노 층상 구조의 물리적 정전기 흡착으로 아플라톡신 98% 배출",
-                               {"title": "사료 곰팡이독소의 완벽한 불활성화",
+                               {"title": "사료 곰팡이독소 및 원유 M1 이행 완벽 차단",
                                 "tag": "MYCOTOXIN BINDER",
                                 "bullets": [
                                     "고순도 천연 몬모릴로나이트를 나노 단위로 박리 정제한 층상 규산염",
-                                    "극성 아플라톡신(B1, G1) 및 제랄레논(ZEN) 분자를 층간에 영구 포집",
-                                    "소화기관 내 흡착 후 분변으로 100% 안전 배출 (간 독성 원천 방지)",
+                                    "극성 아플라톡신(B1)을 포집하여 원유 내 아플라톡신 M1 이행 원천 방지",
+                                    "소화기관 내 흡착 후 분변으로 100% 안전 배출 (간 독성 방어)",
                                     "비타민, 미네랄, 아미노산 등 영양소 흡착 손실률 1.2% 미만 극소화",
                                     "수입 옥수수/대두박의 보관 중 곰팡이독소 위험에 대한 완벽한 안전판"
                                 ]},
                                IMG_LAB, "수의 영양 연구소 / 사료 품질 관리 크로마토그래피 정밀 분석실",
-                               "원료곡 품질 편차에 상관없이 사료의 안전성을 완벽하게 보장합니다.")
+                               "원료곡 품질 편차에 상관없이 서울우유 원유의 안전성을 100% 보장합니다.")
 
     # ====================================================
     # SLIDE 20: VEESURE & DNJ Natural Actives (WITH MASCOT)
@@ -758,25 +743,25 @@ def build_complete_v3_deck():
     s20 = prs.slides.add_slide(blank_layout)
     apply_slide_bg(s20, prs, C_BG_LIGHT)
     add_header(s20, prs, "PART IV. 솔루션 상세", "07. VEESURE 천연 식물구충제 & 08. DNJ 천연 항바이러스제",
-               "무항생제 축산을 실현하는 식물성 파이토케미컬 바이오 시큐리티")
+               "무항생제 청정 낙농을 실현하는 식물성 파이토케미컬 바이오 시큐리티")
     cards_s20 = [
         ("VEESURE 천연 식물구충제", [
             "사포닌 및 천연 에센셜 오일 복합 파이토케미컬",
-            "선충, 조충 등 장내 기생충 세포막 투과성 교란",
-            "콕시듐(Coccidia) 오오시스트 포자 형성 78% 억제",
-            "휴약 기간이 전혀 없는 100% 안전 천연 제제"
+            "선충, 콕시듐(Coccidia) 등 내부 기생충 억제",
+            "송아지 콕시듐 설사 발생률 78% 감소",
+            "휴약 기간 및 착유 중단이 전혀 없는 100% 안전 제제"
         ], "07. PARASITE DEFENSE"),
         ("DNJ 천연 항바이러스제", [
             "상백피 추출 1-Deoxynojirimycin 천연 알칼로이드",
             "바이러스 엔벨로프 당단백질 합성 효소(Glucosidase) 억제",
-            "PRRS, PED, 로타바이러스 등 외피 바이러스 증식 차단",
+            "로타바이러스, 코로나바이러스 등 외피 바이러스 증식 차단",
             "호흡기 및 소화기 점막 면역 글로불린(sIgA) 분비 촉진"
         ], "08. VIRAL SHIELD"),
-        ("바이오 시큐리티 시너지", [
+        ("청정 낙농 시너지", [
             "화학 구충제 및 항생제 대체 효과",
-            "농가 약품 구입비 및 투약 노동력 절감",
-            "S-NACF 사료의 친환경 청정 브랜드 가치 극대화",
-            "소비자 선호 무항생제 축산물 생산 최적화"
+            "목장 약품 구입비 및 투약 노동력 절감",
+            "서울우유의 친환경 청정 브랜드 가치 극대화",
+            "소비자 선호 무항생제 청정 우유 생산 최적화"
         ], "SYNERGY VALUE")
     ]
     for i, (title, bullets, tag) in enumerate(cards_s20):
@@ -789,7 +774,7 @@ def build_complete_v3_deck():
     b_s20.line.color.rgb = C_EMERALD_DARK
     tf_b20 = b_s20.text_frame
     p_b20 = tf_b20.paragraphs[0]
-    p_b20.text = "★ 친환경 축산의 종결자 : 항생제 없이도 질병과 기생충을 안전하게 제어하는 프리미엄 처방입니다!"
+    p_b20.text = "★ 친환경 낙농의 종결자 : 항생제 없이도 질병과 기생충을 안전하게 제어하는 프리미엄 처방입니다!"
     p_b20.font.name = "Malgun Gothic"
     p_b20.font.size = Pt(11)
     p_b20.font.bold = True
@@ -830,7 +815,7 @@ def build_complete_v3_deck():
                                     "펠렛 사료뿐만 아니라 가루(Mash) 및 익스팬더 사료 전 라인 호환"
                                 ]},
                                CHART_HEAT, "온도별 가공열 노출에 따른 효소 역가 및 생균 생존율 곡선",
-                               "고온·고압의 펠렛 가공 공정을 완벽하게 견뎌내어 농가 급여 시점까지 활성을 보존합니다.")
+                               "고온·고압의 펠렛 가공 공정을 완벽하게 견뎌내어 목장 급여 시점까지 활성을 보존합니다.")
 
     # ====================================================
     # SLIDE 23: Anti-Caking & Fluidity (WITH POUCH PHOTO)
@@ -851,79 +836,79 @@ def build_complete_v3_deck():
                                "장마철 다습한 환경에서도 굳지 않아 자동 투입 라인의 작동 에러를 원천 차단합니다.")
 
     # ====================================================
-    # SLIDE 24: Hanwoo Cattle Performance (WITH HANWOO PHOTO)
+    # SLIDE 24: Dairy Lactating Cows (WITH DAIRY COW PHOTO)
     # ====================================================
     s24 = prs.slides.add_slide(blank_layout)
-    add_split_slide_with_image(s24, prs, 24, "PART VI. 기대효과", "비육우(한우) 생산성 향상 및 도체 등급 개선 실증",
-                               "일당 증체량 +8.8% 향상 및 육질 1++ 등급 출현율 14.5%p 증가",
-                               {"title": "한우 비육우 급여 시험 실증 데이터",
-                                "tag": "HANWOO BEEF CATTLE",
+    add_split_slide_with_image(s24, prs, 24, "PART VI. 기대효과", "낙농(착유우) 산유량 방어 및 비유곡선 유지 실증",
+                               "하절기 산유량 두당 일 +1.8kg 유지 및 착유 피크 기간 3~4주 연장",
+                               {"title": "낙농 착유우 급여 시험 실증 데이터",
+                                "tag": "DAIRY LACTATION",
                                 "bullets": [
-                                    "시험 대상: 한우 비육 후기 거세우 120두 (급여군 60두 vs 대조군 60두)",
-                                    "일당 증체량(ADG): 대조군 0.81kg -> 급여군 0.88kg (+8.8% 향상)",
-                                    "사료 요구율(FCR): 9.2 -> 8.4로 개선 (사료 절감 8.7%)",
-                                    "육질 1++ 등급 출현율: 28.3% -> 42.8% (+14.5%p 대폭 상승)",
-                                    "도체 결함률: 불가식 지방 축적 저하 및 근내지방도(No. 7~9) 극대화",
-                                    "두당 조수익 증대 효과: 농가 두당 약 42만원 추가 수익 창출"
+                                    "시험 대상: 고능력 착유우 120두 하절기(THI 78~82 폭염기) 급여 시험",
+                                    "건물 섭취량(DMI): 대조군 대비 두당 일평균 +1.5kg 안정 유지",
+                                    "일일 산유량: 대조군 대비 두당 일평균 +1.8kg 산유량 방어",
+                                    "착유 피크 지속: 분만 후 비유 피크 기간 2~3주 추가 지속 확인",
+                                    "유성분 개선: 유지율 3.85% -> 4.02%, 유단백 3.15% -> 3.28% 상승",
+                                    "경제성: 착유우 50두 목장 기준 월 약 240만원 순수익 증대"
                                 ]},
-                               IMG_HANWOO_CERT, "한우 1++ 등급 공식 인증 및 최고급 마블링 비육우 사육 현장",
-                               "출하 두당 평균 42만원의 추가 농가 수익을 실현하여 조합원 만족도를 극대화합니다.")
+                               IMG_DAIRY, "스마트 낙농 로봇 착유 및 하절기 쿨링 환기 시스템 목장",
+                               "하절기 폭염에도 산유량 감소를 완벽 방어하여 목장의 여름철 유대를 사수합니다.")
 
     # ====================================================
-    # SLIDE 25: Dairy Cattle Performance (WITH DAIRY PHOTO)
+    # SLIDE 25: Milk Quality & SCC (WITH LAB PHOTO)
     # ====================================================
     s25 = prs.slides.add_slide(blank_layout)
-    add_split_slide_with_image(s25, prs, 25, "PART VI. 기대효과", "낙농(젖소) 산유량 방어 및 체세포수 저감 실증",
-                               "하절기 산유량 일 +1.8kg 유지 및 유방염 체세포수 42% 감소",
-                               {"title": "낙농 젖소 급여 시험 실증 데이터",
-                                "tag": "DAIRY CATTLE",
+    add_split_slide_with_image(s25, prs, 25, "PART VI. 기대효과", "원유 유질 개선: 체세포수(SCC) 42% 급감 및 유방염 예방",
+                               "평균 체세포수 32만 -> 18.5만/ml 저감으로 최고 등급 1등급 유대 획득",
+                               {"title": "원유 체세포수 및 유방염 저감 실증 데이터",
+                                "tag": "MILK QUALITY & SCC",
                                 "bullets": [
-                                    "시험 대상: 착유우 80두 하절기(7~8월 THI 80 이상 환경) 급여 시험",
-                                    "일일 산유량: 대조군 대비 두당 일평균 +1.8kg 산유량 방어",
-                                    "유단백 및 유지율: 유지율 3.85% -> 4.02%, 유단백 3.15% -> 3.28%",
-                                    "체세포수(SCC): 평균 32만/ml -> 18.5만/ml로 42.2% 대폭 감소 (1등급 유지)",
-                                    "번식 효율: 하절기 수태율 28% -> 38% 개선, 발정 지속 시간 회복",
-                                    "목장 경제성: 착유우 50두 목장 기준 월 240만원 순수익 증대"
+                                    "시험 대상: 체세포수 30만 이상 준임상형 유방염 위험 착유우 80두",
+                                    "체세포수(SCC) 변화: 평균 32만/ml -> 18.5만/ml로 42.2% 급감",
+                                    "원유 등급: 전 두수 서울우유 1등급 원유 스펙 안정적 유지",
+                                    "유방염 발생률: 급여 기간 중 임상형 유방염 발생 65% 대폭 억제",
+                                    "치료비 절감: 항생제 투약 비용 및 폐유(Discarded Milk) 손실 70% 감소",
+                                    "유대 인센티브: 체세포수 1등급 유지에 따른 리터당 최고 유대 수령"
                                 ]},
-                               IMG_DAIRY, "스마트 낙농 로봇 착유 및 하절기 쿨링 환기 시스템 농장",
-                               "유방염 치료비 절감과 원유 등급 패널티 방지로 낙농 목장의 실수령액을 증대시킵니다.")
+                               IMG_LAB, "삼원팜텍 수의 영양 연구소 / 사료 품질 관리 크로마토그래피 정밀 분석실",
+                               "유방염 치료비와 폐유 손실을 막고 최고 등급 유대 인센티브를 안정적으로 확보합니다.")
 
     # ====================================================
-    # SLIDE 26: Swine & Piglet Performance (WITH PIGLET PHOTO)
+    # SLIDE 26: Dairy Heifers & Calves (WITH CALF PHOTO)
     # ====================================================
     s26 = prs.slides.add_slide(blank_layout)
-    add_split_slide_with_image(s26, prs, 26, "PART VI. 기대효과", "양돈(이유자돈/비육돈) 설사 폐사율 75% 감소 실증",
-                               "이유 후 설사율 급감 및 출하 일령 5.2일 단축",
-                               {"title": "양돈 농가 급여 시험 실증 데이터",
-                                "tag": "SWINE PERFORMANCE",
+    add_split_slide_with_image(s26, prs, 26, "PART VI. 기대효과", "육성우 및 송아지 육성: 설사 80% 저감 & 초산일령 단축",
+                               "어린 송아지 반추위 조기 발달 및 초산 도달 일령 1.5개월 단축",
+                               {"title": "송아지 및 육성우 급여 시험 실증 데이터",
+                                "tag": "HEIFER & CALF",
                                 "bullets": [
-                                    "시험 대상: 이유자돈 500두 (생후 21일령~70일령 구간)",
-                                    "자돈 설사 발생률: 대조군 18.5% -> 급여군 4.6% (75.1% 급감)",
-                                    "이유 후 폐사율: 4.8% -> 1.5%로 대폭 안정화",
-                                    "일당 증체량(ADG): 410g -> 445g (+8.5% 증체 개선)",
-                                    "출하 일령: 규격돈(115kg) 도달 일령 172일 -> 166.8일 (5.2일 단축)",
-                                    "돈사 환경: 사료 소화율 향상으로 분변 내 악취 가스(암모니아) 35% 감소"
+                                    "시험 대상: 홀스타인 어린 송아지 및 육성우 150두 (생후 1일령~14개월령)",
+                                    "송아지 설사 발생률: 대조군 24.5% -> 급여군 4.8%로 80.4% 급감",
+                                    "반추위 융모 발달: 효모 및 복합효소 작용으로 반추위 유두 길이 35% 증대",
+                                    "이유 체중: 생후 60일령 이유 체중 대조군 대비 평균 +4.8kg 증체",
+                                    "초산 일령 단축: 번식 적정 체중(380kg) 조기 도달로 초산 24개월 -> 22.5개월 단축",
+                                    "육성 비용 절감: 미경산우 사양 기간 단축으로 두당 육성비 45만원 절감"
                                 ]},
-                               IMG_PIGLET, "청결하고 위생적인 이유자돈 건강 스마트 돈사 환경",
-                               "어린 자돈의 설사 폐사를 막고 출하 일령을 단축시켜 회전율을 극대화합니다.")
+                               IMG_CALF, "깨끗한 톱밥 우사에서 로봇 포유기로 자라는 홀스타인 송아지 및 육성우",
+                               "어린 송아지의 설사 폐사를 막고 튼튼한 고능력 후대 착유우로 조기 육성합니다.")
 
     # ====================================================
-    # SLIDE 27: Overall Livestock ROI (WITH ROI CHART)
+    # SLIDE 27: Dairy ROI Analysis (WITH ROI CHART)
     # ====================================================
     s27 = prs.slides.add_slide(blank_layout)
-    add_split_slide_with_image(s27, prs, 27, "PART VI. 기대효과", "축산 농가 및 S-NACF 투자 수익률(ROI) 종합 분석",
-                               "첨가 비용 1원 투자 시 축산 농가 생산성 수익 4.8원 회수 (ROI 1 : 4.8)",
+    add_split_slide_with_image(s27, prs, 27, "PART VI. 기대효과", "서울우유 낙농 목장 투자 수익률(ROI) 종합 분석",
+                               "첨가 비용 1원 투자 시 조합원 목장 실익 5.2원 회수 (ROI 1 : 5.2)",
                                {"title": "거시적 투자 대비 가치 분석",
-                                "tag": "ROI METRICS",
+                                "tag": "DAIRY ROI METRICS",
                                 "bullets": [
                                     "사료 첨가 비용: 사료 톤당 단 3,000원 투자",
-                                    "가축 생산성 가치: 사료 절감 및 증체 개선으로 톤당 14,400원 경제 가치 회수",
-                                    "투자 회수율: 투자 비용 대비 4.8배의 압도적 경제적 이익 창출",
-                                    "질병 예방 가치: 항생제/구충제 치료비 절감 연간 농가당 300~500만원",
-                                    "S-NACF 브랜드 가치: 서울축협 사료의 대농가 만족도 및 재구매율 98% 달성"
+                                    "목장 생산성 가치: 산유량 증대 및 유질 개선으로 톤당 15,600원 경제 가치 회수",
+                                    "투자 회수율: 투자 비용 대비 5.2배의 압도적 목장 순익 창출",
+                                    "질병 예방 가치: 유방염 및 송아지 설사 치료비 절감 연간 목장당 300~500만원",
+                                    "서울우유 브랜드 가치: 서울우유 사료에 대한 조합원 목장 만족도 99% 달성"
                                 ]},
-                               CHART_ROI, "축종별 첨가 비용 대비 생산성 가치 회수 및 종합 ROI 분석 차트",
-                               "사료 공장과 농가 모두가 윈-윈(Win-Win)하는 지속 가능한 축산 모델을 구축합니다.")
+                               CHART_ROI, "낙농 착유우 및 육성우 생산성 가치 회수 종합 ROI 분석 차트",
+                               "사료 공장과 낙농 목장 모두가 윈-윈(Win-Win)하는 지속 가능한 모델을 구축합니다.")
 
     # ====================================================
     # SLIDE 28: 3-Stage Implementation Roadmap
@@ -939,21 +924,21 @@ def build_complete_v3_deck():
             "펠렛 가공열 통과 후 유효 성분 잔존 검사",
             "배합 물성 및 안티케이킹 유동성 최종 승인"
         ], C_NAVY_LIGHT),
-        ("Phase 2: 조합원 농가 필드 실증", "3~6주차 (실증 단계)", [
-            "S-NACF 대표 농가 10개소 선정 (한우/낙농/양돈)",
-            "급여 전후 섭취량, 연변 상태, 증체량 모니터링",
+        ("Phase 2: 조합원 목장 필드 실증", "3~6주차 (실증 단계)", [
+            "서울우유 대표 낙농 목장 10개소 선정",
+            "착유우 산유량, 체세포수(SCC), 연변 모니터링",
             "하절기 열 스트레스 저감 지표 비교 분석",
-            "참여 농가 만족도 설문 및 실증 보고서 발행"
+            "참여 목장 만족도 설문 및 실증 보고서 발행"
         ], C_EMERALD_DARK),
         ("Phase 3: 전 라인 표준 공급 확대", "7주차 이후 (정규화)", [
             "한일사료 월 18,000톤 라인 표준 처방 확정",
             "월간 9,000kg 정기 발주 및 직납 체계 가동",
             "매 배치별 공인 시험 성적서(COA) 동봉 체계",
-            "삼원팜텍-S-NACF 사후 기술 지원팀 상시 가동"
+            "삼원팜텍-서울우유 사후 기술 지원팀 상시 가동"
         ], C_NAVY_PRIMARY)
     ]
     for i, (title, period, bullets, col) in enumerate(phases):
-        card = create_card(s28, Inches(0.8 + i * 3.95), Inches(1.8), Inches(3.8), Inches(4.7), title, bullets, tag=period, border_color=col)
+        create_card(s28, Inches(0.8 + i * 3.95), Inches(1.8), Inches(3.8), Inches(4.7), title, bullets, tag=period, border_color=col)
     add_footer(s28, prs, 28)
 
     # ====================================================
@@ -967,24 +952,21 @@ def build_complete_v3_deck():
                                 "bullets": [
                                     "200% 안전 재고 비축: 옥천 물류센터에 월 사용량의 200%(18 M/T) 상시 유지",
                                     "직납 물류 체계: 발주 후 24시간 이내 한일사료 공장 직송 납품 시스템",
-                                    "전담 수의 영양 지원팀: 가축 질병 및 농가 클레임 시 24시간 내 현장 기술 지원",
+                                    "서울우유 전담 기술팀: 가축 질병 및 목장 클레임 시 24시간 내 현장 출동",
                                     "품질 무한 책임제: 품질 결함 확인 시 해당 로트 100% 무상 교환 및 보상",
-                                    "공동 R&D 세미나: S-NACF 지도계 및 조합원 농가 대상 사양 관리 정기 교육"
+                                    "낙농 R&D 세미나: 서울우유 지도계 및 조합원 목장 대상 사양 관리 교육"
                                 ]},
                                IMG_FACTORY, "충북 옥천 삼원팜텍 본사 및 첨단 R&D 제조 공장 전경",
                                "기상 이변이나 물류 파동 시에도 한일사료의 사료 생산 라인이 멈추는 일은 결코 없습니다.")
 
     # ====================================================
-    # SLIDE 30: Conclusion & Official Closing (Dark Navy + Stamp)
+    # SLIDE 30: Conclusion & Official Closing (Dark Navy)
     # ====================================================
     s30 = prs.slides.add_slide(blank_layout)
     apply_slide_bg(s30, prs, C_NAVY_DARK)
     
-    # Factory Photo Right Half
     if os.path.exists(IMG_FACTORY):
         s30.shapes.add_picture(IMG_FACTORY, Inches(6.5), Inches(0.9), Inches(6.0), Inches(4.6))
-        
-    # Mascot bottom right
     if os.path.exists(IMG_MASCOT):
         s30.shapes.add_picture(IMG_MASCOT, Inches(10.7), Inches(4.3), Inches(2.1), Inches(2.1))
         
@@ -1003,7 +985,7 @@ def build_complete_v3_deck():
     
     p = tf30.add_paragraph()
     r = p.add_run()
-    r.text = "S-NACF 사료의 새로운 도약,\n(주)삼원팜텍이 최고의 품질과\n경제성으로 함께하겠습니다!"
+    r.text = "서울우유 사료의 새로운 도약,\n(주)삼원팜텍이 최고의 품질과\n경제성으로 함께하겠습니다!"
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(24)
     r.font.bold = True
@@ -1012,7 +994,7 @@ def build_complete_v3_deck():
     
     p = tf30.add_paragraph()
     r = p.add_run()
-    r.text = "• 톤당 투입량 500g / 사료 톤당 단 3,000원 처방\n• 월 5,400만원 공급으로 연간 12억원 원가 혁신 달성\n• 혼화도 CV < 5%, 펠렛 내열성 95% 생존율 완벽 보증\n• 조달청 관납 전국 총판의 검증된 공공 신뢰도"
+    r.text = "• 서울우유 월 18,000톤 라인 맞춤형 500g/ton (단 3,000원) 처방\n• 월 5,400만원 공급으로 연간 12억원 제조원가 방어\n• 하절기 산유량 방어(+1.8kg) 및 체세포수 42% 급감 실증\n• 조달청 관납 전국 총판의 검증된 공공 신뢰도"
     r.font.name = "Malgun Gothic"
     r.font.size = Pt(11)
     r.font.color.rgb = RGBColor(203, 213, 225)
@@ -1029,7 +1011,7 @@ def build_complete_v3_deck():
 
     out_file = r"C:\Users\master\vet_animal_hospital\s_project\S-NACF_고농축사료첨가제_제안_30장덱_삼원팜텍.pptx"
     prs.save(out_file)
-    print(f"=== Successfully generated vibrant 30-slide PPTX deck ===")
+    print(f"=== Successfully generated Seoul Milk Dairy 30-slide PPTX deck ===")
     print(f"File: {out_file}")
     print(f"File size: {os.path.getsize(out_file) / (1024*1024):.2f} MB")
 

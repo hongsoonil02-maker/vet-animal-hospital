@@ -184,21 +184,21 @@ def make_heat_stability_chart():
     print(f"Saved: {out_path}")
 
 # ----------------------------------------------------------------------
-# 4. Livestock ROI Gains Chart (1200 x 700)
+# 4. Dairy Livestock ROI Gains Chart (1200 x 700)
 # ----------------------------------------------------------------------
 def make_livestock_roi_chart():
     img = Image.new("RGB", (1200, 700), color=(15, 23, 42))
     draw = ImageDraw.Draw(img)
     
-    draw.text((60, 40), "축종별 핵심 생산성 개선 및 농가 실익 환원 효과", font=get_font(28, bold=True), fill=(255, 255, 255))
-    draw.text((60, 80), "한우 비육우, 낙농 젖소, 양돈 농가 실증 모니터링 정량 데이터", font=get_font(18), fill=(148, 163, 184))
+    draw.text((60, 40), "서울우유 낙농 목장 핵심 생산성 개선 및 조합원 실익 환원 효과", font=get_font(28, bold=True), fill=(255, 255, 255))
+    draw.text((60, 80), "착유우, 원유 유질(체세포수), 육성우/송아지 전 단계 실증 모니터링 데이터", font=get_font(18), fill=(148, 163, 184))
     
-    # 4 Big Cards
+    # 4 Big Cards for Dairy Cattle
     card_data = [
-        ("한우 / 비육우", "+12%p", "1++등급 출현율 향상", "• 마리당 지육 경락가 70만원 상승\n• 육성기 초기 섭취량(ADFI) 10%↑\n• 반추위 발효 안정화 & 마블링 극대화", (16, 185, 129)),
-        ("낙농 (착유우)", "-25%", "체세포수 급감 (1등급)", "• 하절기 고온기 건물섭취량 1.5kg 유지\n• 산유 피크 기간 2~3주 추가 지속\n• 유질 등급 상승에 따른 유대 보너스", (59, 130, 246)),
-        ("양돈 (자돈/비육)", "ZERO", "이유자돈 설사 폐사율", "• 자돈 설사 폐사율 완전 제로화\n• 출하 일령 5~7일 단축\n• 사료요구율(FCR) 0.10 포인트 개선", (245, 158, 11)),
-        ("경제적 환원율", "1 : 7.2", "투자 대비 농가 회수율", "• 첨가제 톤당 3,000원 투자 대비\n• 사료비 절감 및 출하 성적으로\n• 톤당 약 21,600원의 실질 이익 환원", (168, 85, 247))
+        ("낙농 (착유우)", "+1.8kg", "하절기 산유량 방어", "• THI 78 이상 폭염기 산유량 유지\n• 착유 피크 기간 3~4주 추가 지속\n• 유지율 4.02%, 유단백 3.28% 상승", (16, 185, 129)),
+        ("원유 유질 개선", "-42%", "체세포수 급감 (1등급)", "• 체세포수 32만 -> 18.5만/ml 급감\n• 유방염 발생률 65% 대폭 억제\n• 최고 등급 유대 인센티브 획득", (59, 130, 246)),
+        ("육성우 & 송아지", "-80%", "송아지 설사 폐사율", "• 마이크로 코팅 면역글로불린 흡수\n• 반추위 융모 조직 조기 발달\n• 초산 도달 일령 1.5개월 단축", (245, 158, 11)),
+        ("목장 경제적 ROI", "1 : 5.2", "투자 대비 목장 순익", "• 첨가제 톤당 3,000원 투자 대비\n• 산유량 증대 및 질병 치료비 절감\n• 톤당 약 15,600원의 실질 이익 환원", (168, 85, 247))
     ]
     
     cw = 220
@@ -213,7 +213,7 @@ def make_livestock_roi_chart():
         
         # Header inside card
         draw.rounded_rectangle([(x, y), (x + cw, y + 60)], radius=14, fill=col)
-        draw.text((x + 25, y + 18), title, font=get_font(18, bold=True), fill=(255, 255, 255))
+        draw.text((x + 20, y + 18), title, font=get_font(18, bold=True), fill=(255, 255, 255))
         
         # Stat
         draw.text((x + 20, y + 80), stat, font=get_font(34, bold=True), fill=col)
@@ -227,7 +227,7 @@ def make_livestock_roi_chart():
 
     # Bottom footer
     draw.rounded_rectangle([(120, 600), (1100, 660)], radius=12, fill=(6, 78, 59), outline=(16, 185, 129), width=2)
-    draw.text((150, 618), "★ 삼원팜텍 맞춤형 솔루션: 1원 투자 시 농가에 7.2원의 실질 수익을 되돌려드립니다", font=get_font(18, bold=True), fill=(255, 255, 255))
+    draw.text((150, 618), "★ 삼원팜텍 낙농 솔루션: 사료 1원 투자 시 서울우유 목장에 5.2원의 실질 수익 환원", font=get_font(18, bold=True), fill=(255, 255, 255))
 
     out_path = os.path.join(out_dir, "chart_livestock_roi.png")
     img.save(out_path)

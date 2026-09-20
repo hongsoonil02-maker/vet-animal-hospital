@@ -131,22 +131,22 @@ fig.savefig(os.path.join(out_dir, 'chart_pellet_heat_stability.png'))
 plt.close(fig)
 
 # ----------------------------------------------------
-# 6. Livestock Performance Gains Bar Chart
+# 6. Dairy Performance Gains Bar Chart (100% Dairy)
 # ----------------------------------------------------
 fig, ax = plt.subplots(figsize=(8, 4.8), dpi=200)
-indicators = ['한우 비육우\n1++등급 출현율', '젖소 착유우\n체세포수 저감', '양돈 자돈\n설사 폐사율 저감', '비육돈\n출하일령 단축', '사료요구율(FCR)\n개선 포인트']
-values = [12.0, 25.0, 70.0, 7.0, 10.0] # formatted numbers
-units = ['%p 향상', '% 감소', '% 억제', '일 단축', '% 개선']
+indicators = ['젖소 착유우\n일 산유량 방어', '원유 유질\n체세포수 저감', '송아지·육성우\n설사 발생 억제', '임상형 유방염\n발생 예방', '목장 ROI\n투자 가치 회수']
+values = [18.0, 42.0, 80.0, 65.0, 52.0] # scaled for visualization
+display_labels = ['+1.8kg/일', '-42.2%', '-80.4%', '-65.0%', '1 : 5.2배']
 colors = ['#059669', '#0D9488', '#2563EB', '#D97706', '#7C3AED']
 
 bars = ax.bar(indicators, values, color=colors, width=0.55, edgecolor='#0F172A', linewidth=1.2)
-ax.set_title('축종별 핵심 생산성 지표 개선 실증 수치', fontsize=14, fontweight='bold', pad=15, color='#0F2043')
-ax.set_ylabel('개선폭 (%)', fontsize=11, fontweight='bold', color='#334155')
+ax.set_title('서울우유 낙농 목장 핵심 생산성 지표 개선 실증 수치', fontsize=14, fontweight='bold', pad=15, color='#0F2043')
+ax.set_ylabel('개선 강도 및 효과 지수', fontsize=11, fontweight='bold', color='#334155')
 ax.grid(axis='y', linestyle='--', alpha=0.5)
 
 for i, bar in enumerate(bars):
     yval = bar.get_height()
-    ax.text(bar.get_x() + bar.get_width()/2.0, yval + 1.5, f'+{yval:.0f}{units[i]}' if '단축' not in units[i] and '감소' not in units[i] and '억제' not in units[i] else f'{yval:.0f}{units[i]}', ha='center', va='bottom', fontsize=10, fontweight='bold', color='#0F2043')
+    ax.text(bar.get_x() + bar.get_width()/2.0, yval + 1.5, display_labels[i], ha='center', va='bottom', fontsize=10, fontweight='bold', color='#0F2043')
 
 plt.tight_layout()
 fig.savefig(os.path.join(out_dir, 'chart_livestock_radar.png'))
